@@ -66,6 +66,7 @@ typedef struct s_piece
 	int first_y;
 	int last_x;
 	int last_y;
+	int total;
 	
 }				t_piece;
 
@@ -85,6 +86,7 @@ typedef struct 	s_struct
 
 	char **shape;
 	char **tmp_shape;
+	int **coord;
 	
 	t_piece 	piece;
 	t_shift		shift;
