@@ -230,14 +230,17 @@ void analyse_piece(char **piece, t_struct *u)
 	// printf("last h = %d\n", u->last_star_x);
 	// printf("last w = %d\n", u->last_star_y);
 	
-	i = 0;
-	u->shape = (char**)malloc(sizeof(char*) * (u->piece.h - u->shift.up + 1 - u->shift.down));
-	while (i < u->piece.h - u->shift.up)
+	if (u->piece.total > 0)
 	{
-		u->shape[i] = ft_strsub(u->tmp_shape[i + u->shift.up], u->shift.left, u->piece.w - u->shift.right);
-		i++;
+		i = 0;
+		u->shape = (char**)malloc(sizeof(char*) * (u->piece.h - u->shift.up + 1 - u->shift.down));
+		while (i < u->piece.h - u->shift.up)
+		{
+			u->shape[i] = ft_strsub(u->tmp_shape[i + u->shift.up], u->shift.left, u->piece.w - u->shift.right);
+			i++;
+		}
+		u->shape[i] = 0;
 	}
-	u->shape[i] = 0;
 	//ft_print_tab2(u->shape);
 }
 
