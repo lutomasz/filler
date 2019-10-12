@@ -3,62 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/03/11 20:04:41 by lutomasz         ###   ########.fr       */
+/*   Updated: 2019/10/12 16:44:28 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-void ft_put_first(t_struct *u)
+int test(int i)
 {
-	//coord = [first_x_x - shift_up][first_x_y - shift_left]
-	//printf("%d\n", u->first_x_x - u->shift_haut);
-	//printf("%d\n", u->first_x_y - u->shift_gauche);
-	// write
-	exit (1);
+	return (i*i);
 }
-
-int strategy_1(t_struct *u)
-{
-	int i;
-	int count;
-	int j;
-
-	i = 0;
-	count = 0;
-
-	while (u->tmp_map[i])
-	{
-		j = 0;
-		while (u->tmp_map[i][j])
-		{
-			if (u->tmp_map[i][j] == 'X')
-				count++;
-			j++;
-		}
-		i++;
-	}
-	if (count == 1)
-	{
-
-		ft_put_first(u);
-		printf("ok");
-		return (1);
-	}
-	return (0);
-}
-
-
-void ft_filler(t_struct *u)
-{
-	if (strategy_1(u) == 1)
-		exit (1);
-	
-}
-
 
 int main(int argc, char **argv)
 {
@@ -120,7 +77,7 @@ int main(int argc, char **argv)
 		}
 		printf("\n");
 		x++;
-	} 
+	}
 
 	//ft_filler(u);
 }

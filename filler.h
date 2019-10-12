@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   filler.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/03/11 20:06:32 by lutomasz         ###   ########.fr       */
+/*   Updated: 2019/10/12 16:21:46 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_shift
 	int left;
 	int down;
 	int right;
-	
+
 }				t_shift;
 
 typedef struct s_piece
@@ -67,7 +67,7 @@ typedef struct s_piece
 	int last_x;
 	int last_y;
 	int total;
-	
+
 }				t_piece;
 
 typedef struct 	s_struct
@@ -77,8 +77,8 @@ typedef struct 	s_struct
 	int map_y;
 	int fd;
 	char **tmp_map;
-	
-	//gestion situation 
+
+	//gestion situation
 	bool first_x_on;
 	bool first_o_on;
 	bool last_played_x_on;
@@ -87,7 +87,7 @@ typedef struct 	s_struct
 	char **shape;
 	char **tmp_shape;
 	int **coord;
-	
+
 	t_piece 	piece;
 	t_shift		shift;
 	t_first_o 	first_o;
