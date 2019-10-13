@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parting.c                                          :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/03/12 02:20:01 by lutomasz         ###   ########.fr       */
+/*   Updated: 2019/10/13 18:26:41 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 t_struct *init_utils()
 {
 	t_struct *u;
-	
+
 	u = (t_struct*)malloc(sizeof(t_struct));
 	u->fd = open("exemple.txt", O_RDONLY);
 	//map
-	u->map_x = 0;
-	u->map_y = 0;
+	u->map_w = 0;
+	u->map_h = 0;
 
 	//positions
 	u->first_x_on = 0;
 	u->first_o_on = 0;
-	u->first_o.x = 0;
-	u->first_o.y = 0;
-	u->first_x.x = 0;
-	u->first_x.y = 0;
+	u->first_o.x = -100;
+	u->first_o.y = -100;
+	u->first_x.x = -100;
+	u->first_x.y = -100;
 
 	u->last_played_x_on = 0;
 	u->last_played_o_on = 0;
-	u->last_played_x.x = 0;
-	u->last_played_x.y = 0;
-	u->last_played_o.x = 0;
-	u->last_played_o.y = 0;
+	u->last_played_x.x = -100;
+	u->last_played_x.y = -100;
+	u->last_played_o.x = -100;
+	u->last_played_o.y = -100;
 
 	//piece
 	u->shape = NULL;
@@ -49,10 +49,10 @@ t_struct *init_utils()
 
 	u->piece.h = 0;
 	u->piece.w = 0;
-	u->piece.first_x = 0;
-	u->piece.first_y = 0;
-	u->piece.last_x = 0;
-	u->piece.last_y = 0;
+	u->piece.first_x = -100;
+	u->piece.first_y = -100;
+	u->piece.last_x = -100;
+	u->piece.last_y = -100;
 	u->piece.total = 0;
 
 
@@ -67,19 +67,19 @@ void ft_get_size_map(t_struct *u)
 	i = 0;
 	if ((get_next_line(u->fd, &line)) == 1)
 		//printf("%s\n", line);
-	// line = strnstr(line, "Plateau", 10);
-	// 	printf("%c\n", *line);
+	//line = strnstr(line, "Plateau", 10);
+	// 	printf("=====%c======\n", *line);
 	while ((*line >= 'a' && *line  <= 'z') || (*line == ' '))
 	 	line++;
-	u->map_x = ft_atoi(line);
+	u->map_w = ft_atoi(line);
 
 	while (line[0] >= '0' && line[0] <= '9')
 		line++;
 
-	u->map_y = ft_atoi(line);
+	u->map_h = ft_atoi(line);
 
-	// printf("x = %d\n", u->map_x);
-	// printf("y = %d\n", u->map_y);
+	// printf("x = %d\n", u->map_w);
+	// printf("y = %d\n", u->map_h);
 
 }
 
@@ -140,7 +140,7 @@ void analyse_tab(char **tab, t_struct *u)
 				}
 			}
 			if (tab[i][j] == 'o')
-			{	
+			{
 				if (u->last_played_o_on == 0)
 				{
 					u->last_played_o_on = 1;
@@ -163,10 +163,10 @@ char **get_tmp_map(t_struct *u)
 	char *line;
 
 	i = 0;
-	tmp = (char**)malloc(sizeof(char*) * u->map_x + 1);
+	tmp = (char**)malloc(sizeof(char*) * u->map_w + 1);
 	get_next_line(u->fd, &line);
 	free(line);
-	while (i < u->map_x)
+	while (i < u->map_w)
 	{
 		get_next_line(u->fd, &line);
 		tmp[i] = copy_line(line);
@@ -211,7 +211,7 @@ void analyse_piece(char **piece, t_struct *u)
 				if (j > u->piece.last_y)
 					u->piece.last_y = j;
 			}
-			j++;	
+			j++;
 		}
 		i++;
 	}
@@ -229,7 +229,7 @@ void analyse_piece(char **piece, t_struct *u)
 	// printf("first w = %d\n", u->first_star_y);
 	// printf("last h = %d\n", u->last_star_x);
 	// printf("last w = %d\n", u->last_star_y);
-	
+
 	if (u->piece.total > 0)
 	{
 		i = 0;
@@ -296,7 +296,7 @@ void get_piece(t_struct *u)
 
 	while (line[0] >= '0' &&  line[0] <= '9')
 		line++;
-	
+
 	u->piece.w = ft_atoi(line);
 	i = 0;
 
@@ -312,6 +312,6 @@ void get_piece(t_struct *u)
 	u->tmp_shape[i] = 0;
 	analyse_piece(u->tmp_shape, u);
 	u->coord = get_coordonates(u);
-	ft_swap(&u->map_x, &u->map_y);
-	
+	ft_swap(&u->map_w, &u->map_h);
+
 }

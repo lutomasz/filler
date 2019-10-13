@@ -18,7 +18,7 @@ $(NAME) :
 	make -C $(PLIBFT)
 	@#$(CC) $(CFLAGS) $(SRC) $(INC)
 	@#$(CC) -o $(NAME) $(OBJ) -L minilibx_macos $(DINC) $(FRAME)
-	gcc -o $(NAME) main.c parting.c -L. libft/libft.a 
+	gcc -o $(NAME) main.c parsing.c -L. libft/libft.a 
 	make clean
 	echo "Compiled"
 

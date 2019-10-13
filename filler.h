@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/12 16:21:46 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/13 18:05:45 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,12 @@ typedef struct s_piece
 typedef struct 	s_struct
 {
 	//gestion map;
-	int map_x;
-	int map_y;
+	int map_w;
+	int map_h;
 	int fd;
 	char **tmp_map;
-
+	char symbol;
+	char c;
 	//gestion situation
 	bool first_x_on;
 	bool first_o_on;
@@ -113,6 +114,6 @@ t_struct *init_utils(void);
 void ft_get_size_map(t_struct *utils);
 char **get_tmp_map(t_struct *utils);
 void get_piece(t_struct *utils);
-
+char **make_heatmap(t_struct *u, int num, int xx, int yy);
 
 #endif
