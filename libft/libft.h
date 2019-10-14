@@ -89,5 +89,8 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 int					ft_intlen(int n);
 void				ft_print_tab2(char **tab);
+int					**atoi_tab2(char **tab_char, int w, int h);
+void				print_int2(int **tab, int w, int h);
+void				ft_swap(int *a, int *b);
 
 #endif

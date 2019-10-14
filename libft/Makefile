@@ -26,8 +26,7 @@ SRC = ft_memalloc.c ft_memdel.c ft_strnew.c ft_strdel.c ft_strclr.c \
 	  ft_atoi.c ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 	  ft_isprint.c ft_toupper.c ft_tolower.c ft_lstnew.c ft_lstdelone.c \
 	  ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_print_tab2.c ft_lstmap.c \
-	  get_next_line.c
-
+	  get_next_line.c atoi_tab2.c print_int2.c ft_swap.c
 FLAGS = -Wall -Werror -Wextra
 
 OBJ = $(SRC:.c=.o)
