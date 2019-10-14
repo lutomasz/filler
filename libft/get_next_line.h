@@ -15,7 +15,7 @@
 # include <stdlib.h>
 # include <limits.h>
 
-# define BUFF_SIZE 42
+# define BUFF_SIZE 1
 
 int		get_next_line(const int fd, char **line);
 

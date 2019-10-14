@@ -71,16 +71,12 @@ void ft_get_size_map(t_struct *u)
 	// 	printf("=====%c======\n", *line);
 	while ((*line >= 'a' && *line  <= 'z') || (*line == ' '))
 	 	line++;
-	u->map_w = ft_atoi(line);
+	u->map_h = ft_atoi(line);
 
 	while (line[0] >= '0' && line[0] <= '9')
 		line++;
 
-	u->map_h = ft_atoi(line);
-
-	// printf("x = %d\n", u->map_w);
-	// printf("y = %d\n", u->map_h);
-
+	u->map_w = ft_atoi(line);
 }
 
 char *copy_line(char *str)
@@ -106,63 +102,53 @@ void analyse_tab(char **tab, t_struct *u)
 	int i;
 	int j;
 
-	printf("%d\n",u->map_w);
-	printf("%d\n",u->map_h);
-	printf("\n");
 	i = 0;
 	while (i < u->map_h)
 	{
 		j = 0;
 		while (j < u->map_w)
 		{
-			// printf("sadasasd\n");
-			// if (tab[i][j] == 'X')
-			// {
-			// 	if (u->first_x_on == 0)
-			// 	{
-			// 		u->first_x_on = 1;
-			// 		u->first_x.x = j;
-			// 		u->first_x.y = i;
-			// 	}
-			// }
-			printf("cpt ; %d\n", j);
+			if (tab[i][j] == 'X')
+			{
+				if (u->first_x_on == 0)
+				{
+					u->first_x_on = 1;
+					u->first_x.x = j;
+					u->first_x.y = i;
+				}
+			}
 			if (tab[i][j] == 'O')
 			{
-				// if (u->first_o_on == 0)
-				// {
-				// 	u->first_o_on = 1;
+				if (u->first_o_on == 0)
+				{
+					u->first_o_on = 1;
 					u->first_o.x = j;
 					u->first_o.y = i;
-					printf("ok\n");
-				// }
+				}
 			}
-			// if (tab[i][j] == 'x')
-			// {
-			// 	if (u->last_played_x_on == 0)
-			// 	{
-			// 		u->last_played_x_on = 0;
-			// 		u->last_played_x.x = j;
-			// 		u->last_played_x.y = i;
-			// 	}
-			// }
-			// if (tab[i][j] == 'o')
-			// {
-			// 	if (u->last_played_o_on == 0)
-			// 	{
-			// 		u->last_played_o_on = 1;
-			// 		u->last_played_o.x = j;
-			// 		u->last_played_o.y = i;
-			// 	}
-			// }
+			if (tab[i][j] == 'x')
+			{
+				if (u->last_played_x_on == 0)
+				{
+					u->last_played_x_on = 0;
+					u->last_played_x.x = j;
+					u->last_played_x.y = i;
+				}
+			}
+			if (tab[i][j] == 'o')
+			{
+				if (u->last_played_o_on == 0)
+				{
+					u->last_played_o_on = 1;
+					u->last_played_o.x = j;
+					u->last_played_o.y = i;
+				}
+			}
 			j++;
 		}
 		i++;
-		printf("%d\n", i);
-
 	}
-printf("ok\n");
 }
-
 
 
 char **get_map(t_struct *u)
@@ -172,10 +158,10 @@ char **get_map(t_struct *u)
 	char *line;
 
 	i = 0;
-	tmp = (char**)malloc(sizeof(char*) * u->map_w + 1);
+	tmp = (char**)malloc(sizeof(char*) * u->map_h + 1);
 	get_next_line(u->fd, &line);
 	free(line);
-	while (i < u->map_w)
+	while (i < u->map_h)
 	{
 		get_next_line(u->fd, &line);
 		tmp[i] = copy_line(line);
@@ -187,14 +173,6 @@ char **get_map(t_struct *u)
 	return (tmp);
 
 }
-
-	// u->piece_h = 0;
-	// u->piece_w = 0;
-	// u->shift_gauche = 0;
-	// u->shift_haut = 0;
-	// u->shape = NULL;
-	// u->tmp_shape = NULL;
-
 
 void analyse_piece(char **piece, t_struct *u)
 {
@@ -229,16 +207,6 @@ void analyse_piece(char **piece, t_struct *u)
 	u->shift.right = u->piece.w - 1 - u->piece.last_y;
 	u->shift.up = u->piece.first_x;
 	u->shift.left = u->piece.first_y;
-
-	// printf("i = %d\n", i);
-	// printf("j = %d\n", j);
-	// printf("down h = %d\n", u->shift.down);
-	// printf("right w = %d\n", u->shift.right);
-
-	// printf("first h = %d\n", u->first_star_x);
-	// printf("first w = %d\n", u->first_star_y);
-	// printf("last h = %d\n", u->last_star_x);
-	// printf("last w = %d\n", u->last_star_y);
 
 	if (u->piece.total > 0)
 	{
@@ -303,8 +271,6 @@ void get_piece(t_struct *u)
 	while (*line == '\0')
 		get_next_line(u->fd, &line);
 	line = ft_strchr(line, ' ');
-
-	printf("%s\n", line);
 	u->piece.h = ft_atoi(line);
 	line++;
 
@@ -314,8 +280,6 @@ void get_piece(t_struct *u)
 	u->piece.w = ft_atoi(line);
 	i = 0;
 
-	// printf("h = %d\n", u->piece_h);
-	// printf("w = %d\n", u->piece_w);
 	u->tmp_shape = (char**)malloc(sizeof(char*) * u->piece.h + 1);
 	while (i < u->piece.w)
 	{
@@ -326,6 +290,6 @@ void get_piece(t_struct *u)
 	u->tmp_shape[i] = 0;
 	analyse_piece(u->tmp_shape, u);
 	u->coord = get_coordonates(u);
-	ft_swap(&u->map_w, &u->map_h);
+	// ft_swap(&u->map_w, &u->map_h);
 
 }

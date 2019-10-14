@@ -168,16 +168,15 @@ int main(int argc, char **argv)
 
 	u = init_utils(argv[1]);
 	ft_get_size_map(u);  //read only once
-	printf("sadasasd\n");
 	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
 	get_piece(u);
 	u->map = get_heatmap(u);
-	ft_print_tab2(u->map);
+	// ft_print_tab2(u->map);
 
 	// printf("%s\n", "MAP");
-	// printf("map_w == %d\n", u->map_w);
-	// printf("map_h == %d\n", u->map_h);
+	printf("map_w == %d\n", u->map_w);
+	printf("map_h == %d\n", u->map_h);
 	// printf("%s\n", "MATRIX");
 	// printf("first_x_on == %d\n", u->first_x_on);
 	// printf("first_o_on == %d\n", u->first_o_on);
