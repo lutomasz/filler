@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/13 18:33:30 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/14 13:40:30 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,27 @@ int test(int i)
 // 	int yy;
 // }
 
+int is_enemyA(char c)
+{
+	if (c == 'o' || c == 'O' || c == 'A')
+		return (1);
+	return (0);
+}
+
 int is_enemy(char c)
 {
 	if (c == 'o' || c == 'O')
 		return (1);
 	return (0);
 }
+
+int is_dor(char c)
+{
+	if (c == '.')
+		return (1);
+	return (0);
+}
+
 
 // void place_random(t_struct *u)
 // {
@@ -46,7 +61,7 @@ int is_enemy(char c)
 // 			j = -1;
 // 			while(++j < u->map_w)
 // 			{
-// 				if ((u->tmp_map[i][j] == u->symbol || u->tmp_map[i][j] == u->symbol + 32) && can_place(u, j, i) && rand() * 10 < 3)
+// 				if ((u->map[i][j] == u->symbol || u->map[i][j] == u->symbol + 32) && can_place(u, j, i) && rand() * 10 < 3)
 // 				{
 // 					rand() * 10;
 // 				}
@@ -65,7 +80,7 @@ int no_dots(t_struct *u)
 	{
 		j = -1;
 		while (++j < u->map_w)
-			if (u->tmp_map[i][j] == '.')
+			if (u->map[i][j] == '.')
 				return (0);
 	}
 	return (1);
@@ -77,27 +92,23 @@ void update_adj_nbrs(t_struct *u, int num, int xx, int yy)
 	int j;
 
 	i = -2;
+	u->map[yy][xx] = 'A';
 	while (++i < 2)
 	{
-		if (yy + i > 0 && yy + i < u->map_h)
+		if (yy + i >= 0 && yy + i < u->map_h)
 		{
 			j = -2;
 			while (++j < 2)
 			{
 				if (i == 0 && j == 0)
-				{
-					u->tmp_map[yy][xx] = 'A';
 					++j;
-				}
-				if (xx + j > 0 && xx + j < u->map_w)
+				if (xx + j >= 0 && xx + j < u->map_w)
 				{
-					if ((u->tmp_map[yy + i][xx + j] == '.' || u->tmp_map[yy + i][xx + j] - 48 > num) && u->tmp_map[yy + i][xx + j] != 'o' && u->tmp_map[yy + i][xx + j] != 'O' && u->tmp_map[yy + i][xx + j] != 'A' && u->tmp_map[yy + i][xx + j] != 'a')
-						u->tmp_map[yy + i][xx + j] = num + 48;
-					if (is_enemy(u->tmp_map[yy + i][xx + j]))
-					{
-						u->tmp_map[yy + i][xx + j] = 'a';
+					if ((u->map[yy + i][xx + j] == '.' || u->map[yy + i][xx + j]
+							- 48 > num) && !is_enemyA(u->map[yy + i][xx + j]))
+						u->map[yy + i][xx + j] = num + 48;
+					if (is_enemy(u->map[yy + i][xx + j]))
 						make_heatmap(u, 0, xx + j, yy + i);
-					}
 				}
 			}
 		}
@@ -110,20 +121,22 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 	int y;
 
 //	if (no_dots(u))
-//		return (u->tmp_map);
-	x = (u->c == 'o') ? u->first_o.x : u->last_played_o.x;
-	y = (u->c == 'o') ? u->first_o.y : u->last_played_o.y;
+//		return (u->map);
+	x = (u->c == 'O') ? u->first_o.x : u->last_played_o.x;
+	y = (u->c == 'O') ? u->first_o.y : u->last_played_o.y;
+	printf("%d %d\n", x, y);
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
+	printf("%d %d\n", x, y);
 	update_adj_nbrs(u, num + 1, x, y);
-	return (u->tmp_map);
+	return (u->map);
 }
 
 char **get_heatmap(t_struct *u)
 {
-	if (u->first_o.x < 0) // first round
+	if (u->last_played_o.x < 0) // first round
 	{
-		u->c = '0';
+		u->c = 'O';
 		return(make_heatmap(u, 0, -1, -1));
 	}
 	else
@@ -144,17 +157,17 @@ int main(int argc, char **argv)
 	int x;
 	int y;
 
-	u = init_utils();
+	u = init_utils(argv[1]);
 	ft_get_size_map(u);  //read only once
-	printf("sadasasd\n");
-	u->tmp_map = get_tmp_map(u);
+	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
 	get_piece(u);
 
-	u->tmp_map = get_heatmap(u);
+	u->map = get_heatmap(u);
+	printf("sadasasd\n");
 
 	//ft_filler(u);
-	ft_print_tab2(u->tmp_map);
+	ft_print_tab2(u->map);
 
 	// printf("%s\n", "MAP");
 	// printf("map_w == %d\n", u->map_w);

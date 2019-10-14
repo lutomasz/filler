@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/13 18:05:45 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/14 13:39:11 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct 	s_struct
 	int map_w;
 	int map_h;
 	int fd;
-	char **tmp_map;
+	char **map;
 	char symbol;
 	char c;
 	//gestion situation
@@ -110,9 +110,9 @@ typedef struct s_elem
 	int middle_x;
 }						t_elem;
 
-t_struct *init_utils(void);
+t_struct *init_utils(char *map);
 void ft_get_size_map(t_struct *utils);
-char **get_tmp_map(t_struct *utils);
+char **get_map(t_struct *utils);
 void get_piece(t_struct *utils);
 char **make_heatmap(t_struct *u, int num, int xx, int yy);
 

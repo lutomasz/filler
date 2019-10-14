@@ -6,16 +6,17 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/13 18:26:41 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/14 13:39:11 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-t_struct *init_utils()
+t_struct *init_utils(char *map)
 {
 	t_struct *u;
 
+	map[0] = "a";
 	u = (t_struct*)malloc(sizeof(t_struct));
 	u->fd = open("exemple.txt", O_RDONLY);
 	//map
@@ -117,8 +118,8 @@ void analyse_tab(char **tab, t_struct *u)
 				if (u->first_x_on == 0)
 				{
 					u->first_x_on = 1;
-					u->first_x.x = i;
-					u->first_x.y = j;
+					u->first_x.x = j;
+					u->first_x.y = i;
 				}
 			}
 			if (tab[i][j] == 'O')
@@ -126,8 +127,8 @@ void analyse_tab(char **tab, t_struct *u)
 				if (u->first_o_on == 0)
 				{
 					u->first_o_on = 1;
-					u->first_o.x = i;
-					u->first_o.y = j;
+					u->first_o.x = j;
+					u->first_o.y = i;
 				}
 			}
 			if (tab[i][j] == 'x')
@@ -135,8 +136,8 @@ void analyse_tab(char **tab, t_struct *u)
 				if (u->last_played_x_on == 0)
 				{
 					u->last_played_x_on = 0;
-					u->last_played_x.x = i;
-					u->last_played_x.y = j;
+					u->last_played_x.x = j;
+					u->last_played_x.y = i;
 				}
 			}
 			if (tab[i][j] == 'o')
@@ -144,8 +145,8 @@ void analyse_tab(char **tab, t_struct *u)
 				if (u->last_played_o_on == 0)
 				{
 					u->last_played_o_on = 1;
-					u->last_played_o.x = i;
-					u->last_played_o.y = j;
+					u->last_played_o.x = j;
+					u->last_played_o.y = i;
 				}
 			}
 			j++;
@@ -156,7 +157,7 @@ void analyse_tab(char **tab, t_struct *u)
 
 
 
-char **get_tmp_map(t_struct *u)
+char **get_map(t_struct *u)
 {
 	char **tmp;
 	int i;
