@@ -162,11 +162,9 @@ int main(int argc, char **argv)
 	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
 	get_piece(u);
-
-	u->map = get_heatmap(u);
-	printf("sadasasd\n");
-
+	//u->map = get_heatmap(u);
 	//ft_filler(u);
+	printf("main_ok\n");
 	ft_print_tab2(u->map);
 
 	// printf("%s\n", "MAP");

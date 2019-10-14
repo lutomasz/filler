@@ -16,9 +16,8 @@ t_struct *init_utils(char *map)
 {
 	t_struct *u;
 
-	map[0] = "a";
 	u = (t_struct*)malloc(sizeof(t_struct));
-	u->fd = open("exemple.txt", O_RDONLY);
+	u->fd = open(map, O_RDONLY);
 	//map
 	u->map_w = 0;
 	u->map_h = 0;
@@ -107,52 +106,61 @@ void analyse_tab(char **tab, t_struct *u)
 	int i;
 	int j;
 
+	printf("%d\n",u->map_w);
+	printf("%d\n",u->map_h);
+	printf("\n");
 	i = 0;
-	while (tab[i] != '\0')
+	while (i < u->map_h)
 	{
 		j = 0;
-		while (tab[i][j] != '\0' && tab[i][j] != '\n')
+		while (j < u->map_w)
 		{
-			if (tab[i][j] == 'X')
-			{
-				if (u->first_x_on == 0)
-				{
-					u->first_x_on = 1;
-					u->first_x.x = j;
-					u->first_x.y = i;
-				}
-			}
+			// printf("sadasasd\n");
+			// if (tab[i][j] == 'X')
+			// {
+			// 	if (u->first_x_on == 0)
+			// 	{
+			// 		u->first_x_on = 1;
+			// 		u->first_x.x = j;
+			// 		u->first_x.y = i;
+			// 	}
+			// }
+			printf("cpt ; %d\n", j);
 			if (tab[i][j] == 'O')
 			{
-				if (u->first_o_on == 0)
-				{
-					u->first_o_on = 1;
+				// if (u->first_o_on == 0)
+				// {
+				// 	u->first_o_on = 1;
 					u->first_o.x = j;
 					u->first_o.y = i;
-				}
+					printf("ok\n");
+				// }
 			}
-			if (tab[i][j] == 'x')
-			{
-				if (u->last_played_x_on == 0)
-				{
-					u->last_played_x_on = 0;
-					u->last_played_x.x = j;
-					u->last_played_x.y = i;
-				}
-			}
-			if (tab[i][j] == 'o')
-			{
-				if (u->last_played_o_on == 0)
-				{
-					u->last_played_o_on = 1;
-					u->last_played_o.x = j;
-					u->last_played_o.y = i;
-				}
-			}
+			// if (tab[i][j] == 'x')
+			// {
+			// 	if (u->last_played_x_on == 0)
+			// 	{
+			// 		u->last_played_x_on = 0;
+			// 		u->last_played_x.x = j;
+			// 		u->last_played_x.y = i;
+			// 	}
+			// }
+			// if (tab[i][j] == 'o')
+			// {
+			// 	if (u->last_played_o_on == 0)
+			// 	{
+			// 		u->last_played_o_on = 1;
+			// 		u->last_played_o.x = j;
+			// 		u->last_played_o.y = i;
+			// 	}
+			// }
 			j++;
 		}
 		i++;
+		printf("%d\n", i);
+
 	}
+printf("ok\n");
 }
 
 
@@ -174,6 +182,7 @@ char **get_map(t_struct *u)
 		free(line);
 		i++;
 	}
+	tmp[i] = 0;
 	analyse_tab(tmp, u);
 	return (tmp);
 
@@ -289,9 +298,13 @@ void get_piece(t_struct *u)
 	char *line;
 	int i;
 
-	get_next_line(u->fd, &line);
 
+	get_next_line(u->fd, &line);
+	while (*line == '\0')
+		get_next_line(u->fd, &line);
 	line = ft_strchr(line, ' ');
+
+	printf("%s\n", line);
 	u->piece.h = ft_atoi(line);
 	line++;
 
