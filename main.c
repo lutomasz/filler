@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/14 13:40:30 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/14 16:14:47 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,23 +92,32 @@ void update_adj_nbrs(t_struct *u, int num, int xx, int yy)
 	int j;
 
 	i = -2;
-	u->map[yy][xx] = 'A';
-	while (++i < 2)
+	if (no_dots(u))
+		;
+	else
 	{
-		if (yy + i >= 0 && yy + i < u->map_h)
+		if (is_enemy(u->map[yy][xx]))
+			u->map[yy][xx] = 'A';
+		while (++i < 2)
 		{
-			j = -2;
-			while (++j < 2)
+			if (yy + i >= 0 && yy + i < u->map_h)
 			{
-				if (i == 0 && j == 0)
-					++j;
-				if (xx + j >= 0 && xx + j < u->map_w)
+				j = -2;
+				while (++j < 2)
 				{
-					if ((u->map[yy + i][xx + j] == '.' || u->map[yy + i][xx + j]
-							- 48 > num) && !is_enemyA(u->map[yy + i][xx + j]))
-						u->map[yy + i][xx + j] = num + 48;
-					if (is_enemy(u->map[yy + i][xx + j]))
-						make_heatmap(u, 0, xx + j, yy + i);
+					if (i == 0 && j == 0)
+						++j;
+					if (xx + j >= 0 && xx + j < u->map_w)
+					{
+						if ((u->map[yy + i][xx + j] == '.' || u->map[yy + i][xx + j]
+								- 48 > num) && !is_enemyA(u->map[yy + i][xx + j]))
+						{
+							u->map[yy + i][xx + j] = num + 48;
+							update_adj_nbrs(u, num + 1, xx + j, yy + i);
+						}
+						if (is_enemy(u->map[yy + i][xx + j]))
+							make_heatmap(u, 0, xx + j, yy + i);
+					}
 				}
 			}
 		}
@@ -159,12 +168,12 @@ int main(int argc, char **argv)
 
 	u = init_utils(argv[1]);
 	ft_get_size_map(u);  //read only once
+	printf("sadasasd\n");
 	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
 	get_piece(u);
 
 	u->map = get_heatmap(u);
-	printf("sadasasd\n");
 
 	//ft_filler(u);
 	ft_print_tab2(u->map);
