@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/14 16:14:47 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/14 18:09:18 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,34 +92,46 @@ void update_adj_nbrs(t_struct *u, int num, int xx, int yy)
 	int j;
 
 	i = -2;
-	if (no_dots(u))
-		;
-	else
+//	if (is_enemy(u->map[yy][xx]))
+		u->map[yy][xx] = 'A';
+	while (++i < 2)
 	{
-		if (is_enemy(u->map[yy][xx]))
-			u->map[yy][xx] = 'A';
-		while (++i < 2)
+		if (yy + i >= 0 && yy + i < u->map_h)
 		{
-			if (yy + i >= 0 && yy + i < u->map_h)
+			j = -2;
+			while (++j < 2)
 			{
-				j = -2;
-				while (++j < 2)
+				if (i == 0 && j == 0)
+					++j;
+				if (xx + j >= 0 && xx + j < u->map_w)
 				{
-					if (i == 0 && j == 0)
-						++j;
-					if (xx + j >= 0 && xx + j < u->map_w)
-					{
-						if ((u->map[yy + i][xx + j] == '.' || u->map[yy + i][xx + j]
-								- 48 > num) && !is_enemyA(u->map[yy + i][xx + j]))
-						{
-							u->map[yy + i][xx + j] = num + 48;
-							update_adj_nbrs(u, num + 1, xx + j, yy + i);
-						}
-						if (is_enemy(u->map[yy + i][xx + j]))
-							make_heatmap(u, 0, xx + j, yy + i);
-					}
+					if ((u->map[yy + i][xx + j] == '.' || u->map[yy + i][xx + j]
+						- 48 > num) && !is_enemyA(u->map[yy + i][xx + j]))
+						u->map[yy + i][xx + j] = num + 48;
+					if (is_enemy(u->map[yy + i][xx + j]))
+						make_heatmap(u, 1, xx + j, yy + i);
 				}
 			}
+		}
+	}
+}
+
+void put_adj_nbrs(t_struct *u, int num, int x, int y)
+{
+	int i;
+	int j;
+
+	i = -2;
+	while (++i < 2)
+	{
+		if (y + i >= 0 && y + i < u->map_h)
+		{
+			j = -2;
+			while (++j < 2)
+				if ((u->map[y + i][x + j] - 48 > num
+						|| u->map[y + i][x + j] == '.')
+						&& !is_enemyA(u->map[y + i][x + j]))
+					u->map[y + i][x + j] = num + 48 + 1;
 		}
 	}
 }
@@ -129,15 +141,34 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 	int x;
 	int y;
 
-//	if (no_dots(u))
-//		return (u->map);
 	x = (u->c == 'O') ? u->first_o.x : u->last_played_o.x;
 	y = (u->c == 'O') ? u->first_o.y : u->last_played_o.y;
+<<<<<<< HEAD
 	//printf("%d %d\n", x, y);
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
 	//printf("%d %d\n", x, y);
 	update_adj_nbrs(u, num + 1, x, y);
+=======
+	x = (xx >= 0) ? xx : x;
+	y = (xx >= 0) ? yy : y;
+	update_adj_nbrs(u, 1, x, y);
+	num = 1;
+	while(!no_dots(u))
+	{
+		y = -1;
+		while (++y < u->map_h)
+		{
+			x = -1;
+			while (++x < u->map_w)
+			{
+				if (u->map[y][x] - 48 == num)
+					put_adj_nbrs(u, num, x, y);
+			}
+		}
+		++num;
+	}
+>>>>>>> 87d6c11e2e64b6016e11f78b56aea9198dd47afd
 	return (u->map);
 }
 
@@ -174,6 +205,7 @@ int main(int argc, char **argv)
 	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
 	get_piece(u);
+<<<<<<< HEAD
 	//printf("ok\n");
 	ft_print_tab2(u->map);
 	if (u->first_x_on == 1 && u->first_o_on)
@@ -182,6 +214,14 @@ int main(int argc, char **argv)
 	// printf("%s\n", "MAP");
 	// printf("map_w == %d\n", u->map_w);
 	// printf("map_h == %d\n", u->map_h);
+=======
+	u->map = get_heatmap(u);
+	ft_print_tab2(u->map);
+
+	// printf("%s\n", "MAP");
+	//printf("map_w == %d\n", u->map_w);
+	//printf("map_h == %d\n", u->map_h);
+>>>>>>> 87d6c11e2e64b6016e11f78b56aea9198dd47afd
 	// printf("%s\n", "MATRIX");
 	// printf("first_x_on == %d\n", u->first_x_on);
 	// printf("first_o_on == %d\n", u->first_o_on);
