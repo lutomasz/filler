@@ -1,36 +1,33 @@
+NAME = filler
 
-NAME = filler.lutomasz
+SRC = main.c parsing.c
 
-SRC = main.c
+OBJ = main.o parsing.o
 
-OBJ = $(SRC:.c=.o)
+HEADERS = filler.h
+
+LIBRARIES =  -L libft -lft
+
+#CFLAGS = -Wall -Wextra -Werror
 
 CC = gcc
 
-CFLAGS = -c -Wall -Wextra -Werror -o3
+all: $(NAME)
 
-PLIBFT = libft/
+$(NAME):$(OBJ)
+	@make -C libft/
+	@gcc $(CFLAGS) -o $(NAME) $(OBJ) $(LIBRARIES)
 
-
-all : $(NAME)
-
-$(NAME) :
-	make -C $(PLIBFT)
-	@#$(CC) $(CFLAGS) $(SRC) $(INC)
-	@#$(CC) -o $(NAME) $(OBJ) -L minilibx_macos $(DINC) $(FRAME)
-	gcc -o $(NAME) main.c parsing.c -L. libft/libft.a 
-	make clean
-	echo "Compiled"
-
-clean :
-	@make clean -C $(PLIBFT)
+clean:
+	@make clean -C libft/
 	@/bin/rm -f $(OBJ)
+	@echo cleaning
 
-fclean :
-	@/bin/rm -f $(OBJ)
+fclean: clean
+	make fclean -C libft/
 	@/bin/rm -f $(NAME)
-	@make fclean -C $(PLIBFT)
+	@echo fcleaning
 
-re : fclean all
+re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY : fclean clean all re

@@ -85,6 +85,10 @@ typedef struct 	s_struct
 	bool last_played_x_on;
 	bool last_played_o_on;
 
+	int 	player : 3;
+	char	*en;
+	char	*me;
+
 	char **shape;
 	char **tmp_shape;
 	int **coord;
@@ -111,7 +115,7 @@ typedef struct s_elem
 }						t_elem;
 
 t_struct *init_utils(char *map);
-void ft_get_size_map(t_struct *utils);
+int ft_get_size_map(t_struct *utils);
 char **get_map(t_struct *utils);
 void get_piece(t_struct *utils);
 char **make_heatmap(t_struct *u, int num, int xx, int yy);

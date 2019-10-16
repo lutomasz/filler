@@ -133,10 +133,10 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 //		return (u->map);
 	x = (u->c == 'O') ? u->first_o.x : u->last_played_o.x;
 	y = (u->c == 'O') ? u->first_o.y : u->last_played_o.y;
-	printf("%d %d\n", x, y);
+	//printf("%d %d\n", x, y);
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
-	printf("%d %d\n", x, y);
+	//printf("%d %d\n", x, y);
 	update_adj_nbrs(u, num + 1, x, y);
 	return (u->map);
 }
@@ -165,18 +165,23 @@ int main(int argc, char **argv)
 	t_struct *u;
 	int x;
 	int y;
+	int **tab;
 
-	u = init_utils(argv[1]);
-	ft_get_size_map(u);  //read only once
+	if (!(u = init_utils(argv[1])))
+		return (-1);
+	if (!(ft_get_size_map(u)))
+		return (-1); //print error //read only once
 	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
 	get_piece(u);
-	u->map = get_heatmap(u);
-	// ft_print_tab2(u->map);
+	//printf("ok\n");
+	ft_print_tab2(u->map);
+	if (u->first_x_on == 1 && u->first_o_on)
+		u->map = get_heatmap(u);
 
 	// printf("%s\n", "MAP");
-	printf("map_w == %d\n", u->map_w);
-	printf("map_h == %d\n", u->map_h);
+	// printf("map_w == %d\n", u->map_w);
+	// printf("map_h == %d\n", u->map_h);
 	// printf("%s\n", "MATRIX");
 	// printf("first_x_on == %d\n", u->first_x_on);
 	// printf("first_o_on == %d\n", u->first_o_on);
@@ -190,11 +195,13 @@ int main(int argc, char **argv)
 	// printf("last_played_x.y == %d\n", u->last_played_x.y);
 	// printf("last_played_o.x == %d\n", u->last_played_o.x);
 	// printf("last_played_o.y == %d\n", u->last_played_o.y);
-	// printf("%s\n", "PIECE");
-	// ft_print_tab2(u->tmp_shape);
-	// printf("%s\n", "SHAPE");
-	// if (u->piece.total > 0)
-	// 	ft_print_tab2(u->shape);
+	printf("%s\n", "PIECE");
+	ft_print_tab2(u->tmp_shape);
+	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
+	// print_int2(tab, u->map_w, u->map_h);
+	printf("%s\n", "SHAPE");
+	if (u->piece.total > 0)
+		ft_print_tab2(u->shape);
 	// printf("shift.left == %d\n", u->shift.left);
 	// printf("shift.up == %d\n", u->shift.up);
 	// printf("down_shift == %d\n", u->shift.down);
@@ -209,6 +216,7 @@ int main(int argc, char **argv)
 	// printf("piece.total == %d\n", u->piece.total);
 	// printf("\n");
 	// printf("coord\n");
+	//print_int2(u->coord, u->piece.total, 2);
 	// x = 0;
 	// while (x < u->piece.total)
 	// {

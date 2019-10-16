@@ -16,8 +16,8 @@ t_struct *init_utils(char *map)
 {
 	t_struct *u;
 
-	u = (t_struct*)malloc(sizeof(t_struct));
-	u->fd = open(map, O_RDONLY);
+	if (!(u = (t_struct*)malloc(sizeof(t_struct))) || (u->fd = open(map, O_RDONLY)) < 0)
+		return (NULL);
 	//map
 	u->map_w = 0;
 	u->map_h = 0;
@@ -55,28 +55,61 @@ t_struct *init_utils(char *map)
 	u->piece.last_y = -100;
 	u->piece.total = 0;
 
+	u->player = 0;
+	u->en = NULL;
+	u->me = NULL;
+
 
 	return (u);
 }
 
-void ft_get_size_map(t_struct *u)
+void	wich_player(t_struct *u)
+{
+	if (u->player == 1)
+	{
+		u->en = "Xx";
+		u->me = "Oo";
+	}
+	if (u->player == 2)
+	{
+		u->en = "Oo";
+		u->me = "Xx";
+	}
+}
+
+int ft_get_size_map(t_struct *u)
 {
 	char *line ;
 	int i;
 
 	i = 0;
-	if ((get_next_line(u->fd, &line)) == 1)
-		//printf("%s\n", line);
-	//line = strnstr(line, "Plateau", 10);
-	// 	printf("=====%c======\n", *line);
-	while ((*line >= 'a' && *line  <= 'z') || (*line == ' '))
-	 	line++;
-	u->map_h = ft_atoi(line);
-
-	while (line[0] >= '0' && line[0] <= '9')
-		line++;
-
-	u->map_w = ft_atoi(line);
+	while ((get_next_line(u->fd, &line)) == 1)
+	{
+		if (ft_strncmp(line, "Plateau", 6) == 0 || ft_strncmp(line, "plateau", 6) == 0)
+			break ;
+		else if (u->player == 0 && ft_strncmp(line, "$$$", 2) == 0)
+		{
+			if (ft_strstr(line, "p2"))
+				u->player = 2;
+			if (ft_strstr(line, "p1"))
+				u->player = 1;
+			wich_player(u);
+			free(line);
+		}
+		else
+			free(line);
+	}
+	if (!(ft_strncmp(line, "Plateau", 6) == 0) && !(ft_strncmp(line, "plateau", 6) == 0))
+		return (-1);
+	while ((line[i] >= 'a' && line[i]  <= 'z') || (line[i] >= 'A' && line[i]  <= 'Z') || (line[i] == ' '))
+	 	i++;
+	u->map_h = ft_atoi(line + i);
+	while (line[i] >= '0' && line[i] <= '9')
+		i++;
+	u->map_w = ft_atoi(line + i);
+	if (*line)
+		free(line);
+	return (1);
 }
 
 char *copy_line(char *str)
@@ -92,7 +125,8 @@ char *copy_line(char *str)
 	s = i;
 	while (str[i] != '\n' && str[i] != '\0')
 		i++;
-	tab = ft_strsub(str, s, i);
+	if (!(tab = ft_strsub(str, s, i)))
+		return (NULL);
 	return (tab);
 
 }
@@ -158,7 +192,9 @@ char **get_map(t_struct *u)
 	char *line;
 
 	i = 0;
-	tmp = (char**)malloc(sizeof(char*) * u->map_h + 1);
+	if (u->map_h != 0 && u->map_w != 0)
+		if(!(tmp = (char**)malloc(sizeof(char*) * u->map_h + 1)))
+			return (NULL);
 	get_next_line(u->fd, &line);
 	free(line);
 	while (i < u->map_h)
@@ -249,23 +285,12 @@ int **get_coordonates(t_struct *u)
 		y++;
 	}
 	return (coord);
-
-}
-
-void ft_swap(int *a, int *b)
-{
-	int tmp_a;
-
-	tmp_a = *a;
-	*a = *b;
-	*b = tmp_a;
 }
 
 void get_piece(t_struct *u)
 {
 	char *line;
 	int i;
-
 
 	get_next_line(u->fd, &line);
 	while (*line == '\0')
