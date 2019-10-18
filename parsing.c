@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/14 16:13:36 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/18 16:56:35 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_struct *init_utils(char *map)
 	u->piece.last_y = -100;
 	u->piece.total = 0;
 
-	u->player = 0;
+	u->player1 = -1;
 	u->en = NULL;
 	u->me = NULL;
 	u->map_cpy = NULL;
@@ -66,12 +66,12 @@ t_struct *init_utils(char *map)
 
 void	wich_player(t_struct *u)
 {
-	if (u->player == 1)
+	if (u->player1 == 1)
 	{
 		u->en = "Xx";
 		u->me = "Oo";
 	}
-	if (u->player == 2)
+	if (u->player1 == 0)
 	{
 		u->en = "Oo";
 		u->me = "Xx";
@@ -95,15 +95,15 @@ int ft_get_size_map(t_struct *u)
 		{
 			usage();
 			return (-1);
-		}	
+		}
 		if (ft_strncmp(line, "Plateau", 6) == 0 || ft_strncmp(line, "plateau", 6) == 0)
 			break ;
-		else if (u->player == 0 && ft_strncmp(line, "$$$", 2) == 0)
+		else if (u->player1 == -1 && ft_strncmp(line, "$$$", 2) == 0)
 		{
-			if (ft_strstr(line, "p2"))
-				u->player = 2;
 			if (ft_strstr(line, "p1"))
-				u->player = 1;
+			u->player1 = 1;
+			if (ft_strstr(line, "p2"))
+				u->player1 = 0;
 			wich_player(u);
 			free(line);
 		}
@@ -141,7 +141,7 @@ char *copy_line(char *str)
 		if (!(tab = ft_strsub(str, s, i)))
 			return (NULL);
 		return (tab);
-	}	
+	}
 	return (NULL);
 
 }
