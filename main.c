@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/14 18:09:18 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/17 16:43:52 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,25 @@ int test(int i)
 // 	int yy;
 // }
 
-int is_enemyA(char c)
+int is_enemy(t_struct *u, char c)
 {
-	if (c == 'o' || c == 'O' || c == 'A')
+	if (c == u->his_c[0] || c == u->his_c[1])
 		return (1);
 	return (0);
 }
 
-int is_enemy(char c)
+int is_me(t_struct *u, char c)
 {
-	if (c == 'o' || c == 'O')
-		return (1);
+	if (c == u->my_c[0] || c == u->my_c[1])
+	return (1);
 	return (0);
 }
 
-int is_dor(char c)
+int is_enemyA(t_struct *u, char c)
 {
-	if (c == '.')
+	if (is_me(u, c))
+		return (1);
+	if (is_enemy(u, c) || c == 'A')
 		return (1);
 	return (0);
 }
@@ -86,30 +88,30 @@ int no_dots(t_struct *u)
 	return (1);
 }
 
-void update_adj_nbrs(t_struct *u, int num, int xx, int yy)
+void update_adj_nbrs(t_struct *u, int num, int x, int y)
 {
 	int i;
 	int j;
 
 	i = -2;
 //	if (is_enemy(u->map[yy][xx]))
-		u->map[yy][xx] = 'A';
+		u->map[y][x] = 'A';
 	while (++i < 2)
 	{
-		if (yy + i >= 0 && yy + i < u->map_h)
+		if (y + i >= 0 && y + i < u->map_h)
 		{
 			j = -2;
 			while (++j < 2)
 			{
 				if (i == 0 && j == 0)
 					++j;
-				if (xx + j >= 0 && xx + j < u->map_w)
+				if (x + j >= 0 && x + j < u->map_w)
 				{
-					if ((u->map[yy + i][xx + j] == '.' || u->map[yy + i][xx + j]
-						- 48 > num) && !is_enemyA(u->map[yy + i][xx + j]))
-						u->map[yy + i][xx + j] = num + 48;
-					if (is_enemy(u->map[yy + i][xx + j]))
-						make_heatmap(u, 1, xx + j, yy + i);
+					if ((u->map[y + i][x + j] == '.' || u->map[y + i][x + j]
+							- 48 > num) && !is_enemyA(u, u->map[y + i][x + j]))
+						u->map[y + i][x + j] = num + 48;
+					if (is_enemy(u, u->map[y + i][x + j]))
+						make_heatmap(u, 1, x + j, y + i);
 				}
 			}
 		}
@@ -130,7 +132,7 @@ void put_adj_nbrs(t_struct *u, int num, int x, int y)
 			while (++j < 2)
 				if ((u->map[y + i][x + j] - 48 > num
 						|| u->map[y + i][x + j] == '.')
-						&& !is_enemyA(u->map[y + i][x + j]))
+						&& !is_enemyA(u, u->map[y + i][x + j]))
 					u->map[y + i][x + j] = num + 48 + 1;
 		}
 	}
@@ -141,15 +143,8 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 	int x;
 	int y;
 
-	x = (u->c == 'O') ? u->first_o.x : u->last_played_o.x;
-	y = (u->c == 'O') ? u->first_o.y : u->last_played_o.y;
-<<<<<<< HEAD
-	//printf("%d %d\n", x, y);
-	x = (xx >= 0) ? xx : x;
-	y = (xx >= 0) ? yy : y;
-	//printf("%d %d\n", x, y);
-	update_adj_nbrs(u, num + 1, x, y);
-=======
+	x = (u->c == u->his_c[1]) ? u->first_o.x : u->last_played_o.x;
+	y = (u->c == u->his_c[1]) ? u->first_o.y : u->last_played_o.y;
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
 	update_adj_nbrs(u, 1, x, y);
@@ -168,7 +163,6 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 		}
 		++num;
 	}
->>>>>>> 87d6c11e2e64b6016e11f78b56aea9198dd47afd
 	return (u->map);
 }
 
@@ -176,12 +170,12 @@ char **get_heatmap(t_struct *u)
 {
 	if (u->last_played_o.x < 0) // first round
 	{
-		u->c = 'O';
+		u->c = u->his_c[1];
 		return(make_heatmap(u, 0, -1, -1));
 	}
 	else
 	{
-		u->c = 'o';
+		u->c = u->his_c[0];
 		return(make_heatmap(u, 0, -1, -1));
 	}
 }
@@ -189,6 +183,14 @@ char **get_heatmap(t_struct *u)
 void place_piece(t_struct *u)
 {
 
+}
+
+void set_me_his(t_struct *u)
+{
+	u->his_c[0] = 'x';
+	u->his_c[1] = 'X';
+	u->my_c[0] = 'o';
+	u->my_c[1] = 'O';
 }
 
 int main(int argc, char **argv)
@@ -203,25 +205,23 @@ int main(int argc, char **argv)
 	if (!(ft_get_size_map(u)))
 		return (-1); //print error //read only once
 	u->map = get_map(u);
-	u->symbol = 'x';  // X = x + 32
+	set_me_his(u);
 	get_piece(u);
-<<<<<<< HEAD
 	//printf("ok\n");
 	ft_print_tab2(u->map);
+	printf("\n");
 	if (u->first_x_on == 1 && u->first_o_on)
 		u->map = get_heatmap(u);
 
 	// printf("%s\n", "MAP");
 	// printf("map_w == %d\n", u->map_w);
 	// printf("map_h == %d\n", u->map_h);
-=======
 	u->map = get_heatmap(u);
 	ft_print_tab2(u->map);
 
 	// printf("%s\n", "MAP");
 	//printf("map_w == %d\n", u->map_w);
 	//printf("map_h == %d\n", u->map_h);
->>>>>>> 87d6c11e2e64b6016e11f78b56aea9198dd47afd
 	// printf("%s\n", "MATRIX");
 	// printf("first_x_on == %d\n", u->first_x_on);
 	// printf("first_o_on == %d\n", u->first_o_on);
@@ -235,7 +235,7 @@ int main(int argc, char **argv)
 	// printf("last_played_x.y == %d\n", u->last_played_x.y);
 	// printf("last_played_o.x == %d\n", u->last_played_o.x);
 	// printf("last_played_o.y == %d\n", u->last_played_o.y);
-	printf("%s\n", "PIECE");
+	printf("\n%s\n", "PIECE");
 	ft_print_tab2(u->tmp_shape);
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
 	// print_int2(tab, u->map_w, u->map_h);

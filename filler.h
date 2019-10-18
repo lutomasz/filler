@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/14 13:39:11 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/17 15:54:50 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct 	s_struct
 	char **map;
 	char symbol;
 	char c;
+	char my_c[2];
+	char his_c[2]; //0 -> o 1 -> O
 	//gestion situation
 	bool first_x_on;
 	bool first_o_on;
