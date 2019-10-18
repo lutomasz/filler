@@ -143,13 +143,11 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 
 	x = (u->c == 'O') ? u->first_o.x : u->last_played_o.x;
 	y = (u->c == 'O') ? u->first_o.y : u->last_played_o.y;
-<<<<<<< HEAD
 	//printf("%d %d\n", x, y);
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
 	//printf("%d %d\n", x, y);
 	update_adj_nbrs(u, num + 1, x, y);
-=======
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
 	update_adj_nbrs(u, 1, x, y);
@@ -168,7 +166,6 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 		}
 		++num;
 	}
->>>>>>> 87d6c11e2e64b6016e11f78b56aea9198dd47afd
 	return (u->map);
 }
 
@@ -191,37 +188,62 @@ void place_piece(t_struct *u)
 
 }
 
+void	update_heatmap(t_struct *u)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (u->map_cpy[++i])
+	{
+		j = -1;
+		while (u->map_cpy[i][++j])
+		{
+			// u->map[i][j] = (u->map_cpy[i][j] = 'X') ? (u->map[i][j] = 'X') : u->map[i][j];
+			// u->map[i][j] = (u->map_cpy[i][j] = 'x') ? (u->map[i][j] = 'x') : u->map[i][j];
+			// u->map[i][j] = (u->map_cpy[i][j] = 'o') ? (u->map[i][j] = 'o') : u->map[i][j];
+			// u->map[i][j] = (u->map_cpy[i][j] = 'O') ? (u->map[i][j] = 'O') : u->map[i][j];
+			if (u->map_cpy[i][j] == 'X')
+				u->map[i][j] = 'X';
+			if (u->map_cpy[i][j] == 'x')
+				u->map[i][j] = 'x';
+			if (u->map_cpy[i][j] == 'O')
+				u->map[i][j] = 'O';
+			if (u->map_cpy[i][j] == 'o')
+				u->map[i][j] = 'o';
+		}
+		//free cpy
+	}
+
+}
+
 int main(int argc, char **argv)
 {
 	t_struct *u;
-	int x;
-	int y;
+	// int x;
+	// int y;
 	int **tab;
 
 	if (!(u = init_utils(argv[1])))
 		return (-1);
-	if (!(ft_get_size_map(u)))
+	if ((ft_get_size_map(u)) == -1)
 		return (-1); //print error //read only once
 	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
 	get_piece(u);
-<<<<<<< HEAD
-	//printf("ok\n");
 	ft_print_tab2(u->map);
-	if (u->first_x_on == 1 && u->first_o_on)
+	if (u->first_x_on == 1 || u->first_o_on == 1)
 		u->map = get_heatmap(u);
-
+	update_heatmap(u);
+	ft_print_tab2(u->map);
 	// printf("%s\n", "MAP");
 	// printf("map_w == %d\n", u->map_w);
 	// printf("map_h == %d\n", u->map_h);
-=======
-	u->map = get_heatmap(u);
-	ft_print_tab2(u->map);
+	// ft_print_tab2(u->map);
 
 	// printf("%s\n", "MAP");
 	//printf("map_w == %d\n", u->map_w);
 	//printf("map_h == %d\n", u->map_h);
->>>>>>> 87d6c11e2e64b6016e11f78b56aea9198dd47afd
 	// printf("%s\n", "MATRIX");
 	// printf("first_x_on == %d\n", u->first_x_on);
 	// printf("first_o_on == %d\n", u->first_o_on);
@@ -235,13 +257,13 @@ int main(int argc, char **argv)
 	// printf("last_played_x.y == %d\n", u->last_played_x.y);
 	// printf("last_played_o.x == %d\n", u->last_played_o.x);
 	// printf("last_played_o.y == %d\n", u->last_played_o.y);
-	printf("%s\n", "PIECE");
-	ft_print_tab2(u->tmp_shape);
+	// printf("%s\n", "PIECE");
+	// ft_print_tab2(u->tmp_shape);
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
 	// print_int2(tab, u->map_w, u->map_h);
-	printf("%s\n", "SHAPE");
-	if (u->piece.total > 0)
-		ft_print_tab2(u->shape);
+	// printf("%s\n", "SHAPE");
+	// if (u->piece.total > 0)
+	// 	ft_print_tab2(u->shape);
 	// printf("shift.left == %d\n", u->shift.left);
 	// printf("shift.up == %d\n", u->shift.up);
 	// printf("down_shift == %d\n", u->shift.down);

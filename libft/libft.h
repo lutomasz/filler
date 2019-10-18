@@ -92,5 +92,6 @@ void				ft_print_tab2(char **tab);
 int					**atoi_tab2(char **tab_char, int w, int h);
 void				print_int2(int **tab, int w, int h);
 void				ft_swap(int *a, int *b);
+char				**tab2_cpy(char **src);
 
 #endif

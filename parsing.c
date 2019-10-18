@@ -58,6 +58,7 @@ t_struct *init_utils(char *map)
 	u->player = 0;
 	u->en = NULL;
 	u->me = NULL;
+	u->map_cpy = NULL;
 
 
 	return (u);
@@ -77,14 +78,24 @@ void	wich_player(t_struct *u)
 	}
 }
 
+void	usage()
+{
+	ft_putendl("insert correct map");
+}
+
 int ft_get_size_map(t_struct *u)
 {
 	char *line ;
 	int i;
 
 	i = 0;
-	while ((get_next_line(u->fd, &line)) == 1)
+	while ((get_next_line(u->fd, &line)))
 	{
+		if (*line < 1)
+		{
+			usage();
+			return (-1);
+		}	
 		if (ft_strncmp(line, "Plateau", 6) == 0 || ft_strncmp(line, "plateau", 6) == 0)
 			break ;
 		else if (u->player == 0 && ft_strncmp(line, "$$$", 2) == 0)
@@ -119,15 +130,19 @@ char *copy_line(char *str)
 	char *tab;
 
 	i = 0;
-	while ((((str[i] != 'X' && str[i] != 'x') && str[i] != 'o' &&
+	if (*str)
+	{
+		while ((((str[i] != 'X' && str[i] != 'x') && str[i] != 'o' &&
 		str[i] != 'O')) && str[i] != '.')
 		i++;
-	s = i;
-	while (str[i] != '\n' && str[i] != '\0')
-		i++;
-	if (!(tab = ft_strsub(str, s, i)))
-		return (NULL);
-	return (tab);
+		s = i;
+		while (str[i] != '\n' && str[i] != '\0')
+			i++;
+		if (!(tab = ft_strsub(str, s, i)))
+			return (NULL);
+		return (tab);
+	}	
+	return (NULL);
 
 }
 
@@ -184,30 +199,33 @@ void analyse_tab(char **tab, t_struct *u)
 	}
 }
 
-
 char **get_map(t_struct *u)
 {
 	char **tmp;
 	int i;
 	char *line;
 
-	i = 0;
+
 	if (u->map_h != 0 && u->map_w != 0)
 		if(!(tmp = (char**)malloc(sizeof(char*) * u->map_h + 1)))
 			return (NULL);
 	get_next_line(u->fd, &line);
+
 	free(line);
+	i = 0;
 	while (i < u->map_h)
 	{
 		get_next_line(u->fd, &line);
+		//printf("line = %s\n", line);
 		tmp[i] = copy_line(line);
+		//printf("tmpi = %s\n", tmp[i]);
 		free(line);
 		i++;
 	}
 	tmp[i] = 0;
 	analyse_tab(tmp, u);
+	u->map_cpy = tab2_cpy(tmp);
 	return (tmp);
-
 }
 
 void analyse_piece(char **piece, t_struct *u)
@@ -255,7 +273,7 @@ void analyse_piece(char **piece, t_struct *u)
 		}
 		u->shape[i] = 0;
 	}
-	//ft_print_tab2(u->shape);
+	// ft_print_tab2(u->shape);
 }
 
 int **get_coordonates(t_struct *u)
@@ -298,15 +316,12 @@ void get_piece(t_struct *u)
 	line = ft_strchr(line, ' ');
 	u->piece.h = ft_atoi(line);
 	line++;
-
 	while (line[0] >= '0' &&  line[0] <= '9')
 		line++;
-
 	u->piece.w = ft_atoi(line);
-	i = 0;
-
 	u->tmp_shape = (char**)malloc(sizeof(char*) * u->piece.h + 1);
-	while (i < u->piece.w)
+	i = 0;
+	while (i < u->piece.h)
 	{
 		get_next_line(u->fd, &line);
 		u->tmp_shape[i] = ft_strsub(line, 0, u->piece.w);
