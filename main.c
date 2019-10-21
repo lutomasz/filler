@@ -220,8 +220,8 @@ void	update_heatmap(t_struct *u)
 int main(int argc, char **argv)
 {
 	t_struct *u;
-	// int x;
-	// int y;
+	int x;
+	int y;
 	int **tab;
 
 	if (!(u = init_utils(argv[1])))
@@ -230,11 +230,12 @@ int main(int argc, char **argv)
 		return (-1); //print error //read only once
 	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
-	get_piece(u);
+	if (!(get_piece(u)))
+		return (-1);
 	ft_print_tab2(u->map);
 	if (u->first_x_on == 1 || u->first_o_on == 1)
 		u->map = get_heatmap(u);
-	update_heatmap(u);
+	//update_heatmap(u);
 	ft_print_tab2(u->map);
 	// printf("%s\n", "MAP");
 	// printf("map_w == %d\n", u->map_w);
@@ -251,12 +252,12 @@ int main(int argc, char **argv)
 	// printf("first_o.y == %d\n", u->first_o.y);
 	// printf("first_x.x == %d\n", u->first_x.x);
 	// printf("first_x.y == %d\n", u->first_x.y);
-	// printf("last_played_x_on == %d\n", u->last_played_x_on);
-	// printf("last_played_o_on == %d\n", u->last_played_o_on);
-	// printf("last_played_x.x == %d\n", u->last_played_x.x);
-	// printf("last_played_x.y == %d\n", u->last_played_x.y);
-	// printf("last_played_o.x == %d\n", u->last_played_o.x);
-	// printf("last_played_o.y == %d\n", u->last_played_o.y);
+	printf("last_played_x_on == %d\n", u->last_played_x_on);
+	printf("last_played_o_on == %d\n", u->last_played_o_on);
+	printf("last_played_x.x == %d\n", u->last_played_x.x);
+	printf("last_played_x.y == %d\n", u->last_played_x.y);
+	printf("last_played_o.x == %d\n", u->last_played_o.x);
+	printf("last_played_o.y == %d\n", u->last_played_o.y);
 	// printf("%s\n", "PIECE");
 	// ft_print_tab2(u->tmp_shape);
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
@@ -278,7 +279,7 @@ int main(int argc, char **argv)
 	// printf("piece.total == %d\n", u->piece.total);
 	// printf("\n");
 	// printf("coord\n");
-	//print_int2(u->coord, u->piece.total, 2);
+	// print_int2(u->coord, u->piece.total, 2);
 	// x = 0;
 	// while (x < u->piece.total)
 	// {
