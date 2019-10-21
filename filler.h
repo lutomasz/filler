@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/14 13:39:11 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/18 17:04:28 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ typedef struct 	s_struct
 	char **map;
 	char symbol;
 	char c;
+	char my_c[2];
+	char his_c[2]; //0 -> o 1 -> O
 	//gestion situation
 	bool first_x_on;
 	bool first_o_on;
 	bool last_played_x_on;
 	bool last_played_o_on;
 
-	int 	player : 3;
+	int 	player1 : 3;
 	char	*en;
 	char	*me;
 
@@ -100,6 +102,8 @@ typedef struct 	s_struct
 	t_first_x 	first_x;
 	t_last_played_x last_played_x;
 	t_last_played_o last_played_o;
+	t_first_o	first_en;
+	t_first_o	last_played_en;
 }				t_struct;
 
 typedef struct s_elem

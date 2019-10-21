@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/14 16:13:36 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/18 16:56:35 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,13 @@ t_struct	*init_utils(char *map)
 	u->piece.last_x = -100;
 	u->piece.last_y = -100;
 	u->piece.total = 0;
+<<<<<<< HEAD
 	//others
 	u->player = 0;
+=======
+
+	u->player1 = -1;
+>>>>>>> 48efa37998709c131e8a8dfd2e1a43c1cd5db813
 	u->en = NULL;
 	u->me = NULL;
 	u->map_cpy = NULL;
@@ -77,6 +82,7 @@ void		usage(void)
 
 int			read_map_data(char *line, t_struct *u)
 {
+<<<<<<< HEAD
 	if (ft_strncmp(line, "Plateau", 6) == 0 ||
 		ft_strncmp(line, "plateau", 6) == 0)
 		return (0);
@@ -87,6 +93,17 @@ int			read_map_data(char *line, t_struct *u)
 		if (ft_strstr(line, "p1"))
 			u->player = 1;
 		free(line);
+=======
+	if (u->player1 == 1)
+	{
+		u->en = "Xx";
+		u->me = "Oo";
+	}
+	if (u->player1 == 0)
+	{
+		u->en = "Oo";
+		u->me = "Xx";
+>>>>>>> 48efa37998709c131e8a8dfd2e1a43c1cd5db813
 	}
 	else
 		free(line);
@@ -121,6 +138,20 @@ int			ft_get_size_map(t_struct *u)
 		{
 			usage();
 			return (-1);
+<<<<<<< HEAD
+=======
+		}
+		if (ft_strncmp(line, "Plateau", 6) == 0 || ft_strncmp(line, "plateau", 6) == 0)
+			break ;
+		else if (u->player1 == -1 && ft_strncmp(line, "$$$", 2) == 0)
+		{
+			if (ft_strstr(line, "p1"))
+			u->player1 = 1;
+			if (ft_strstr(line, "p2"))
+				u->player1 = 0;
+			wich_player(u);
+			free(line);
+>>>>>>> 48efa37998709c131e8a8dfd2e1a43c1cd5db813
 		}
 		if (read_map_data(line, u) == 0)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/14 18:09:18 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/18 17:08:45 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,25 @@ int test(int i)
 // 	int yy;
 // }
 
-int is_enemyA(char c)
+int is_enemy(t_struct *u, char c)
 {
-	if (c == 'o' || c == 'O' || c == 'A')
+	if (c == u->his_c[0] || c == u->his_c[1])
 		return (1);
 	return (0);
 }
 
-int is_enemy(char c)
+int is_me(t_struct *u, char c)
 {
-	if (c == 'o' || c == 'O')
-		return (1);
+	if (c == u->my_c[0] || c == u->my_c[1])
+	return (1);
 	return (0);
 }
 
-int is_dor(char c)
+int is_enemyA(t_struct *u, char c)
 {
-	if (c == '.')
+	if (is_me(u, c))
+		return (1);
+	if (is_enemy(u, c) || c == 'A')
 		return (1);
 	return (0);
 }
@@ -86,30 +88,30 @@ int no_dots(t_struct *u)
 	return (1);
 }
 
-void update_adj_nbrs(t_struct *u, int num, int xx, int yy)
+void update_adj_nbrs(t_struct *u, int num, int x, int y)
 {
 	int i;
 	int j;
 
 	i = -2;
 //	if (is_enemy(u->map[yy][xx]))
-		u->map[yy][xx] = 'A';
+		u->map[y][x] = 'A';
 	while (++i < 2)
 	{
-		if (yy + i >= 0 && yy + i < u->map_h)
+		if (y + i >= 0 && y + i < u->map_h)
 		{
 			j = -2;
 			while (++j < 2)
 			{
 				if (i == 0 && j == 0)
 					++j;
-				if (xx + j >= 0 && xx + j < u->map_w)
+				if (x + j >= 0 && x + j < u->map_w)
 				{
-					if ((u->map[yy + i][xx + j] == '.' || u->map[yy + i][xx + j]
-						- 48 > num) && !is_enemyA(u->map[yy + i][xx + j]))
-						u->map[yy + i][xx + j] = num + 48;
-					if (is_enemy(u->map[yy + i][xx + j]))
-						make_heatmap(u, 1, xx + j, yy + i);
+					if ((u->map[y + i][x + j] == '.' || u->map[y + i][x + j]
+							- 48 > num) && !is_enemyA(u, u->map[y + i][x + j]))
+						u->map[y + i][x + j] = num + 48;
+					if (is_enemy(u, u->map[y + i][x + j]))
+						make_heatmap(u, 1, x + j, y + i);
 				}
 			}
 		}
@@ -130,7 +132,7 @@ void put_adj_nbrs(t_struct *u, int num, int x, int y)
 			while (++j < 2)
 				if ((u->map[y + i][x + j] - 48 > num
 						|| u->map[y + i][x + j] == '.')
-						&& !is_enemyA(u->map[y + i][x + j]))
+						&& !is_enemyA(u, u->map[y + i][x + j]))
 					u->map[y + i][x + j] = num + 48 + 1;
 		}
 	}
@@ -141,13 +143,8 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 	int x;
 	int y;
 
-	x = (u->c == 'O') ? u->first_o.x : u->last_played_o.x;
-	y = (u->c == 'O') ? u->first_o.y : u->last_played_o.y;
-	//printf("%d %d\n", x, y);
-	x = (xx >= 0) ? xx : x;
-	y = (xx >= 0) ? yy : y;
-	//printf("%d %d\n", x, y);
-	update_adj_nbrs(u, num + 1, x, y);
+	x = (u->c == u->his_c[1]) ? u->first_en.x : u->last_played_en.x;
+	y = (u->c == u->his_c[1]) ? u->first_en.y : u->last_played_en.y;
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
 	update_adj_nbrs(u, 1, x, y);
@@ -171,14 +168,14 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 
 char **get_heatmap(t_struct *u)
 {
-	if (u->last_played_o.x < 0) // first round
+	if (u->last_played_en.x < 0) // first round
 	{
-		u->c = 'O';
+		u->c = u->his_c[1];
 		return(make_heatmap(u, 0, -1, -1));
 	}
 	else
 	{
-		u->c = 'o';
+		u->c = u->his_c[0];
 		return(make_heatmap(u, 0, -1, -1));
 	}
 }
@@ -188,33 +185,30 @@ void place_piece(t_struct *u)
 
 }
 
-void	update_heatmap(t_struct *u)
+void set_me_his(t_struct *u)
 {
-	int i;
-	int j;
+	u->my_c[0] = (u->player1) ? 'o' : 'x';
+	u->my_c[1] = (u->player1) ? 'O' : 'X';
+	u->his_c[0] = (u->player1) ? 'x' : 'o';
+	u->his_c[1] = (u->player1) ? 'X' : 'O';
+}
 
-	i = -1;
-	while (u->map_cpy[++i])
+void set_players_pos(t_struct *u)
+{
+	if (!u->player1)
 	{
-		j = -1;
-		while (u->map_cpy[i][++j])
-		{
-			// u->map[i][j] = (u->map_cpy[i][j] = 'X') ? (u->map[i][j] = 'X') : u->map[i][j];
-			// u->map[i][j] = (u->map_cpy[i][j] = 'x') ? (u->map[i][j] = 'x') : u->map[i][j];
-			// u->map[i][j] = (u->map_cpy[i][j] = 'o') ? (u->map[i][j] = 'o') : u->map[i][j];
-			// u->map[i][j] = (u->map_cpy[i][j] = 'O') ? (u->map[i][j] = 'O') : u->map[i][j];
-			if (u->map_cpy[i][j] == 'X')
-				u->map[i][j] = 'X';
-			if (u->map_cpy[i][j] == 'x')
-				u->map[i][j] = 'x';
-			if (u->map_cpy[i][j] == 'O')
-				u->map[i][j] = 'O';
-			if (u->map_cpy[i][j] == 'o')
-				u->map[i][j] = 'o';
-		}
-		//free cpy
+		u->first_en.x = u->first_o.x;
+		u->first_en.y = u->first_o.y;
+		u->last_played_en.x = u->last_played_o.x;
+		u->last_played_en.y = u->last_played_o.y;
 	}
-
+	else
+	{
+		u->first_en.x = u->first_x.x;
+		u->first_en.y = u->first_x.y;
+		u->last_played_en.x = u->last_played_x.x;
+		u->last_played_en.y = u->last_played_x.y;
+	}
 }
 
 int main(int argc, char **argv)
@@ -226,21 +220,28 @@ int main(int argc, char **argv)
 
 	if (!(u = init_utils(argv[1])))
 		return (-1);
+	u->player1 = 1;		// REMOVE
 	if ((ft_get_size_map(u)) == -1)
 		return (-1); //print error //read only once
 	u->map = get_map(u);
 	u->symbol = 'x';  // X = x + 32
 	if (!(get_piece(u)))
 		return (-1);
+	set_me_his(u);
+	get_piece(u);
+	//printf("ok\n");
 	ft_print_tab2(u->map);
-	if (u->first_x_on == 1 || u->first_o_on == 1)
+	printf("\n");
+	set_players_pos(u);
+	if (u->first_x_on == 1 && u->first_o_on)
 		u->map = get_heatmap(u);
-	//update_heatmap(u);
 	ft_print_tab2(u->map);
 	// printf("%s\n", "MAP");
 	// printf("map_w == %d\n", u->map_w);
 	// printf("map_h == %d\n", u->map_h);
-	// ft_print_tab2(u->map);
+	printf("\n");
+	u->map = get_heatmap(u);
+	ft_print_tab2(u->map);
 
 	// printf("%s\n", "MAP");
 	//printf("map_w == %d\n", u->map_w);
@@ -252,13 +253,21 @@ int main(int argc, char **argv)
 	// printf("first_o.y == %d\n", u->first_o.y);
 	// printf("first_x.x == %d\n", u->first_x.x);
 	// printf("first_x.y == %d\n", u->first_x.y);
-	printf("last_played_x_on == %d\n", u->last_played_x_on);
-	printf("last_played_o_on == %d\n", u->last_played_o_on);
-	printf("last_played_x.x == %d\n", u->last_played_x.x);
-	printf("last_played_x.y == %d\n", u->last_played_x.y);
-	printf("last_played_o.x == %d\n", u->last_played_o.x);
-	printf("last_played_o.y == %d\n", u->last_played_o.y);
+	// printf("last_played_x_on == %d\n", u->last_played_x_on);
+	// printf("last_played_o_on == %d\n", u->last_played_o_on);
+	// printf("last_played_x.x == %d\n", u->last_played_x.x);
+	// printf("last_played_x.y == %d\n", u->last_played_x.y);
+	// printf("last_played_o.x == %d\n", u->last_played_o.x);
+	// printf("last_played_o.y == %d\n", u->last_played_o.y);
 	// printf("%s\n", "PIECE");
+	// ft_print_tab2(u->tmp_shape);
+	// printf("last_played_x_on == %d\n", u->last_played_x_on);
+	// printf("last_played_o_on == %d\n", u->last_played_o_on);
+	// printf("last_played_x.x == %d\n", u->last_played_x.x);
+	// printf("last_played_x.y == %d\n", u->last_played_x.y);
+	// printf("last_played_o.x == %d\n", u->last_played_o.x);
+	// printf("last_played_o.y == %d\n", u->last_played_o.y);
+	// printf("\n%s\n", "PIECE");
 	// ft_print_tab2(u->tmp_shape);
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
 	// print_int2(tab, u->map_w, u->map_h);
