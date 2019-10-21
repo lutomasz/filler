@@ -127,7 +127,7 @@ typedef struct s_elem
 t_struct *init_utils(char *map);
 int ft_get_size_map(t_struct *utils);
 char **get_map(t_struct *utils);
-void get_piece(t_struct *utils);
+int get_piece(t_struct *utils);
 char **make_heatmap(t_struct *u, int num, int xx, int yy);
 
 #endif

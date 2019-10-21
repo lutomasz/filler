@@ -278,8 +278,8 @@ void	set_players_pos(t_struct *u)
 int		main(int argc, char **argv)
 {
 	t_struct *u;
-	// int x;
-	// int y;
+	int x;
+	int y;
 	int **tab;
 
 	if (!(u = init_utils(argv[1])))
@@ -288,6 +288,9 @@ int		main(int argc, char **argv)
 	if ((ft_get_size_map(u)) == -1)
 		return (-1); //print error //read only once
 	u->map = get_map(u);
+	u->symbol = 'x';  // X = x + 32
+	if (!(get_piece(u)))
+		return (-1);
 	set_me_his(u);
 	get_piece(u);
 	//printf("ok\n");
@@ -340,8 +343,16 @@ int		main(int argc, char **argv)
 	// printf("last_played_x.y == %d\n", u->last_played_x.y);
 	// printf("last_played_o.x == %d\n", u->last_played_o.x);
 	// printf("last_played_o.y == %d\n", u->last_played_o.y);
-	printf("\n%s\n", "PIECE");
-	ft_print_tab2(u->tmp_shape);
+	// printf("%s\n", "PIECE");
+	// ft_print_tab2(u->tmp_shape);
+	// printf("last_played_x_on == %d\n", u->last_played_x_on);
+	// printf("last_played_o_on == %d\n", u->last_played_o_on);
+	// printf("last_played_x.x == %d\n", u->last_played_x.x);
+	// printf("last_played_x.y == %d\n", u->last_played_x.y);
+	// printf("last_played_o.x == %d\n", u->last_played_o.x);
+	// printf("last_played_o.y == %d\n", u->last_played_o.y);
+	// printf("\n%s\n", "PIECE");
+	// ft_print_tab2(u->tmp_shape);
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
 	// print_int2(tab, u->map_w, u->map_h);
 	// printf("%s\n", "SHAPE");
@@ -361,7 +372,7 @@ int		main(int argc, char **argv)
 	// printf("piece.total == %d\n", u->piece.total);
 	// printf("\n");
 	// printf("coord\n");
-	//print_int2(u->coord, u->piece.total, 2);
+	// print_int2(u->coord, u->piece.total, 2);
 	// x = 0;
 	// while (x < u->piece.total)
 	// {
