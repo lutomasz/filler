@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/18 17:04:28 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/21 16:48:23 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,37 +73,42 @@ typedef struct s_piece
 typedef struct 	s_struct
 {
 	//gestion map;
-	int map_w;
-	int map_h;
-	int fd;
-	char **map;
-	char symbol;
-	char c;
-	char my_c[2];
-	char his_c[2]; //0 -> o 1 -> O
+	int				map_w;
+	int				map_h;
+	int				fd;
+	char			**map;
+	char			symbol;
+	char			c;
+	char			my_c[2];
+	char			his_c[2]; //0 -> o 1 -> O
 	//gestion situation
-	bool first_x_on;
-	bool first_o_on;
-	bool last_played_x_on;
-	bool last_played_o_on;
+	bool			first_x_on;
+	bool			first_o_on;
+	bool			last_played_x_on;
+	bool			last_played_o_on;
 
-	int 	player1 : 3;
-	char	*en;
-	char	*me;
+	int 			player1 : 3;
+	char			*en;
+	char			*me;
 
-	char **shape;
-	char **tmp_shape;
-	int **coord;
-	char **map_cpy;
+	char			**shape;
+	char			**tmp_shape;
+	int				**coord;
+	char			**map_cpy;
 
-	t_piece 	piece;
-	t_shift		shift;
-	t_first_o 	first_o;
-	t_first_x 	first_x;
+	int				possible_pos[2000][2];
+	int				num_me;
+	int				min_dist_adj;
+	int				**trimmed_pos;
+
+	t_piece 		piece;
+	t_shift			shift;
+	t_first_o 		first_o;
+	t_first_x 		first_x;
 	t_last_played_x last_played_x;
 	t_last_played_o last_played_o;
-	t_first_o	first_en;
-	t_first_o	last_played_en;
+	t_first_o		first_en;
+	t_first_o		last_played_en;
 }				t_struct;
 
 typedef struct s_elem

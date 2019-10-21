@@ -6,13 +6,13 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/18 17:08:45 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/21 17:26:12 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-int test(int i)
+int		test(int i)
 {
 	return (i*i);
 }
@@ -23,21 +23,21 @@ int test(int i)
 // 	int yy;
 // }
 
-int is_enemy(t_struct *u, char c)
+int		is_enemy(t_struct *u, char c)
 {
 	if (c == u->his_c[0] || c == u->his_c[1])
 		return (1);
 	return (0);
 }
 
-int is_me(t_struct *u, char c)
+int		is_me(t_struct *u, char c)
 {
 	if (c == u->my_c[0] || c == u->my_c[1])
-	return (1);
+		return (1);
 	return (0);
 }
 
-int is_enemyA(t_struct *u, char c)
+int		is_enemyA(t_struct *u, char c)
 {
 	if (is_me(u, c))
 		return (1);
@@ -46,33 +46,7 @@ int is_enemyA(t_struct *u, char c)
 	return (0);
 }
 
-
-// void place_random(t_struct *u)
-// {
-// 	int i;
-// 	int j;
-// 	int is_placed;
-// 	int do_place;
-//
-// 	is_placed = 0;
-// 	while (!is_placed)
-// 	{
-// 		i = -1;
-// 		while (++i < u->map_h)
-// 		{
-// 			j = -1;
-// 			while(++j < u->map_w)
-// 			{
-// 				if ((u->map[i][j] == u->symbol || u->map[i][j] == u->symbol + 32) && can_place(u, j, i) && rand() * 10 < 3)
-// 				{
-// 					rand() * 10;
-// 				}
-// 			}
-// 		}
-// 	}
-// }
-
-int no_dots(t_struct *u)
+int		no_dots(t_struct *u)
 {
 	int i;
 	int j;
@@ -88,7 +62,97 @@ int no_dots(t_struct *u)
 	return (1);
 }
 
-void update_adj_nbrs(t_struct *u, int num, int x, int y)
+int		find_smallest_val(t_struct *u, int iter)
+{
+	int min;
+	int i;
+	int j;
+
+	min = INT_MAX;
+	i = (u->possible_pos[iter][1] - 1 >= 0) ? u->possible_pos[iter][1] : 0;
+	while (i < u->possible_pos[iter][1] + 1 && i < u->map_h)
+	{
+		j = (u->possible_pos[iter][0] - 1 >= 0) ? u->possible_pos[iter][0] : 0;
+		while (j < u->possible_pos[iter][0] + 1 && j < u->map_w)
+		{
+			min = (u->map[i][j] < min) ? u->map[i][j] : min;
+			++j;
+		}
+		i++;
+	}
+	u->min_dist_adj = (min < u->min_dist_adj) ? min : u->min_dist_adj;
+	return (min);
+}
+
+int		set_my_pos(t_struct *u)
+{
+	int i;
+	int j;
+	int found;
+	int iter;
+
+	iter = 0;
+	found = 0;
+	i = (u->my_c[0] == 'o') ? u->first_o.y - 1 : u->first_x.y - 1;
+	while (u->map[++i])
+	{
+		j = -1;
+		found = 0;
+		while (u->map[i][++j])
+		{
+			if (is_me(u, u->map[i][j]) && ++found)
+			{
+				u->possible_pos[iter][0] = j;
+				u->possible_pos[iter++][1] = i;
+				//u->possible_pos[iter - 1][2] = find_smallest_val(u, iter - 1);
+			}
+		}
+		if (found == 0)
+			break ;
+	}
+	return (iter);
+}
+
+int 	**malloc_2d_int_arr(int **arr, int size_i, int size_j)
+{
+	int iter;
+
+	arr = (int**)malloc(sizeof(int*) * size_i);
+	iter = -1;
+	while (++iter < size_i)
+		arr[iter] = (int*)malloc(sizeof(int) * size_j);
+	return (arr);
+}
+
+int		trim_pos(t_struct *u)
+{
+	int i;
+	//int trimmed_pos[u->num_me][2];
+	int j;
+	int min;
+
+	u->trimmed_pos = malloc_2d_int_arr(u->trimmed_pos, u->num_me, 2);
+	min = INT_MAX;
+	i = -1;
+	while (++i < u->num_me)
+	{
+		j = find_smallest_val(u, i);
+		min = (j < min) ? j : min;
+
+	j = -1;
+	i = -1;
+	while (++i < u->num_me)
+	{
+		if (/*u->possible_pos[i][3]*/ (min - 48) == u->min_dist_adj)
+		{
+			u->trimmed_pos[++j][0] = u->possible_pos[i][0];
+			u->trimmed_pos[j][1] = u->possible_pos[i][1];
+		}
+	}
+	return (j);
+}
+
+void	update_adj_nbrs(t_struct *u, int num, int x, int y)
 {
 	int i;
 	int j;
@@ -118,7 +182,7 @@ void update_adj_nbrs(t_struct *u, int num, int x, int y)
 	}
 }
 
-void put_adj_nbrs(t_struct *u, int num, int x, int y)
+void	put_adj_nbrs(t_struct *u, int num, int x, int y)
 {
 	int i;
 	int j;
@@ -138,7 +202,7 @@ void put_adj_nbrs(t_struct *u, int num, int x, int y)
 	}
 }
 
-char **make_heatmap(t_struct *u, int num, int xx, int yy)
+char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 {
 	int x;
 	int y;
@@ -166,7 +230,7 @@ char **make_heatmap(t_struct *u, int num, int xx, int yy)
 	return (u->map);
 }
 
-char **get_heatmap(t_struct *u)
+char	**get_heatmap(t_struct *u)
 {
 	if (u->last_played_en.x < 0) // first round
 	{
@@ -180,12 +244,12 @@ char **get_heatmap(t_struct *u)
 	}
 }
 
-void place_piece(t_struct *u)
+void	place_piece(t_struct *u)
 {
 
 }
 
-void set_me_his(t_struct *u)
+void	set_me_his(t_struct *u)
 {
 	u->my_c[0] = (u->player1) ? 'o' : 'x';
 	u->my_c[1] = (u->player1) ? 'O' : 'X';
@@ -193,7 +257,7 @@ void set_me_his(t_struct *u)
 	u->his_c[1] = (u->player1) ? 'X' : 'O';
 }
 
-void set_players_pos(t_struct *u)
+void	set_players_pos(t_struct *u)
 {
 	if (!u->player1)
 	{
@@ -211,7 +275,7 @@ void set_players_pos(t_struct *u)
 	}
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_struct *u;
 	// int x;
@@ -240,6 +304,26 @@ int main(int argc, char **argv)
 	u->map = get_heatmap(u);
 	ft_print_tab2(u->map);
 
+	u->num_me = set_my_pos(u);
+	printf("#num %d\n", u->num_me);
+	u->num_me = trim_pos(u);
+
+	printf("\n");
+	int x = 0;
+	while (x < u->num_me)
+	{
+		int y = 0;
+		while (y < 2)
+		{
+			printf("%d ", u->trimmed_pos[x][y]);
+			y++;
+		}
+		printf("\n");
+		x++;
+	}
+	printf("\n");
+
+	//printf("\n%s\n\n", u->trimmed_pos);
 	// printf("%s\n", "MAP");
 	//printf("map_w == %d\n", u->map_w);
 	//printf("map_h == %d\n", u->map_h);

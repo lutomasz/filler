@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/18 16:56:35 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/21 16:31:24 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_struct *init_utils(char *map)
 	u->me = NULL;
 	u->map_cpy = NULL;
 
-
+	u->min_dist_adj = INT_MAX;
 	return (u);
 }
 
