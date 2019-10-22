@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/21 17:26:12 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/22 12:57:15 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,14 @@ int		find_smallest_val(t_struct *u, int iter)
 	int j;
 
 	min = INT_MAX;
-	i = (u->possible_pos[iter][1] - 1 >= 0) ? u->possible_pos[iter][1] : 0;
-	while (i < u->possible_pos[iter][1] + 1 && i < u->map_h)
+	i = (u->possible_pos[iter][1] - 1 >= 0) ? u->possible_pos[iter][1] - 1 : 0;
+	while (i <= u->possible_pos[iter][1] + 1 && i < u->map_h)
 	{
-		j = (u->possible_pos[iter][0] - 1 >= 0) ? u->possible_pos[iter][0] : 0;
-		while (j < u->possible_pos[iter][0] + 1 && j < u->map_w)
+		j = (u->possible_pos[iter][0] - 1 >= 0) ? u->possible_pos[iter][0] - 1 : 0;
+		while (j <= u->possible_pos[iter][0] + 1 && j < u->map_w)
 		{
-			min = (u->map[i][j] < min) ? u->map[i][j] : min;
+			if (!is_me(u, u->map[i][j]))
+				min = (u->map[i][j] < min) ? u->map[i][j] : min;
 			++j;
 		}
 		i++;
@@ -104,7 +105,7 @@ int		set_my_pos(t_struct *u)
 			{
 				u->possible_pos[iter][0] = j;
 				u->possible_pos[iter++][1] = i;
-				//u->possible_pos[iter - 1][2] = find_smallest_val(u, iter - 1);
+				u->possible_pos[iter - 1][2] = find_smallest_val(u, iter - 1);
 			}
 		}
 		if (found == 0)
@@ -134,19 +135,19 @@ int		trim_pos(t_struct *u)
 	u->trimmed_pos = malloc_2d_int_arr(u->trimmed_pos, u->num_me, 2);
 	min = INT_MAX;
 	i = -1;
-	while (++i < u->num_me)
-	{
-		j = find_smallest_val(u, i);
-		min = (j < min) ? j : min;
-
-	j = -1;
+	// while (++i < u->num_me)
+	// {
+	// 	j = find_smallest_val(u, i);
+	// 	min = (j < min) ? j : min;
+	// }
+	j = 0;
 	i = -1;
 	while (++i < u->num_me)
 	{
-		if (/*u->possible_pos[i][3]*/ (min - 48) == u->min_dist_adj)
+		if (u->possible_pos[i][2] /*(min - 48)*/ == u->min_dist_adj)
 		{
-			u->trimmed_pos[++j][0] = u->possible_pos[i][0];
-			u->trimmed_pos[j][1] = u->possible_pos[i][1];
+			u->trimmed_pos[j][0] = u->possible_pos[i][0];
+			u->trimmed_pos[j++][1] = u->possible_pos[i][1];
 		}
 	}
 	return (j);
@@ -292,10 +293,9 @@ int		main(int argc, char **argv)
 	if (!(get_piece(u)))
 		return (-1);
 	set_me_his(u);
-	get_piece(u);
+	//get_piece(u);
 	//printf("ok\n");
 	ft_print_tab2(u->map);
-	printf("\n");
 	set_players_pos(u);
 	if (u->first_x_on == 1 && u->first_o_on)
 		u->map = get_heatmap(u);
@@ -303,29 +303,11 @@ int		main(int argc, char **argv)
 	// printf("%s\n", "MAP");
 	// printf("map_w == %d\n", u->map_w);
 	// printf("map_h == %d\n", u->map_h);
-	printf("\n");
 	u->map = get_heatmap(u);
 	ft_print_tab2(u->map);
-
 	u->num_me = set_my_pos(u);
-	printf("#num %d\n", u->num_me);
 	u->num_me = trim_pos(u);
-
-	printf("\n");
-	int x = 0;
-	while (x < u->num_me)
-	{
-		int y = 0;
-		while (y < 2)
-		{
-			printf("%d ", u->trimmed_pos[x][y]);
-			y++;
-		}
-		printf("\n");
-		x++;
-	}
-	printf("\n");
-
+	printf("%d\n", u->num_me);
 	//printf("\n%s\n\n", u->trimmed_pos);
 	// printf("%s\n", "MAP");
 	//printf("map_w == %d\n", u->map_w);

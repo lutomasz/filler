@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/21 17:43:57 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/22 12:39:44 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ int			read_map_data(char *line, t_struct *u)
 		return (0);
 	else if (u->player1 == 0 && ft_strncmp(line, "$$$", 2) == 0)
 	{
-		if (ft_strstr(line, "p1"))
-		u->player1 = 1;
 		if (ft_strstr(line, "p2"))
 			u->player1 = 0;
+		if (ft_strstr(line, "p1"))
+			u->player1 = 1;
 		free(line);
 	}
 	else
