@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/21 16:48:23 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/21 18:11:12 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct 	s_struct
 	int				**coord;
 	char			**map_cpy;
 
-	int				possible_pos[2000][2];
+	int				possible_pos[2000][3];
 	int				num_me;
 	int				min_dist_adj;
 	int				**trimmed_pos;

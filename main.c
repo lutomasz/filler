@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/21 17:26:12 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/22 12:56:44 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,14 @@ int		find_smallest_val(t_struct *u, int iter)
 	int j;
 
 	min = INT_MAX;
-	i = (u->possible_pos[iter][1] - 1 >= 0) ? u->possible_pos[iter][1] : 0;
-	while (i < u->possible_pos[iter][1] + 1 && i < u->map_h)
+	i = (u->possible_pos[iter][1] - 1 >= 0) ? u->possible_pos[iter][1] - 1: 0;
+	while (i <= u->possible_pos[iter][1] + 1 && i < u->map_h)
 	{
-		j = (u->possible_pos[iter][0] - 1 >= 0) ? u->possible_pos[iter][0] : 0;
-		while (j < u->possible_pos[iter][0] + 1 && j < u->map_w)
+		j = (u->possible_pos[iter][0] - 1 >= 0) ? u->possible_pos[iter][0] - 1: 0;
+		while (j <= u->possible_pos[iter][0] + 1 && j < u->map_w)
 		{
-			min = (u->map[i][j] < min) ? u->map[i][j] : min;
+			if (!is_me(u, u->map[i][j]))
+				min = (u->map[i][j] < min) ? u->map[i][j] : min;
 			++j;
 		}
 		i++;
@@ -94,17 +95,19 @@ int		set_my_pos(t_struct *u)
 	iter = 0;
 	found = 0;
 	i = (u->my_c[0] == 'o') ? u->first_o.y - 1 : u->first_x.y - 1;
+	printf("%d\n", i);
 	while (u->map[++i])
 	{
 		j = -1;
 		found = 0;
 		while (u->map[i][++j])
 		{
+			printf("%c %c\n", u->map[i][j], u->my_c[0]);
 			if (is_me(u, u->map[i][j]) && ++found)
 			{
 				u->possible_pos[iter][0] = j;
 				u->possible_pos[iter++][1] = i;
-				//u->possible_pos[iter - 1][2] = find_smallest_val(u, iter - 1);
+				u->possible_pos[iter - 1][2] = find_smallest_val(u, iter - 1);
 			}
 		}
 		if (found == 0)
@@ -138,12 +141,14 @@ int		trim_pos(t_struct *u)
 	{
 		j = find_smallest_val(u, i);
 		min = (j < min) ? j : min;
-
+	}
 	j = -1;
 	i = -1;
+	printf("%d\n", u->num_me);
+	printf("hehe: %d\n", u->possible_pos[i][2]);
 	while (++i < u->num_me)
 	{
-		if (/*u->possible_pos[i][3]*/ (min - 48) == u->min_dist_adj)
+		if (u->possible_pos[i][2] == u->min_dist_adj)
 		{
 			u->trimmed_pos[++j][0] = u->possible_pos[i][0];
 			u->trimmed_pos[j][1] = u->possible_pos[i][1];
@@ -292,7 +297,7 @@ int		main(int argc, char **argv)
 	if (!(get_piece(u)))
 		return (-1);
 	set_me_his(u);
-	get_piece(u);
+	//get_piece(u);
 	//printf("ok\n");
 	ft_print_tab2(u->map);
 	printf("\n");
@@ -309,10 +314,17 @@ int		main(int argc, char **argv)
 
 	u->num_me = set_my_pos(u);
 	printf("#num %d\n", u->num_me);
+	int a = -1;
+	printf("\n");
+	while (++a < u->num_me)
+		printf("%d %d\n", u->possible_pos[a][0], u->possible_pos[a][1]);
+	printf("\n");
 	u->num_me = trim_pos(u);
+	printf("#num %d\n", u->num_me);
+
 
 	printf("\n");
-	int x = 0;
+	x = 0;
 	while (x < u->num_me)
 	{
 		int y = 0;
