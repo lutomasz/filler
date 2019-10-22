@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/22 13:36:30 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/22 13:38:07 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,12 @@ int		set_my_pos(t_struct *u)
 	iter = 0;
 	found = 0;
 	i = (u->my_c[0] == 'o') ? u->first_o.y - 1 : u->first_x.y - 1;
-	printf("%d\n", i);
 	while (u->map[++i])
 	{
 		j = -1;
 		found = 0;
 		while (u->map[i][++j])
 		{
-			printf("%c %c\n", u->map[i][j], u->my_c[0]);
 			if (is_me(u, u->map[i][j]) && ++found)
 			{
 				u->possible_pos[iter][0] = j;
@@ -144,8 +142,6 @@ int		trim_pos(t_struct *u)
 	// }
 	j = 0;
 	i = -1;
-	printf("%d\n", u->num_me);
-	printf("hehe: %d\n", u->possible_pos[i][2]);
 	while (++i < u->num_me)
 	{
 		if (u->possible_pos[i][2] /*(min - 48)*/ == u->min_dist_adj)
