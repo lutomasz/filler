@@ -56,7 +56,7 @@ t_struct	*init_utils(char *map)
 	u->player1 = 0;
 	u->en = NULL;
 	u->me = NULL;
-	u->map_int = 0;
+	u->h_map = 0;
 	u->min_dist_adj = INT_MAX;
 	return (u);
 }
@@ -209,21 +209,21 @@ void		analyse_tab(char **tab, t_struct *u)
 
 int			**map_cpy_int(char **map, int width, int height)
 {
-	int 	**map_int;
+	int 	**h_map;
 	int 	i;
 
 	if (map)
 	{
-		if (!(map_int = (int**)malloc(sizeof(int*) * height)))
+		if (!(h_map = (int**)malloc(sizeof(int*) * height)))
 			return (0);
 		i = -1;
 		while (++i < height)
 		{
-			if (!(map_int[i] = (int*)malloc(sizeof(int) * width)))
+			if (!(h_map[i] = (int*)malloc(sizeof(int) * width)))
 				return (0);
-			ft_bzero(map_int[i], width);
+			ft_bzero(h_map[i], width);
 		}
-		return (map_int);
+		return (h_map);
 	}
 	return (0);
 }
@@ -255,8 +255,8 @@ char		**get_map(t_struct *u)
 	}
 	tmp[i] = 0;
 	analyse_tab(tmp, u);
-	u->map_int = map_cpy_int(tmp, u->map_w, u->map_h);
-	if (u->map_int == 0)
+	u->h_map = map_cpy_int(tmp, u->map_w, u->map_h);
+	if (u->h_map == 0)
 		return (0);
 	return (tmp);
 }
