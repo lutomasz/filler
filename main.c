@@ -173,7 +173,10 @@ void	update_adj_nbrs(t_struct *u, int num, int x, int y)
 				{
 					if ((u->map[y + i][x + j] == '.' || u->map[y + i][x + j]
 							- 48 > num) && !is_enemyA(u, u->map[y + i][x + j]))
+					{
 						u->map[y + i][x + j] = num + 48;
+						u->map_int[y + i][x + j] = num;
+					}	
 					if (is_enemy(u, u->map[y + i][x + j]))
 						make_heatmap(u, 1, x + j, y + i);
 				}
@@ -197,7 +200,10 @@ void	put_adj_nbrs(t_struct *u, int num, int x, int y)
 				if ((u->map[y + i][x + j] - 48 > num
 						|| u->map[y + i][x + j] == '.')
 						&& !is_enemyA(u, u->map[y + i][x + j]))
+				{
 					u->map[y + i][x + j] = num + 48 + 1;
+					u->map_int[y + i][x + j] = num + 1;
+				}
 		}
 	}
 }
@@ -335,7 +341,7 @@ int		main(int argc, char **argv)
 	// printf("\n%s\n", "PIECE");
 	// ft_print_tab2(u->tmp_shape);
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
-	// print_int2(tab, u->map_w, u->map_h);
+	print_int2(u->map_int, u->map_w, u->map_h);
 	// printf("%s\n", "SHAPE");
 	// if (u->piece.total > 0)
 	// 	ft_print_tab2(u->shape);

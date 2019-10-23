@@ -56,7 +56,7 @@ t_struct	*init_utils(char *map)
 	u->player1 = 0;
 	u->en = NULL;
 	u->me = NULL;
-	u->map_cpy = NULL;
+	u->map_int = 0;
 	u->min_dist_adj = INT_MAX;
 	return (u);
 }
@@ -207,6 +207,27 @@ void		analyse_tab(char **tab, t_struct *u)
 	}
 }
 
+int			**map_cpy_int(char **map, int width, int height)
+{
+	int 	**map_int;
+	int 	i;
+
+	if (map)
+	{
+		if (!(map_int = (int**)malloc(sizeof(int*) * height)))
+			return (0);
+		i = -1;
+		while (++i < height)
+		{
+			if (!(map_int[i] = (int*)malloc(sizeof(int) * width)))
+				return (0);
+			ft_bzero(map_int[i], width);
+		}
+		return (map_int);
+	}
+	return (0);
+}
+
 /*
 **	if the read is correct then get copy each line into a new tab &&
 **	send it to the analyse fonction
@@ -234,7 +255,9 @@ char		**get_map(t_struct *u)
 	}
 	tmp[i] = 0;
 	analyse_tab(tmp, u);
-	//u->map_cpy = tab2_cpy(tmp);
+	u->map_int = map_cpy_int(tmp, u->map_w, u->map_h);
+	if (u->map_int == 0)
+		return (0);
 	return (tmp);
 }
 

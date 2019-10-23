@@ -94,7 +94,7 @@ typedef struct 	s_struct
 	char			**shape;
 	char			**tmp_shape;
 	int				**coord;
-	char			**map_cpy;
+	int				**map_int;
 
 	int				possible_pos[2000][3];
 	int				num_me;
