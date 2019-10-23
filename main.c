@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/22 14:55:28 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/23 13:08:31 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ int		is_me(t_struct *u, char c)
 	return (0);
 }
 
-int		is_enemyA(t_struct *u, char c)
-{
-	if (is_me(u, c))
-		return (1);
-	if (is_enemy(u, c) || c == 'A')
-		return (1);
-	return (0);
-}
+// int		is_enemyA(t_struct *u, char c)
+// {
+// 	if (is_me(u, c))
+// 		return (1);
+// 	if (is_enemy(u, c) || c == 'A')
+// 		return (1);
+// 	return (0);
+// }
 
 int		no_dots(t_struct *u)
 {
@@ -134,16 +134,11 @@ int		trim_pos(t_struct *u)
 	u->trimmed_pos = malloc_2d_int_arr(u->trimmed_pos, u->num_me, 2);
 	min = INT_MAX;
 	i = -1;
-	// while (++i < u->num_me)
-	// {
-	// 	j = find_smallest_val(u, i);
-	// 	min = (j < min) ? j : min;
-	// }
 	j = 0;
 	i = -1;
 	while (++i < u->num_me)
 	{
-		if (u->possible_pos[i][2] /*(min - 48)*/ == u->min_dist_adj)
+		if (u->possible_pos[i][2] == u->min_dist_adj)
 		{
 			u->trimmed_pos[j][0] = u->possible_pos[i][0];
 			u->trimmed_pos[j++][1] = u->possible_pos[i][1];
@@ -159,7 +154,7 @@ void	update_adj_nbrs(t_struct *u, int num, int x, int y)
 
 	i = -2;
 //	if (is_enemy(u->map[yy][xx]))
-		u->map[y][x] = 'A';
+	//	u->map[y][x] = 'A';
 	while (++i < 2)
 	{
 		if (y + i >= 0 && y + i < u->map_h)
@@ -171,12 +166,12 @@ void	update_adj_nbrs(t_struct *u, int num, int x, int y)
 					++j;
 				if (x + j >= 0 && x + j < u->map_w)
 				{
-					if ((u->map[y + i][x + j] == '.' || u->map[y + i][x + j]
-							- 48 > num) && !is_enemyA(u, u->map[y + i][x + j]))
+					if ((u->map[y + i][x + j] == '.' || u->map_int[y + i][x + j]
+							 > num) && !is_enemy(u, u->map[y + i][x + j]))
 					{
-						u->map[y + i][x + j] = num + 48;
+						u->map[y + i][x + j] = ',';
 						u->map_int[y + i][x + j] = num;
-					}	
+					}
 					if (is_enemy(u, u->map[y + i][x + j]))
 						make_heatmap(u, 1, x + j, y + i);
 				}
@@ -197,11 +192,11 @@ void	put_adj_nbrs(t_struct *u, int num, int x, int y)
 		{
 			j = -2;
 			while (++j < 2)
-				if ((u->map[y + i][x + j] - 48 > num
+				if ((u->map_int[y + i][x + j] > num
 						|| u->map[y + i][x + j] == '.')
-						&& !is_enemyA(u, u->map[y + i][x + j]))
+						&& !is_enemy(u, u->map[y + i][x + j]))
 				{
-					u->map[y + i][x + j] = num + 48 + 1;
+					u->map[y + i][x + j] = ',';
 					u->map_int[y + i][x + j] = num + 1;
 				}
 		}
@@ -227,7 +222,7 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 			x = -1;
 			while (++x < u->map_w)
 			{
-				if (u->map[y][x] - 48 == num)
+				if (u->map_int[y][x] == num)
 					put_adj_nbrs(u, num, x, y);
 			}
 		}
