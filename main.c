@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/22 13:38:07 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/22 14:55:28 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ int		set_my_pos(t_struct *u)
 		j = -1;
 		found = 0;
 		while (u->map[i][++j])
-		{
-			if (is_me(u, u->map[i][j]) && ++found)
+		{			if (is_me(u, u->map[i][j]) && ++found)
 			{
 				u->possible_pos[iter][0] = j;
 				u->possible_pos[iter++][1] = i;
