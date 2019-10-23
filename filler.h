@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/23 13:24:13 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/23 17:04:26 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <stdbool.h>
 #include "libft/libft.h"
 #include "libft/get_next_line.h"
+#include <time.h>
 
 # define BUF_SIZE 10000
 
@@ -67,7 +68,11 @@ typedef struct s_piece
 	int last_x;
 	int last_y;
 	int total;
-
+	int	**coord;
+	int up;
+	int left;
+	int down;
+	int right;
 }				t_piece;
 
 typedef struct 	s_struct
@@ -93,13 +98,13 @@ typedef struct 	s_struct
 
 	char			**shape;
 	char			**tmp_shape;
-	int				**coord;
 	int				**h_map;
 
 	int				possible_pos[2000][3];
 	int				num_me;
 	int				min_dist_adj;
 	int				**trimmed_pos;
+	int				f_pos_i;
 
 	t_piece 		piece;
 	t_shift			shift;
@@ -124,10 +129,21 @@ typedef struct s_elem
 	int middle_x;
 }						t_elem;
 
-t_struct *init_utils(char *map);
-int ft_get_size_map(t_struct *utils);
-char **get_map(t_struct *utils);
-int get_piece(t_struct *utils);
-char **make_heatmap(t_struct *u, int num, int xx, int yy);
+t_struct	*init_utils(char *map);
+int			ft_get_size_map(t_struct *utils);
+char		**get_map(t_struct *utils);
+int			get_piece(t_struct *utils);
+char		**make_heatmap(t_struct *u, int num, int xx, int yy);
+void		set_me_his(t_struct *u);
+char		**get_heatmap(t_struct *u);
+void		set_players_pos(t_struct *u);
+int			is_enemy(t_struct *u, char c);
+int			is_me(t_struct *u, char c);
+int			no_dots(t_struct *u);
+void		update_adj_nbrs(t_struct *u, int num, int x, int y);
+void		select_pos(t_struct *u);
+void		place(t_struct *u);
+
+
 
 #endif

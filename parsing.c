@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/21 17:43:57 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/23 16:53:15 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_struct	*init_utils(char *map)
 	//piece
 	u->shape = NULL;
 	u->tmp_shape = NULL;
-	u->coord = NULL;
+	u->piece.coord = NULL;
 	//shifts
 	u->shift.left = 0;
 	u->shift.up = 0;
@@ -349,8 +349,8 @@ int			**get_coordonates(t_struct *u)
 			{
 				if (!(coord[i] = (int*)malloc(sizeof(int) * (2))))
 					return (0);
-				coord[i][0] = y;
-				coord[i][1] = x;
+				coord[i][0] = x;
+				coord[i][1] = y;
 				i++;
 			}
 		}
@@ -400,8 +400,8 @@ int			get_piece(t_struct *u)
 	u->tmp_shape[i] = 0;
 	if (!(analyse_piece(u->tmp_shape, u)))
 		return (-1);
-	u->coord = get_coordonates(u);
-	if (!(u->coord))
+	u->piece.coord = get_coordonates(u);
+	if (!(u->piece.coord))
 		return (-1);
 	return (1);
 }

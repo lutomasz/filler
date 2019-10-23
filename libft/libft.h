@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/03 15:07:18 by lutomasz          #+#    #+#             */
-/*   Updated: 2018/11/26 12:21:54 by lutomasz         ###   ########.fr       */
+/*   Updated: 2019/10/23 13:30:02 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ int					**atoi_tab2(char **tab_char, int w, int h);
 void				print_int2(int **tab, int w, int h);
 void				ft_swap(int *a, int *b);
 char				**tab2_cpy(char **src);
+int					**malloc_2d_int_arr(int **arr, int size_i, int size_j);
 
 #endif
