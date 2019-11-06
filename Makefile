@@ -1,8 +1,8 @@
 NAME = filler
 
-SRC = main.c parsing.c heatmap.c utils.c strategy.c
+SRC = main.c parse_stuff.c heatmap.c utils.c strategy.c map_parse.c piece_parse.c
 
-OBJ = main.o parsing.o heatmap.o utils.o strategy.o
+OBJ = main.o parse_stuff.o heatmap.o utils.o strategy.o map_parse.o piece_parse.o
 
 HEADERS = filler.h
 

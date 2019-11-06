@@ -106,6 +106,7 @@ typedef struct 	s_struct
 	int				**trimmed_pos;
 	int				f_pos_i;
 	int				*smallest_val;
+	int				num_of_trims;
 
 	t_piece 		piece;
 	t_shift			shift;
@@ -116,19 +117,6 @@ typedef struct 	s_struct
 	t_first_o		first_en;
 	t_first_o		last_played_en;
 }				t_struct;
-
-typedef struct s_elem
-{
-
-	int debut_y;
-	int debut_x;
-
-	int last_pos_x;
-	int last_pos_y;
-
-	int middle_y;
-	int middle_x;
-}						t_elem;
 
 t_struct	*init_utils(char *map);
 int			ft_get_size_map(t_struct *utils);
@@ -144,6 +132,10 @@ int			no_dots(t_struct *u);
 void		update_adj_nbrs(t_struct *u, int num, int x, int y);
 void		select_pos(t_struct *u);
 int			place_all_poss(t_struct *u);
+void		usage(void);
+void		analyse_tab(char **tab, t_struct *u);
+char		*copy_line(char *str);
+
 
 
 
