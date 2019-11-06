@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/23 17:24:42 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/23 19:54:13 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ int		main(int argc, char **argv)
 	u->num_me = set_my_pos(u);
 	u->num_me = trim_pos(u);
 	select_pos(u);
-	place(u);
+	u->smallest_val = (int*)(malloc(sizeof(int) * u->num_me)); // use index of smallest value to decide which piece overlaps
+	place_all_poss(u);
 	// printf("%d\n", u->num_me);
 	//
 	// x = 0;

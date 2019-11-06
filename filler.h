@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/23 17:04:26 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/10/23 19:52:54 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct 	s_struct
 	int				min_dist_adj;
 	int				**trimmed_pos;
 	int				f_pos_i;
+	int				*smallest_val;
 
 	t_piece 		piece;
 	t_shift			shift;
@@ -142,7 +143,7 @@ int			is_me(t_struct *u, char c);
 int			no_dots(t_struct *u);
 void		update_adj_nbrs(t_struct *u, int num, int x, int y);
 void		select_pos(t_struct *u);
-void		place(t_struct *u);
+int			place_all_poss(t_struct *u);
 
 
 
