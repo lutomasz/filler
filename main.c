@@ -114,7 +114,8 @@ void		free_double_int(int **str, int elements)
 void	free_all(t_struct *u)
 {
 	// free(u->h_map);
-	free(u->smallest_val);
+	if (u->smallest_val != 0)
+		free(u->smallest_val);
 	//free int **
 	// free_tab((void**)u->h_map);
 	free_double_int(u->h_map, u->map_h);
@@ -142,13 +143,27 @@ int		main(int argc, char **argv)
 		return (-1);
 	u->player1 = 0;		// REMOVE
 	if ((ft_get_size_map(u)) == -1)
+	{
+		printf("map_error\n");
+		free(u);
+
 		return (-1); //print error //read only once
+	}
 	
 
-	u->map = get_map(u);
+	if (!(u->map = get_map(u)))
+	{
+		printf("map_error\n");
+		free(u);
+		return (-1);
+	}
 	u->symbol = 'x';  // X = x + 32
 	if (!(get_piece(u)))
+	{
+		free_all(u);
+		printf("map_error\n");
 		return (-1);
+	}
 	set_me_his(u);
 	ft_print_tab2(u->map);
 	set_players_pos(u);
@@ -167,7 +182,8 @@ int		main(int argc, char **argv)
 	u->num_me = set_my_pos(u);
 	u->num_me = trim_pos(u);
 	select_pos(u);
-	u->smallest_val = (int*)(malloc(sizeof(int) * u->num_me)); // use index of smallest value to decide which piece overlaps
+	if (!(u->smallest_val = (int*)(malloc(sizeof(int) * u->num_me)))) // use index of smallest value to decide which piece overlaps
+		return (-1);		
 	place_all_poss(u);
 	printf("%d\n", u->num_me);
 
@@ -245,7 +261,7 @@ int		main(int argc, char **argv)
 	// 	x++;
 	// }
 	//ft_filler(u);
-	//print_int2(u->h_map, u->map_w, u->map_h);
+	print_int2(u->h_map, u->map_w, u->map_h);
 	free_all(u);
 	//ft_print_tab2(u->map);
 }

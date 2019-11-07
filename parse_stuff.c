@@ -39,6 +39,7 @@ t_struct	*init_utils(char *map)
 	u->shape = NULL;
 	u->tmp_shape = NULL;
 	u->piece.coord = NULL;
+	u->smallest_val = 0;
 	//shifts
 	u->shift.left = 0;
 	u->shift.up = 0;
