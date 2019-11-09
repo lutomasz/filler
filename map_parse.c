@@ -23,12 +23,18 @@ int			read_map_data(char *line, t_struct *u)
 	if (ft_strncmp(line, "Plateau", 6) == 0 ||
 		ft_strncmp(line, "plateau", 6) == 0)
 		return (0);
-	else if (u->player1 == 0 && ft_strncmp(line, "$$$", 2) == 0)
+	else if (u->player1 == -1 && ft_strncmp(line, "$$$", 2) == 0)
 	{
 		if (ft_strstr(line, "p1"))
+		{
+			printf("check\n");
 			u->player1 = 1;
+		}
 		if (ft_strstr(line, "p2"))
+		{
+			printf("fnooooooooo\n");
 			u->player1 = 0;
+		}
 		free(line);
 	}
 	else
