@@ -23,14 +23,18 @@ void	put_adj_nbrs(t_struct *u, int num, int x, int y)
 		if (y + i >= 0 && y + i < u->map_h)
 		{
 			j = -2;
-			while (++j < 2)
+			while (++j < 2 && x + j < u->map_w)
+			{
 				if ((u->h_map[y + i][x + j] > num
 						|| u->map[y + i][x + j] == '.')
-						&& !is_enemy(u, u->map[y + i][x + j]))
+						&& !is_enemy(u, u->map[y + i][x + j]) && (y + i >= 0 && x + j >= 0))
 				{
+					//printf("c = %c (%d, %d)\n", u->map[y + i][x + j], y + i, x + j);
 					u->map[y + i][x + j] = ',';
 					u->h_map[y + i][x + j] = num + 1;
 				}
+
+			}	
 		}
 		//print_int2(u->h_map, u->map_w, u->map_h);
 		//ft_print_tab2(u->map);
@@ -56,6 +60,7 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 			x = -1;
 			while (++x < u->map_w)
 			{
+				//printf("%d\n", u->h_map[y][x]);
 				if (u->h_map[y][x] == num)
 					put_adj_nbrs(u, num, x, y);
 			}

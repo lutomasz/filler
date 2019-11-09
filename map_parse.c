@@ -119,7 +119,7 @@ int			**map_cpy_int(char **map, int width, int height)
 			//print_int2(h_map, width, height);
 		}
 		set_tab_int2_to_zero(h_map, width, height);
-		// print_int2(h_map, width, height);
+		//print_int2(h_map, width, height);
 		//printf("ok\n");
 		
 		// printf("%d\n", h_map[i][3]);

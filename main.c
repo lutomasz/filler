@@ -128,7 +128,6 @@ void	free_all(t_struct *u)
 	free_str(u->tmp_shape);
 	free_str(u->shape);
 	free_str(u->map);
-	free(u);
 
 }
 
@@ -139,16 +138,12 @@ int init_parse(t_struct *u, char *av)
 	if ((ft_get_size_map(u)) == -1)
 	{
 		printf("map_error\n");
-		free(u);
 
 		return (-1); //print error //read only once
 	}
-	
-
 	if (!(u->map = get_map(u)))
 	{
 		printf("map_error\n");
-		free(u);
 		return (-1);
 	}
 	//u->symbol = 'x';  // X = x + 32
@@ -158,7 +153,6 @@ int init_parse(t_struct *u, char *av)
 		printf("map_error\n");
 		return (-1);
 	}
-	ft_print_tab2(u->map);
 	return (1);
 }
 
@@ -178,17 +172,18 @@ int		main(int argc, char **argv)
 			printf("error parse\n");
 			return (-1);
 		}
-		printf("here\n");
 		//print_int2(u.h_map, u.map_w, u.map_h);
 		u.player1 = 1;		// REMOVE
+
 		set_me_his(&u);
-		//printf("dsassads\n");
-		//printf("%s\n", u.map[0]);
-		//ft_print_tab2(u.map);
+		ft_print_tab2(u.map);
 		set_players_pos(&u);
 	
+		//ft_print_tab2(u.map);
+		printf("here\n");
+		//print_int2(u.h_map, u.map_w, u.map_h);
 		u.map = get_heatmap(&u);
-		ft_print_tab2(u.map);
+		//ft_print_tab2(u.map);
 		u.num_me = set_my_pos(&u);
 		u.num_me = trim_pos(&u);
 		printf("ok\n");
@@ -197,6 +192,11 @@ int		main(int argc, char **argv)
 			return (-1);		
 		place_all_poss(&u);
 		printf("%d\n", u.num_me);
+	}
+	else
+	{
+		printf("wrong number of params\n");
+		return (0);
 	}
 
 
@@ -275,7 +275,7 @@ int		main(int argc, char **argv)
 	// }
 	//ft_filler(u);
 	print_int2(u.h_map, u.map_w, u.map_h);
-	//free_all(&u);
+	free_all(&u);
 	return (0);
 	//ft_print_tab2(u->map);
 }
