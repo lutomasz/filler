@@ -12,13 +12,12 @@
 
 #include "filler.h"
 
-t_struct	*init_utils(char *map)
+int		init_utils(t_struct *u, char *map)
 {
-	t_struct *u;
 
-	if (!(u = (t_struct*)malloc(sizeof(t_struct))) ||
+	if (
 		(u->fd = open(map, O_RDONLY)) < 0)
-		return (NULL);
+		return (-1);
 	u->map_w = 0;
 	u->map_h = 0;
 	//first on map
@@ -59,7 +58,7 @@ t_struct	*init_utils(char *map)
 	u->me = NULL;
 	u->h_map = 0;
 	u->min_dist_adj = INT_MAX;
-	return (u);
+	return (1);
 }
 
 /*

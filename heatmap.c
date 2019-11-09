@@ -32,7 +32,8 @@ void	put_adj_nbrs(t_struct *u, int num, int x, int y)
 					u->h_map[y + i][x + j] = num + 1;
 				}
 		}
-		ft_print_tab2(u->map);
+		//print_int2(u->h_map, u->map_w, u->map_h);
+		//ft_print_tab2(u->map);
 	}
 }
 

@@ -132,16 +132,10 @@ void	free_all(t_struct *u)
 
 }
 
-int		main(int argc, char **argv)
+int init_parse(t_struct *u, char *av)
 {
-	t_struct *u;
-	int x;
-	int y;
-	int **tab;
-
-	if (!(u = init_utils(argv[1])))
-		return (-1);
-	u->player1 = 0;		// REMOVE
+	if (init_utils(u, av) == -1)
+			return (-1);
 	if ((ft_get_size_map(u)) == -1)
 	{
 		printf("map_error\n");
@@ -157,35 +151,54 @@ int		main(int argc, char **argv)
 		free(u);
 		return (-1);
 	}
-	u->symbol = 'x';  // X = x + 32
+	//u->symbol = 'x';  // X = x + 32
 	if (!(get_piece(u)))
 	{
 		free_all(u);
 		printf("map_error\n");
 		return (-1);
 	}
-	set_me_his(u);
 	ft_print_tab2(u->map);
-	set_players_pos(u);
+	return (1);
+}
 
 
-	// if (u->first_x_on == 1 && u->first_o_on)
-	// 	u->map = get_heatmap(u);
-	// ft_print_tab2(u->map);
-	// printf("%s\n", "MAP");
-	// printf("map_w == %d\n", u->map_w);
-	// printf("map_h == %d\n", u->map_h);
+int		main(int argc, char **argv)
+{
+	t_struct u;
+	int x;
+	int y;
+	int **tab;
 
+	if (argc == 2)
+	{
 
-	u->map = get_heatmap(u);
-	ft_print_tab2(u->map);
-	u->num_me = set_my_pos(u);
-	u->num_me = trim_pos(u);
-	select_pos(u);
-	if (!(u->smallest_val = (int*)(malloc(sizeof(int) * u->num_me)))) // use index of smallest value to decide which piece overlaps
-		return (-1);		
-	place_all_poss(u);
-	printf("%d\n", u->num_me);
+		if (init_parse(&u, argv[1]) == -1)
+		{
+			printf("error parse\n");
+			return (-1);
+		}
+		printf("here\n");
+		//print_int2(u.h_map, u.map_w, u.map_h);
+		u.player1 = 0;		// REMOVE
+		set_me_his(&u);
+		//printf("dsassads\n");
+		//printf("%s\n", u.map[0]);
+		//ft_print_tab2(u.map);
+		set_players_pos(&u);
+	
+		u.map = get_heatmap(&u);
+		//ft_print_tab2(u.map);
+		u.num_me = set_my_pos(&u);
+		u.num_me = trim_pos(&u);
+		printf("ok\n");
+		select_pos(&u);
+		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
+			return (-1);		
+		place_all_poss(&u);
+		printf("%d\n", u.num_me);
+	}
+
 
 
 	//
@@ -227,12 +240,12 @@ int		main(int argc, char **argv)
 	// printf("last_played_o.x == %d\n", u->last_played_o.x);
 	// printf("last_played_o.y == %d\n", u->last_played_o.y);
 	// printf("\n%s\n", "PIECE");
-	 ft_print_tab2(u->tmp_shape);
+	 ft_print_tab2(u.tmp_shape);
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
 	
 	// printf("%s\n", "SHAPE");
-	if (u->piece.total > 0)
-		ft_print_tab2(u->shape);
+	if (u.piece.total > 0)
+		ft_print_tab2(u.shape);
 	// printf("shift.left == %d\n", u->shift.left);
 	// printf("shift.up == %d\n", u->shift.up);
 	// printf("down_shift == %d\n", u->shift.down);
@@ -261,7 +274,8 @@ int		main(int argc, char **argv)
 	// 	x++;
 	// }
 	//ft_filler(u);
-	print_int2(u->h_map, u->map_w, u->map_h);
-	free_all(u);
+	//print_int2(u.h_map, u.map_w, u.map_h);
+	//free_all(&u);
+	return (0);
 	//ft_print_tab2(u->map);
 }

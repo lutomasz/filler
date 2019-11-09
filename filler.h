@@ -118,7 +118,7 @@ typedef struct 	s_struct
 	t_first_o		last_played_en;
 }				t_struct;
 
-t_struct	*init_utils(char *map);
+int			init_utils(t_struct *u, char *map);
 int			ft_get_size_map(t_struct *utils);
 char		**get_map(t_struct *utils);
 int			get_piece(t_struct *utils);

@@ -77,6 +77,21 @@ int			ft_get_size_map(t_struct *u)
 	return (1);
 }
 
+void set_tab_int2_to_zero(int **map, int width, int height)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (++i < height)
+	{
+		j = -1;
+		while (++j < width)
+			map[i][j] = 0;
+	}
+	//print_int2(map, width, height);
+}
+
 int			**map_cpy_int(char **map, int width, int height)
 {
 	int	**h_map;
@@ -91,8 +106,17 @@ int			**map_cpy_int(char **map, int width, int height)
 		{
 			if (!(h_map[i] = (int*)malloc(sizeof(int) * width)))
 				return (0);
-			ft_bzero(h_map[i], width);
+			//ft_bzero((int*)h_map[i], width);
+			//printf("%d\n", h_map[i][3]);
+			// printf("w %d\n", width);
+			// printf("h %d\n", height);
+			//print_int2(h_map, width, height);
 		}
+		set_tab_int2_to_zero(h_map, width, height);
+		// print_int2(h_map, width, height);
+		//printf("ok\n");
+		
+		// printf("%d\n", h_map[i][3]);
 		return (h_map);
 	}
 	return (0);
