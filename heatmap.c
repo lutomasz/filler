@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 13:25:51 by spozzi            #+#    #+#             */
-/*   Updated: 2019/10/23 15:33:52 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/09 11:14:54 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 			}
 		}
 		++num;
-
 	}
 	return (u->map);
 }

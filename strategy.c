@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/10/23 19:57:40 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/09 11:45:05 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	set_max_distances(t_struct *u)
 		}
 	}
 	center_borders(u, s_x, s_y);
-	// printf("here: x: %d		y: %d\n", s_x, s_y);
-	// printf("d: %d 	u: %d\nl: %d 	r: %d\n", u->piece.down, u->piece.up, u->piece.left, u->piece.right);
+	printf("here: x: %d		y: %d\n", s_x, s_y);
+	printf("d: %d 	u: %d\nl: %d 	r: %d\n", u->piece.down, u->piece.up, u->piece.left, u->piece.right);
 }
 
 void	place(t_struct *u)
@@ -85,6 +85,10 @@ int		place_all_poss(t_struct *u)
 	// u->piece.w
 	// u->piece.coord
 	// u->piece.shift
+	printf("me: %d\n", u->num_me);
+	printf("f_pos_i: %d\n", u->f_pos_i);
+	printf("x:%d y:%d\n", u->trimmed_pos[u->f_pos_i][0], u->trimmed_pos[u->f_pos_i][1]);
+	printf("x:%d y:%d\n", u->trimmed_pos[u->f_pos_i-1][0], u->trimmed_pos[u->f_pos_i-1][1]);
 	if (u->f_pos_i == u->piece.total)
 	{
 		if (atleast_one_placed(u))

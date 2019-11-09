@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/23 19:54:13 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/09 11:12:04 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int init_parse(t_struct *u, char *av)
 
 		return (-1); //print error //read only once
 	}
-	
+
 
 	if (!(u->map = get_map(u)))
 	{
@@ -178,7 +178,6 @@ int		main(int argc, char **argv)
 			printf("error parse\n");
 			return (-1);
 		}
-		printf("here\n");
 		//print_int2(u.h_map, u.map_w, u.map_h);
 		u.player1 = 1;		// REMOVE
 		set_me_his(&u);
@@ -186,7 +185,8 @@ int		main(int argc, char **argv)
 		//printf("%s\n", u.map[0]);
 		//ft_print_tab2(u.map);
 		set_players_pos(&u);
-	
+
+		printf("here\n");
 		u.map = get_heatmap(&u);
 		ft_print_tab2(u.map);
 		u.num_me = set_my_pos(&u);
@@ -194,7 +194,7 @@ int		main(int argc, char **argv)
 		printf("ok\n");
 		select_pos(&u);
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
-			return (-1);		
+			return (-1);
 		place_all_poss(&u);
 		printf("%d\n", u.num_me);
 	}
@@ -242,7 +242,7 @@ int		main(int argc, char **argv)
 	// printf("\n%s\n", "PIECE");
 	 ft_print_tab2(u.tmp_shape);
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
-	
+
 	// printf("%s\n", "SHAPE");
 	if (u.piece.total > 0)
 		ft_print_tab2(u.shape);
