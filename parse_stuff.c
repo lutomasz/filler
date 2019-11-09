@@ -53,7 +53,7 @@ int		init_utils(t_struct *u, char *map)
 	u->piece.last_y = -100;
 	u->piece.total = 0;
 	//others
-	u->player1 = 0;
+	u->player1 = -1;
 	u->en = NULL;
 	u->me = NULL;
 	u->h_map = 0;
