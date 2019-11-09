@@ -180,7 +180,7 @@ int		main(int argc, char **argv)
 		}
 		printf("here\n");
 		//print_int2(u.h_map, u.map_w, u.map_h);
-		u.player1 = 0;		// REMOVE
+		u.player1 = 1;		// REMOVE
 		set_me_his(&u);
 		//printf("dsassads\n");
 		//printf("%s\n", u.map[0]);
@@ -188,7 +188,7 @@ int		main(int argc, char **argv)
 		set_players_pos(&u);
 	
 		u.map = get_heatmap(&u);
-		//ft_print_tab2(u.map);
+		ft_print_tab2(u.map);
 		u.num_me = set_my_pos(&u);
 		u.num_me = trim_pos(&u);
 		printf("ok\n");
@@ -274,7 +274,7 @@ int		main(int argc, char **argv)
 	// 	x++;
 	// }
 	//ft_filler(u);
-	//print_int2(u.h_map, u.map_w, u.map_h);
+	print_int2(u.h_map, u.map_w, u.map_h);
 	//free_all(&u);
 	return (0);
 	//ft_print_tab2(u->map);
