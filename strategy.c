@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/09 16:05:10 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/10 13:08:47 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,36 +132,29 @@ void	set_max_distances(t_struct *u)
 
 int		tmp_place(t_struct *u, int solutions[u->piece.total][2])
 {
-	int x;
-	int y;
-	int i;
-	int origin_x;
-	int origin_y;
-
-	x = u->trimmed_pos[u->best_pos][0];
-	y = u->trimmed_pos[u->best_pos][1];
-	origin_x = u->piece.coord[u->curr_piece_fulcrum][0];
-	origin_y = u->piece.coord[u->curr_piece_fulcrum][1];
+	u->x = u->trimmed_pos[u->best_pos][0];
+	u->y = u->trimmed_pos[u->best_pos][1];
+	u->origin_x = u->piece.coord[u->curr_piece_fulcrum][0];
+	u->origin_y = u->piece.coord[u->curr_piece_fulcrum][1];
 	solutions[u->curr_piece_fulcrum][0] = INT_MAX;
-	i = -1;
-	while (++i < u->piece.total)
-	{
-		if (i != u->curr_piece_fulcrum)
-		{
-			printf("POSx %d POSy %d\n", x + (origin_x - u->piece.coord[i][0]), y + (origin_y - u->piece.coord[i][1]));
-			if (u->h_map[x + (origin_x - u->piece.coord[i][0])][y + (origin_y - u->piece.coord[i][1])] < solutions[u->curr_piece_fulcrum][1])
-				solutions[u->curr_piece_fulcrum][0] = u->h_map[x + (origin_x - u->piece.coord[i][0])][y + (origin_y - u->piece.coord[i][1])];
-		}
-	}
+	u->i = -1;
+	while (++u->i < u->piece.total)
+		if (u->i != u->curr_piece_fulcrum)
+			if (u->h_map[u->y + (u->origin_y - u->piece.coord[u->i][1])*-1]
+						[u->x + (u->origin_x - u->piece.coord[u->i][0])*-1]
+						< solutions[u->curr_piece_fulcrum][0])
+				solutions[u->curr_piece_fulcrum][0] = u->h_map
+							[u->y + (u->origin_y - u->piece.coord[u->i][1])*-1]
+							[u->x + (u->origin_x - u->piece.coord[u->i][0])*-1];
 	if (solutions[u->curr_piece_fulcrum][0] == 0)
 		return (0);
-	i = -1;
+	u->i = -1;
 	solutions[u->curr_piece_fulcrum][1] = 0;
-	while (++i < u->piece.total)
-	{
-		if (u->h_map[x + (origin_x - u->piece.coord[i][0])][y + (origin_y - u->piece.coord[i][1])] == solutions[u->curr_piece_fulcrum][0])
+	while (++u->i < u->piece.total)
+		if (u->h_map[u->y + (u->origin_y - u->piece.coord[u->i][1])*-1]
+					[u->x + (u->origin_x - u->piece.coord[u->i][0])*-1]
+					== solutions[u->curr_piece_fulcrum][0])
 			solutions[u->curr_piece_fulcrum][1]++;
-	}
 	printf("sol: %d %d\n\n", solutions[u->curr_piece_fulcrum][0], solutions[u->curr_piece_fulcrum][1]);
 	return (1);
 }
