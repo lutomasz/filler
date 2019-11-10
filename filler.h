@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/09 18:05:59 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/10 13:06:08 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,12 @@ typedef struct 	s_struct
 	int				curr_piece_fulcrum;
 	int				*smallest_val;
 	int				num_of_trims;
-
+	int				x;
+	int				y;
+	int				origin_x;
+	int				origin_y;
+	int				i;
+	
 	t_piece 		piece;
 	t_shift			shift;
 	t_first_o 		first_o;
