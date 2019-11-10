@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/09 16:00:49 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/10 13:29:40 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,10 @@ int init_parse(t_struct *u, char *av)
 ** main with infinite loop
 */
 
+/*
+** main with infinite loop
+*/
+
 int		main(int argc, char **argv)
 {
 	t_struct u;
@@ -194,7 +198,7 @@ int		main(int argc, char **argv)
 			ft_putchar(' ');
 			ft_putnbr(12);
 			ft_putchar('\n');
-		}	
+		}
 	}
 	else
 	{
@@ -213,7 +217,6 @@ int		main(int argc, char **argv)
 
 	// print_int2(u.h_map, u.map_w, u.map_h);
 
-	
 	return (0);
 	//ft_print_tab2(u->map);
 }
