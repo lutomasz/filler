@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/10 13:29:40 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/10 15:26:24 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,111 +161,111 @@ int init_parse(t_struct *u, char *av)
 ** main with infinite loop
 */
 
-int		main(int argc, char **argv)
-{
-	t_struct u;
-
-	if (argc == 2)
-	{
-		while (1)
-		{
-			if (init_parse(&u, argv[1]) == -1)
-			{
-				printf("error parse\n");
-				return (-1);
-			}
-			//print_int2(u.h_map, u.map_w, u.map_h);
-			//u.player1 = 1;		// REMOVE
-			//printf("%d\n", u.player1);
-			set_me_his(&u);
-			//ft_print_tab2(u.map);
-			set_players_pos(&u);
-			//ft_print_tab2(u.map);
-			//print_int2(u.h_map, u.map_w, u.map_h);
-			u.map = get_heatmap(&u);
-			//ft_print_tab2(u.map);
-			u.num_me = set_my_pos(&u);
-			u.num_me = trim_pos(&u);
-			select_pos(&u);
-			if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
-				return (-1);
-			place_piece(&u);
-			free_all(&u);
-			ft_putnbr(13);
-			ft_putchar(' ');
-			ft_putnbr(12);
-			ft_putchar('\n');
-		}
-	}
-	else
-	{
-		printf("wrong number of params\n");
-		return (0);
-	}
-
-	// printf("\n%s\n", "PIECE");
-
-	// ft_print_tab2(u.tmp_shape);
-	// printf("\n");
-
-	// // printf("%s\n", "SHAPE");
-	// if (u.piece.total > 0)
-	// 	ft_print_tab2(u.shape);;
-
-	// print_int2(u.h_map, u.map_w, u.map_h);
-
-
-	return (0);
-	//ft_print_tab2(u->map);
-}
-
-/*
-** old main for debugging
-*/
-
 // int		main(int argc, char **argv)
 // {
 // 	t_struct u;
-
+//
 // 	if (argc == 2)
 // 	{
-// 		if (init_parse(&u, argv[1]) == -1)
+// 		while (1)
 // 		{
-// 			printf("error parse\n");
-// 			return (-1);
+// 			if (init_parse(&u, argv[1]) == -1)
+// 			{
+// 				printf("error parse\n");
+// 				return (-1);
+// 			}
+// 			//print_int2(u.h_map, u.map_w, u.map_h);
+// 			//u.player1 = 1;		// REMOVE
+// 			//printf("%d\n", u.player1);
+// 			set_me_his(&u);
+// 			//ft_print_tab2(u.map);
+// 			set_players_pos(&u);
+// 			//ft_print_tab2(u.map);
+// 			//print_int2(u.h_map, u.map_w, u.map_h);
+// 			u.map = get_heatmap(&u);
+// 			//ft_print_tab2(u.map);
+// 			u.num_me = set_my_pos(&u);
+// 			u.num_me = trim_pos(&u);
+// 			select_pos(&u);
+// 			if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
+// 				return (-1);
+// 			place_piece(&u);
+// 			free_all(&u);
+// 			ft_putnbr(13);
+// 			ft_putchar(' ');
+// 			ft_putnbr(12);
+// 			ft_putchar('\n');
 // 		}
-// 		//print_int2(u.h_map, u.map_w, u.map_h);
-// 		u.player1 = 1;		// REMOVE
-
-// 		set_me_his(&u);
-// 		ft_print_tab2(u.map);
-// 		set_players_pos(&u);
-
-// 		//ft_print_tab2(u.map);
-// 		printf("here\n");
-// 		//print_int2(u.h_map, u.map_w, u.map_h);
-// 		u.map = get_heatmap(&u);
-// 		//ft_print_tab2(u.map);
-// 		u.num_me = set_my_pos(&u);
-// 		u.num_me = trim_pos(&u);
-// 		printf("ok\n");
-// 		select_pos(&u);
-// 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
-// 			return (-1);
-// 		place_piece(&u);
 // 	}
 // 	else
 // 	{
 // 		printf("wrong number of params\n");
 // 		return (0);
 // 	}
-// 	ft_print_tab2(u.tmp_shape);
-// 	printf("\n");
-// 	if (u.piece.total > 0)
-// 		ft_print_tab2(u.shape);;
-
-// 	print_int2(u.h_map, u.map_w, u.map_h);
-// 	free_all(&u);
+//
+// 	// printf("\n%s\n", "PIECE");
+//
+// 	// ft_print_tab2(u.tmp_shape);
+// 	// printf("\n");
+//
+// 	// // printf("%s\n", "SHAPE");
+// 	// if (u.piece.total > 0)
+// 	// 	ft_print_tab2(u.shape);;
+//
+// 	// print_int2(u.h_map, u.map_w, u.map_h);
+//
+//
 // 	return (0);
 // 	//ft_print_tab2(u->map);
 // }
+
+/*
+** old main for debugging
+*/
+
+int		main(int argc, char **argv)
+{
+	t_struct u;
+
+	if (argc == 2)
+	{
+		if (init_parse(&u, argv[1]) == -1)
+		{
+			printf("error parse\n");
+			return (-1);
+		}
+		//print_int2(u.h_map, u.map_w, u.map_h);
+		u.player1 = 1;		// REMOVE
+
+		set_me_his(&u);
+		ft_print_tab2(u.map);
+		set_players_pos(&u);
+
+		//ft_print_tab2(u.map);
+		printf("here\n");
+		//print_int2(u.h_map, u.map_w, u.map_h);
+		u.map = get_heatmap(&u);
+		//ft_print_tab2(u.map);
+		u.num_me = set_my_pos(&u);
+		u.num_me = trim_pos(&u);
+		printf("ok\n");
+		select_pos(&u);
+		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
+			return (-1);
+		place_piece(&u);
+	}
+	else
+	{
+		printf("wrong number of params\n");
+		return (0);
+	}
+	ft_print_tab2(u.tmp_shape);
+	printf("\n");
+	if (u.piece.total > 0)
+		ft_print_tab2(u.shape);;
+
+	print_int2(u.h_map, u.map_w, u.map_h);
+	free_all(&u);
+	return (0);
+	//ft_print_tab2(u->map);
+}

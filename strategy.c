@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/10 13:08:47 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/10 16:23:52 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,12 @@ int		check_adj_num(t_struct *u)
 			j = -2;
 			while (++j < 2)
 			{
-				// printf("1: %d\n", u->trimmed_pos[indx][0] + j);
-				// printf("2: %d\n", u->trimmed_pos[indx][0] - j);
-				// printf("3: %d\n", u->trimmed_pos[indx][1] - i);
-				// printf("4: %d\n", u->trimmed_pos[indx][1] + i);
-				// printf("5: %d\n", u->h_map[u->trimmed_pos[indx][1] + i][u->trimmed_pos[indx][0] + j] == u->trimmed_pos[indx][2]);
 				cntr[indx] += (u->trimmed_pos[indx][0] + j < u->map_w
 					&& u->trimmed_pos[indx][0] - j >= 0
 					&& u->trimmed_pos[indx][1] - i >= 0
 					&& u->trimmed_pos[indx][1] + i < u->map_h
-					&& u->h_map[u->trimmed_pos[indx][1] + i][u->trimmed_pos[indx][0] + j] == u->trimmed_pos[indx][2])
+					&& u->h_map[u->trimmed_pos[indx][1] + i]
+					[u->trimmed_pos[indx][0] + j] == u->trimmed_pos[indx][2])
 					? 1 : 0;
 			}
 		}
@@ -126,11 +122,9 @@ void	set_max_distances(t_struct *u)
 		}
 	}
 	center_borders(u, s_x, s_y);
-	// printf("here: x: %d		y: %d\n", s_x, s_y);
-	// printf("d: %d 	u: %d\nl: %d 	r: %d\n", u->piece.down, u->piece.up, u->piece.left, u->piece.right);
 }
 
-int		tmp_place(t_struct *u, int solutions[u->piece.total][2])
+int		tmp_place_all(t_struct *u, int solutions[u->piece.total][2])
 {
 	u->x = u->trimmed_pos[u->best_pos][0];
 	u->y = u->trimmed_pos[u->best_pos][1];
@@ -166,17 +160,6 @@ int		atleast_one_placed(t_struct *u)
 
 int		place_all_poss(t_struct *u, int solutions[u->piece.total][2])
 {
-	// u->piece.h
-	// u->piece.w
-	// u->piece.coord
-	// u->piece.shift
-
-	// printf("me: %d\n", u->num_me);
-	// printf("curr_piece_fulcrum: %d\n", u->curr_piece_fulcrum);
-	// printf("best_pos: %d\n", u->best_pos);
-	// printf("x:%d y:%d\n", u->trimmed_pos[u->best_pos][0], u->trimmed_pos[u->best_pos][1]);
-
-	//printf("x:%d y:%d\n", u->trimmed_pos[u->curr_piece_fulcrum-1][0], u->trimmed_pos[u->curr_piece_fulcrum-1][1]);
 	if (u->curr_piece_fulcrum == u->piece.total)
 	{
 		if (atleast_one_placed(u))
@@ -192,15 +175,80 @@ int		place_all_poss(t_struct *u, int solutions[u->piece.total][2])
 			&& ++u->curr_piece_fulcrum))
 		place_all_poss(u, solutions);
 	// sleep(100000000);
-	tmp_place(u, solutions);  //stock smallest value overlapping
+	tmp_place_all(u, solutions);  //stock smallest value overlapping
 	++u->curr_piece_fulcrum;
 	place_all_poss(u, solutions);
 	return (1);
+}
+/*
+	*	More than one fulcrum with the same min value was found
+	*	Find the one with highest cardinality
+*/
+void	trim_to_min_highest_occurance(t_struct *u, int solutions[u->piece.total][2], int min)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (++i < u->piece.total)
+	{
+		j = i;
+		while (++j < u->piece.total)
+		{
+			if (solutions[i][0] == min && solutions[j][0] == min)
+			{
+				if (solutions[i][1] < solutions[j][1])
+				{
+					solutions[i][0] = 0;
+					i = -1;
+				}
+				else if (solutions[i][1] > solutions[j][1])
+				{
+					solutions[j][0] = 0;
+					i = -1;
+				}
+			}
+		}
+	}
+}
+/*
+	*	1) Finds min value piece is placed on
+	*	2) Finds how many different fulcri have that same main
+	*	3) If more than one fulcrum found select the one with most occurrances
+	*		of min
+*/
+int		find_best_sol(t_struct *u, int solutions[u->piece.total][2])
+{
+	int i;
+	int num_best;
+	int min;
+
+	i = -1;
+	min = INT_MAX;
+	while (++i < u->piece.total)	// find min value
+		if(solutions[i][0] < min)
+			min = solutions[i][0];
+	i = -1;
+	num_best = 0;
+	while (++i < u->piece.total)
+		if(solutions[i][0] == min)	// find how many solutions have min value
+			num_best++;
+	if (num_best > 1)
+		trim_to_min_highest_occurance(u, solutions, min);
+	i = -1;
+	while (++i < u->piece.total)
+		if(solutions[i][0] == min)
+			break ;
+	return (i);
 }
 
 void	place_piece(t_struct *u)
 {
 	int solutions[u->piece.total][2];	// 0-> min num && 1 -> cardinality
+	int best_sol_i;
 
 	place_all_poss(u, solutions);
+	best_sol_indx = find_best_sol(u, solutions);
+	u->sol_x = u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0];
+	u->sol_y = u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1];
 }
