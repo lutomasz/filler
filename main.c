@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/09 12:26:41 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/09 16:00:49 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,7 @@ int		main(int argc, char **argv)
 		select_pos(&u);
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
 			return (-1);
-		place_all_poss(&u);
-		printf("%d\n", u.num_me);
+		place_piece(&u);
 	}
 	else
 	{
@@ -240,7 +239,9 @@ int		main(int argc, char **argv)
 	// printf("last_played_o.x == %d\n", u->last_played_o.x);
 	// printf("last_played_o.y == %d\n", u->last_played_o.y);
 	// printf("\n%s\n", "PIECE");
-	 ft_print_tab2(u.tmp_shape);
+
+	ft_print_tab2(u.tmp_shape);
+	printf("\n");
 	// tab = atoi_tab2(u->map, u->map_w, u->map_h);
 
 	// printf("%s\n", "SHAPE");
@@ -274,7 +275,9 @@ int		main(int argc, char **argv)
 	// 	x++;
 	// }
 	//ft_filler(u);
+
 	print_int2(u.h_map, u.map_w, u.map_h);
+
 	free_all(&u);
 	return (0);
 	//ft_print_tab2(u->map);

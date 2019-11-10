@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/23 19:52:54 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/09 18:05:59 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct 	s_struct
 	char			c;
 	char			my_c[2];
 	char			his_c[2]; //0 -> o 1 -> O
+	int				best_pos;
 	//gestion situation
 	bool			first_x_on;
 	bool			first_o_on;
@@ -104,7 +105,7 @@ typedef struct 	s_struct
 	int				num_me;
 	int				min_dist_adj;
 	int				**trimmed_pos;
-	int				f_pos_i;
+	int				curr_piece_fulcrum;
 	int				*smallest_val;
 	int				num_of_trims;
 
@@ -131,11 +132,11 @@ int			is_me(t_struct *u, char c);
 int			no_dots(t_struct *u);
 void		update_adj_nbrs(t_struct *u, int num, int x, int y);
 void		select_pos(t_struct *u);
-int			place_all_poss(t_struct *u);
+int			place_all_poss(t_struct *u, int solutions[u->piece.total][2]);
 void		usage(void);
 void		analyse_tab(char **tab, t_struct *u);
 char		*copy_line(char *str);
-
+void		place_piece(t_struct *u);
 
 
 
