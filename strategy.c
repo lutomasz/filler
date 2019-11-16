@@ -161,7 +161,7 @@ int		tmp_place(t_struct *u, int solutions[u->piece.total][2])
 
 int		atleast_one_placed(t_struct *u)
 {
-
+	return (1);
 }
 
 int		place_all_poss(t_struct *u, int solutions[u->piece.total][2])

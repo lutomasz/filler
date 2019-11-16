@@ -15,8 +15,7 @@
 int		init_utils(t_struct *u, char *map)
 {
 
-	if (
-		(u->fd = open(map, O_RDONLY)) < 0)
+	if ((u->fd = open(map, O_RDONLY)) < 0)
 		return (-1);
 	u->map_w = 0;
 	u->map_h = 0;

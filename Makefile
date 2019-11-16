@@ -1,4 +1,4 @@
-NAME = filler
+NAME = filler.lupozzi
 
 SRC = main.c parse_stuff.c heatmap.c utils.c strategy.c map_parse.c piece_parse.c
 

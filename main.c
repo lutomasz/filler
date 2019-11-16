@@ -88,7 +88,7 @@ int		trim_pos(t_struct *u)
 	return (j);
 }
 
-static void	free_str(char **str)
+void		free_str2(char **str)
 {
 	int i;
 
@@ -106,7 +106,7 @@ void		free_double_int(int **str, int elements)
 	int i;
 
 	i = -1;
-	while (++i < elements)
+	while (++i < elements && str[i])
    		free(str[i]);
 	free(str);
 }
@@ -125,9 +125,9 @@ void	free_all(t_struct *u)
 	free_double_int(u->trimmed_pos, u->num_of_trims);
 	//free(u->trimmed_pos);
 	//free char**
-	free_str(u->tmp_shape);
-	free_str(u->shape);
-	free_str(u->map);
+	free_str2(u->tmp_shape);
+	free_str2(u->shape);
+	free_str2(u->map);
 
 }
 
@@ -178,7 +178,7 @@ int		main(int argc, char **argv)
 				return (-1);
 			}
 			//print_int2(u.h_map, u.map_w, u.map_h);
-			//u.player1 = 1;		// REMOVE
+			u.player1 = 0;		// REMOVE
 			//printf("%d\n", u.player1);
 			set_me_his(&u);
 			//ft_print_tab2(u.map);
@@ -187,22 +187,35 @@ int		main(int argc, char **argv)
 			//print_int2(u.h_map, u.map_w, u.map_h);
 			u.map = get_heatmap(&u);
 			//ft_print_tab2(u.map);
+			// print_int2(u.h_map, u.map_w, u.map_h);
 			u.num_me = set_my_pos(&u);
-			u.num_me = trim_pos(&u);
+			if (!(u.num_me = trim_pos(&u)))
+			{
+				free_all(&u);
+				return (0);
+			}
 			select_pos(&u);
 			if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
+			{
+				free_all(&u);
 				return (-1);
+			}
 			place_piece(&u);
 			free_all(&u);
-			ft_putnbr(13);
-			ft_putchar(' ');
-			ft_putnbr(12);
-			ft_putchar('\n');
+			// printf("%d", 0);
+			// printf(" ");
+			// printf("%d", 0);
+			// printf("\n");
+			//printf("player = %d\n", u.player1);
 		}
 	}
 	else
 	{
-		printf("wrong number of params\n");
+		printf("%d", 0);
+		printf(" ");
+		printf("%d", 0);
+		printf("\n");
+		//printf("wrong number of params\n");
 		return (0);
 	}
 
@@ -217,6 +230,10 @@ int		main(int argc, char **argv)
 
 	// print_int2(u.h_map, u.map_w, u.map_h);
 
+	// printf("%d", 0);
+	// printf(" ");
+	// printf("%d", 0);
+	// printf("\n");
 	return (0);
 	//ft_print_tab2(u->map);
 }
