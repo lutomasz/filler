@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/10 16:09:14 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/18 14:15:34 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ typedef struct 	s_struct
 	int				i;
 	int				sol_x;
 	int				sol_y;
-
+	int				placed_one;
+	
 	t_piece 		piece;
 	t_shift			shift;
 	t_first_o 		first_o;

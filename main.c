@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/10 15:26:24 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/18 13:23:09 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,8 +198,8 @@ int		main(int argc, char **argv)
 		select_pos(&u);
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
 			return (-1);
-		other_place(&u);
-		// place_piece(&u);
+		// other_place(&u);
+		place_piece(&u);
 		//free_all(&u);
 	// }
 	// printf("\n%s\n", "PIECE");
@@ -213,6 +213,23 @@ int		main(int argc, char **argv)
 
 	// print_int2(u.h_map, u.map_w, u.map_h);
 
+// =======
+// 		if (u.piece.total > 0)
+// 			ft_print_tab2(u.shape);;
+// 		printf("ok\n");
+// 		select_pos(&u);
+// 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
+// 			return (-1);
+// 		place_piece(&u);
+// 	}
+// 	else
+// 	{
+// 		printf("wrong number of params\n");
+// 		return (0);
+// 	}
+// 	ft_print_tab2(u.tmp_shape);
+// 	printf("\n");
+// >>>>>>> 496a58a0099eb210a51994fcfabb0bd1a9d52a7a
 
 	return (0);
 	//ft_print_tab2(u->map);
