@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/10 13:06:08 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/10 16:09:14 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ typedef struct 	s_struct
 	bool			last_played_x_on;
 	bool			last_played_o_on;
 
+	int 			x_sol;
+	int 			y_sol;
+
 	int 			player1 : 3;
 	char			*en;
 	char			*me;
@@ -113,7 +116,9 @@ typedef struct 	s_struct
 	int				origin_x;
 	int				origin_y;
 	int				i;
-	
+	int				sol_x;
+	int				sol_y;
+
 	t_piece 		piece;
 	t_shift			shift;
 	t_first_o 		first_o;
@@ -145,6 +150,7 @@ void		place_piece(t_struct *u);
 void		free_unset_tab(char **str, int cnt);
 void		free_str2(char **str);
 void		free_double_int(int **str, int elements);
+int			other_place(t_struct *u);
 
 
 

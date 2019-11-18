@@ -156,6 +156,7 @@ int			get_piece(t_struct *u)
 	while (i < u->piece.h)
 	{
 		get_next_line(u->fd, &line);
+		//printf("here\n");
 		if (!(u->tmp_shape[i] = ft_strsub(line, 0, u->piece.w)))
 		{
 			free(line);

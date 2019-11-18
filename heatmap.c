@@ -37,8 +37,8 @@ void	put_adj_nbrs(t_struct *u, int num, int x, int y)
 
 			}
 		}
-		//print_int2(u->h_map, u->map_w, u->map_h);
-		//ft_print_tab2(u->map);
+		// print_int2(u->h_map, u->map_w, u->map_h);
+		// ft_print_tab2(u->map);
 	}
 }
 
@@ -46,6 +46,7 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 {
 	int x;
 	int y;
+	int ret;
 
 	x = (u->c == u->his_c[1]) ? u->first_en.x : u->last_played_en.x;
 	y = (u->c == u->his_c[1]) ? u->first_en.y : u->last_played_en.y;
@@ -53,6 +54,7 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 	y = (xx >= 0) ? yy : y;
 	update_adj_nbrs(u, 1, x, y);
 	num = 1;
+	ret = 0;
 	while(!no_dots(u))
 	{
 		y = -1;
@@ -65,8 +67,13 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 				if (u->h_map[y][x] == num)
 					put_adj_nbrs(u, num, x, y);
 			}
+							//printf("here\n");
 		}
+		++ret;
 		++num;
+		//printf("ret = %d\n", ret);
+		if (ret == 20)
+			break ;
 	}
 	return (u->map);
 }

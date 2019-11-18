@@ -94,8 +94,10 @@ int			ft_get_size_map(t_struct *u)
 {
 	char	*line;
 
-	while ((get_next_line(u->fd, &line)))
+	//printf("DSDJSDLJSDKSLD\n");
+	while ((get_next_line(u->fd, &line) > 0))
 	{
+		//printf("here\n");
 		if (*line < 1)
 		{
 			usage();
@@ -176,11 +178,13 @@ char		**get_map(t_struct *u)
 		if (!(tmp = (char**)malloc(sizeof(char*) * u->map_h + 1)))
 			return (NULL);
 	get_next_line(u->fd, &line);
+	//printf("here\n");
 	free(line);
 	i = 0;
 	while (i < u->map_h)
 	{
 		get_next_line(u->fd, &line);
+		//printf("here\n");
 		if (!(tmp[i] = copy_line(line)))
 		{
 			free(line);

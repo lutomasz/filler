@@ -1,8 +1,8 @@
 NAME = filler.lupozzi
 
-SRC = main.c parse_stuff.c heatmap.c utils.c strategy.c map_parse.c piece_parse.c
+SRC = main.c parse_stuff.c heatmap.c utils.c strategy.c map_parse.c piece_parse.c other_place.c
 
-OBJ = main.o parse_stuff.o heatmap.o utils.o strategy.o map_parse.o piece_parse.o
+OBJ = main.o parse_stuff.o heatmap.o utils.o strategy.o map_parse.o piece_parse.o other_place.o
 
 HEADERS = filler.h
 
