@@ -35,7 +35,10 @@ int			**get_coordonates(t_struct *u)
 			if (u->tmp_shape[y][x] == '*')
 			{
 				if (!(coord[i] = (int*)malloc(sizeof(int) * (2))))
+				{
+					free_double_int(coord, i - 1);
 					return (0);
+				}
 				coord[i][0] = x;
 				coord[i][1] = y;
 				i++;
@@ -101,7 +104,10 @@ int			analyse_piece(char **piece, t_struct *u)
 		{
 			if (!(u->shape[i] = ft_strsub(u->tmp_shape[i + u->shift.up],
 				u->shift.left, u->piece.w - u->shift.right)))
+			{
+				free_unset_tab(u->shape, i - 1);
 				return (-1);
+			}	
 			i++;
 		}
 		u->shape[i] = 0;
@@ -150,8 +156,13 @@ int			get_piece(t_struct *u)
 	while (i < u->piece.h)
 	{
 		get_next_line(u->fd, &line);
+		//printf("here\n");
 		if (!(u->tmp_shape[i] = ft_strsub(line, 0, u->piece.w)))
+		{
+			free(line);
+			free_unset_tab(u->tmp_shape, i - 1);
 			return (0);
+		}	
 		i++;
 		free(line);
 	}
@@ -159,7 +170,7 @@ int			get_piece(t_struct *u)
 	if (!(analyse_piece(u->tmp_shape, u)))
 		return (-1);
 	u->piece.coord = get_coordonates(u);
-	if (!(u->piece.coord))
+	if (u->piece.coord == 0)	
 		return (-1);
 	return (1);
 }

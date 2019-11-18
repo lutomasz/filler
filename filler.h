@@ -93,6 +93,9 @@ typedef struct 	s_struct
 	bool			last_played_x_on;
 	bool			last_played_o_on;
 
+	int 			x_sol;
+	int 			y_sol;
+
 	int 			player1 : 3;
 	char			*en;
 	char			*me;
@@ -145,6 +148,10 @@ void		usage(void);
 void		analyse_tab(char **tab, t_struct *u);
 char		*copy_line(char *str);
 void		place_piece(t_struct *u);
+void		free_unset_tab(char **str, int cnt);
+void		free_str2(char **str);
+void		free_double_int(int **str, int elements);
+int			other_place(t_struct *u);
 
 
 

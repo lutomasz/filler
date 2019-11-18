@@ -27,12 +27,10 @@ int			read_map_data(char *line, t_struct *u)
 	{
 		if (ft_strstr(line, "p1"))
 		{
-			printf("check\n");
 			u->player1 = 1;
 		}
 		if (ft_strstr(line, "p2"))
 		{
-			printf("fnooooooooo\n");
 			u->player1 = 0;
 		}
 		free(line);
@@ -41,6 +39,38 @@ int			read_map_data(char *line, t_struct *u)
 		free(line);
 	return (1);
 }
+
+// int			read_map_data(char *line, t_struct *u)
+// {
+// 	if (ft_strncmp(line, "Plateau", 6) == 0 ||
+// 		ft_strncmp(line, "plateau", 6) == 0)
+// 		return (0);
+// 	else if (u->player1 == -1 && ft_strncmp(line, "$$$", 2) == 0)
+// 	{
+// 		if (ft_strstr(line, "p1"))
+// 		{
+// 			if (ft_strstr(line, "filler.lupozzi"))
+// 			{
+// 				printf("check\n");
+// 				u->player1 = 1;
+// 			}
+// 			else
+// 			{
+// 				printf("fcnooooooooooo\n");
+// 				u->player1 = 0;
+// 			}
+// 		}
+// 		// if (ft_strstr(line, "p2"))
+// 		// {
+// 		// 	printf("fnooooooooo\n");
+// 		// 	u->player1 = 0;
+// 		// }
+// 		free(line);
+// 	}
+// 	else
+// 		free(line);
+// 	return (1);
+// }
 
 /*
 **	get map hight and width from the line containing "plateau"
@@ -64,8 +94,10 @@ int			ft_get_size_map(t_struct *u)
 {
 	char	*line;
 
-	while ((get_next_line(u->fd, &line)))
+	//printf("DSDJSDLJSDKSLD\n");
+	while ((get_next_line(u->fd, &line) > 0))
 	{
+		//printf("here\n");
 		if (*line < 1)
 		{
 			usage();
@@ -95,7 +127,6 @@ void set_tab_int2_to_zero(int **map, int width, int height)
 		while (++j < width)
 			map[i][j] = 0;
 	}
-	//print_int2(map, width, height);
 }
 
 int			**map_cpy_int(char **map, int width, int height)
@@ -111,18 +142,12 @@ int			**map_cpy_int(char **map, int width, int height)
 		while (++i < height)
 		{
 			if (!(h_map[i] = (int*)malloc(sizeof(int) * width)))
+			{
+				free_double_int(h_map, i - 1);
 				return (0);
-			//ft_bzero((int*)h_map[i], width);
-			//printf("%d\n", h_map[i][3]);
-			// printf("w %d\n", width);
-			// printf("h %d\n", height);
-			//print_int2(h_map, width, height);
+			}	
 		}
 		set_tab_int2_to_zero(h_map, width, height);
-		//print_int2(h_map, width, height);
-		//printf("ok\n");
-		
-		// printf("%d\n", h_map[i][3]);
 		return (h_map);
 	}
 	return (0);
@@ -132,6 +157,16 @@ int			**map_cpy_int(char **map, int width, int height)
 **	if the read is correct then get copy each line into a new tab &&
 **	send it to the analyse fonction
 */
+
+void		free_unset_tab(char **str, int cnt)
+{
+	int i;
+
+	i = -1;
+	while (++i < cnt - 1)
+		free(str[i]);
+	free(str);
+}
 
 char		**get_map(t_struct *u)
 {
@@ -143,13 +178,19 @@ char		**get_map(t_struct *u)
 		if (!(tmp = (char**)malloc(sizeof(char*) * u->map_h + 1)))
 			return (NULL);
 	get_next_line(u->fd, &line);
+	//printf("here\n");
 	free(line);
 	i = 0;
 	while (i < u->map_h)
 	{
 		get_next_line(u->fd, &line);
+		//printf("here\n");
 		if (!(tmp[i] = copy_line(line)))
+		{
+			free(line);
+			free_unset_tab(tmp, i - 1);
 			return (NULL);
+		}	
 		free(line);
 		i++;
 	}
@@ -157,6 +198,6 @@ char		**get_map(t_struct *u)
 	analyse_tab(tmp, u);
 	u->h_map = map_cpy_int(tmp, u->map_w, u->map_h);
 	if (u->h_map == 0)
-		return (0);
+		free_str2(tmp);
 	return (tmp);
 }

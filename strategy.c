@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/18 17:54:57 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/18 18:02:04 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int		tmp_place_all(t_struct *u, int solutions[u->piece.total][2])
 	u->y = u->trimmed_pos[u->best_pos][1];
 	u->origin_x = u->piece.coord[u->curr_piece_fulcrum][0];
 	u->origin_y = u->piece.coord[u->curr_piece_fulcrum][1];
+	//printf("@@@@@@@@@@@\n");
 	solutions[u->curr_piece_fulcrum][0] = INT_MAX;
 	u->i = -1;
 	while (++u->i < u->piece.total)
@@ -178,7 +179,7 @@ int		tmp_place_all(t_struct *u, int solutions[u->piece.total][2])
 
 int		atleast_one_placed(t_struct *u)
 {
-
+	return (1);
 }
 
 int		place_all_poss(t_struct *u, int solutions[u->piece.total][2])
@@ -204,6 +205,7 @@ int		place_all_poss(t_struct *u, int solutions[u->piece.total][2])
 		// ++u->curr_piece_fulcrum;
 		//place_all_poss(u, solutions);
 	}
+
 	return (u->placed_one);
 
 
