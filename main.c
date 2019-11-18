@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/10 15:26:24 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/18 13:23:09 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,8 @@ int		main(int argc, char **argv)
 		//ft_print_tab2(u.map);
 		u.num_me = set_my_pos(&u);
 		u.num_me = trim_pos(&u);
+		if (u.piece.total > 0)
+			ft_print_tab2(u.shape);;
 		printf("ok\n");
 		select_pos(&u);
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
@@ -261,8 +263,6 @@ int		main(int argc, char **argv)
 	}
 	ft_print_tab2(u.tmp_shape);
 	printf("\n");
-	if (u.piece.total > 0)
-		ft_print_tab2(u.shape);;
 
 	print_int2(u.h_map, u.map_w, u.map_h);
 	free_all(&u);
