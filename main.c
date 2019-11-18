@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/18 13:23:09 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/18 17:18:35 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int		trim_pos(t_struct *u)
 		if (u->possible_pos[i][2] == u->min_dist_adj)
 		{
 			u->trimmed_pos[j][0] = u->possible_pos[i][0];
-			u->trimmed_pos[j++][1] = u->possible_pos[i][1];
+			u->trimmed_pos[j][1] = u->possible_pos[i][1];
+			u->trimmed_pos[j++][2] = u->possible_pos[i][2];
 		}
 	}
 	return (j);
@@ -250,8 +251,8 @@ int		main(int argc, char **argv)
 		u.num_me = trim_pos(&u);
 		if (u.piece.total > 0)
 			ft_print_tab2(u.shape);;
-		printf("ok\n");
 		select_pos(&u);
+		printf("ok\n");
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
 			return (-1);
 		place_piece(&u);
