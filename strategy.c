@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/18 18:02:04 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/19 16:04:05 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,13 @@ int		get_best_placing_slot(t_struct *u, int cntr[u->num_me])
 	// max = u->num_me;
 	// u->num_me = 0;
 	// while (++i < max)
+	// {
+	// 	printf("%d\n", cntr[i]);
 	// 	if (cntr[i] == cntr[res])
 	// 	{
 	// 		u->num_me++;
 	// 	}
+	// }
 	// printf("num_me %d\n", u->num_me);
 	// if (max >= 0)	// MAYBE CHANGE COZ HERE WE USE ONLY THE LAST OCCURRENCE OF THE BEST POSSIBLE PIECE
 	// 	u->num_me = 1;
@@ -144,7 +147,7 @@ void	set_max_distances(t_struct *u)
 
 int		tmp_place_all(t_struct *u, int solutions[u->piece.total][2])
 {
-	printf("trying to place\n");
+	// printf("trying to place\n");
 	u->x = u->trimmed_pos[u->best_pos][0];
 	u->y = u->trimmed_pos[u->best_pos][1];
 	u->origin_x = u->piece.coord[u->curr_piece_fulcrum][0];
@@ -173,7 +176,7 @@ int		tmp_place_all(t_struct *u, int solutions[u->piece.total][2])
 					== solutions[u->curr_piece_fulcrum][0])
 			solutions[u->curr_piece_fulcrum][1]++;
 	u->placed_one = 1;
-	printf("sol: %d %d\n\n", solutions[u->curr_piece_fulcrum][0], solutions[u->curr_piece_fulcrum][1]);
+	// printf("sol: %d %d\n\n", solutions[u->curr_piece_fulcrum][0], solutions[u->curr_piece_fulcrum][1]);
 	return (1);
 }
 
@@ -188,7 +191,7 @@ int		place_all_poss(t_struct *u, int solutions[u->piece.total][2])
 	u->curr_piece_fulcrum = -1;
 	while (++u->curr_piece_fulcrum < u->piece.total)
 	{
-		printf("%d of %d @ (%d,%d)\n", u->curr_piece_fulcrum, u->piece.total, u->trimmed_pos[u->best_pos][0], u->trimmed_pos[u->best_pos][1]);
+		// printf("%d of %d @ (%d,%d)\n", u->curr_piece_fulcrum, u->piece.total, u->trimmed_pos[u->best_pos][0], u->trimmed_pos[u->best_pos][1]);
 		set_max_distances(u);
 		while ((((u->trimmed_pos[u->best_pos][1] + u->piece.down >= u->map_h)
 				|| (u->trimmed_pos[u->best_pos][1] - u->piece.up < 0)
@@ -283,22 +286,22 @@ int		find_best_sol(t_struct *u, int solutions[u->piece.total][2])
 
 	// int i = -1;
 	i = -1;
-	printf("----------\n");
-	while (++i < u->piece.total)
-		printf("%d %d\n", solutions[i][0], solutions[i][1]);
-		printf("----------\n");
+	// printf("----------\n");
+	// while (++i < u->piece.total)
+		// printf("%d %d\n", solutions[i][0], solutions[i][1]);
+		// printf("----------\n");
 	i = -1;
 	min = INT_MAX;
 	while (++i < u->piece.total)	// find min value
 		if (solutions[i][0] < min && solutions[i][0] > 0)
 			min = solutions[i][0];
-	printf("min: %d\n", min);
+	// printf("min: %d\n", min);
 	i = -1;
 	num_best = 0;
 	while (++i < u->piece.total)
 		if (solutions[i][0] == min)	// find how many solutions have min value
 			num_best++;
-	printf("num sol: %d\n", num_best);
+	// printf("num sol: %d\n", num_best);
 	if (num_best > 1)
 		trim_to_min_highest_occurance(u, solutions, min);
 	i = -1;
@@ -322,6 +325,7 @@ void	place_piece(t_struct *u)
 	}
 	u->placed_one = 0;
 	ret = place_all_poss(u, solutions);
+	printf("best_pos: %d\n", u->best_pos);
 	if (ret == 0)
 	{
 		u->best_pos = 0;
@@ -331,6 +335,12 @@ void	place_piece(t_struct *u)
 			u->best_pos++;
 		}
 		u->best_pos--;	// -----------------MAYBE REMOVE-----------------
+	}
+	u->i = -1;
+	while (++u->i < u->piece.total)
+	{
+		printf("%d ", solutions[u->i][0]);
+		printf("%d\n", solutions[u->i][1]);
 	}
 	if (ret != 0)
 	{

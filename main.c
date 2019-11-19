@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/18 18:02:02 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/19 17:29:42 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,9 @@ int init_parse(t_struct *u, char *av)
 int		main(int argc, char **argv)
 {
 	t_struct u;
+	int print;
 
+	print = 1;
 	// while (1)
 	// {
 		if (init_parse(&u, argv[1]) == -1)
@@ -189,34 +191,55 @@ int		main(int argc, char **argv)
 		// set_me_his(&u);
 		// //ft_print_tab2(u.map);
 		// set_players_pos(&u);
-		//ft_print_tab2(u.map);
+		if (print)
+			ft_print_tab2(u.map);
+		printf("here\n");
 		//print_int2(u.h_map, u.map_w, u.map_h);
+		// ft_print_tab2(u.map);
 		u.map = get_heatmap(&u);
+		if (print)
+			ft_print_tab2(u.map);
 	//printf("ok\n");
-		//ft_print_tab2(u.map);
 		u.num_me = set_my_pos(&u);
+		int i = -1;
+		while (++i < u.num_me)
+		{
+			printf("%d ", u.possible_pos[i][0]);
+			printf("%d ", u.possible_pos[i][1]);
+			printf("%d\n", u.possible_pos[i][2]);
+		}
 		u.num_me = trim_pos(&u);
-		if (u.piece.total > 0)
-			ft_print_tab2(u.shape);;
+		//
+		//	maybe piece does not touch min around best pos
+		//
+		if (print)
+			if (u.piece.total > 0)
+				ft_print_tab2(u.shape);;
 		select_pos(&u);
-		printf("ok\n");
+		// printf("ok\n");
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
 			return (-1);
 		// other_place(&u);
 		place_piece(&u);
+		ft_putnbr(u.sol_y);
+		ft_putchar(' ');
+		ft_putnbr(u.sol_x);
+		ft_putchar('\n');
+		// printf("%d %d\n", u.sol_y, u.sol_x);
 		//free_all(&u);
-	// }
 	// printf("\n%s\n", "PIECE");
 
 	// ft_print_tab2(u.tmp_shape);
 	// printf("\n");
 
-	// // printf("%s\n", "SHAPE");
-	// if (u.piece.total > 0)
-	// 	ft_print_tab2(u.shape);;
-
-	// print_int2(u.h_map, u.map_w, u.map_h);
-
+	// printf("%s\n", "SHAPE");
+		if (print)
+		{
+			if (u.piece.total > 0)
+		 		ft_print_tab2(u.shape);
+			print_int2(u.h_map, u.map_w, u.map_h);
+		}
+	// }
 // =======
 // 		if (u.piece.total > 0)
 // 			ft_print_tab2(u.shape);;
@@ -234,6 +257,8 @@ int		main(int argc, char **argv)
 // 	ft_print_tab2(u.tmp_shape);
 // 	printf("\n");
 // >>>>>>> 496a58a0099eb210a51994fcfabb0bd1a9d52a7a
+
+	//sleep(1);
 
 	return (0);
 	//ft_print_tab2(u->map);

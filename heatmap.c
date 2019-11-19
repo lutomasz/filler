@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 13:25:51 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/09 13:46:13 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/19 17:20:19 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,27 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 	y = (u->c == u->his_c[1]) ? u->first_en.y : u->last_played_en.y;
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
+	printf("1\n");
 	update_adj_nbrs(u, 1, x, y);
+	printf("2\n");
 	num = 1;
 	ret = 0;
+	printf("(W,H) := (%d,%d)\n(x,y) := (%d,%d)\n(xx,yy) := (%d,%d)\n\n", u->map_w, u->map_h, x, y, xx, yy);
+	printf("%d\n", no_dots(u));
 	while(!no_dots(u))
 	{
+		printf("3\n");
 		y = -1;
 		while (++y < u->map_h)
 		{
 			x = -1;
 			while (++x < u->map_w)
 			{
+				printf("4\n");
 				//printf("%d\n", u->h_map[y][x]);
 				if (u->h_map[y][x] == num)
 					put_adj_nbrs(u, num, x, y);
 			}
-							//printf("here\n");
 		}
 		++ret;
 		++num;
@@ -75,6 +80,7 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 		if (ret == 20)
 			break ;
 	}
+	printf("END\n");
 	return (u->map);
 }
 

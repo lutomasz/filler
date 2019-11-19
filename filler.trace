@@ -1,7 +1,4 @@
-seed = 4310
-O: error on input
-players/filler.lupozzi: Segfault at 12
-X: error on input
-players/hcao.filler won
+seed = 6845
+players/carli.filler won
 Score:
-12AGAINST23
+17AGAINST55

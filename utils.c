@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 13:26:27 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/09 11:15:55 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/19 17:23:14 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,21 @@ int		no_dots(t_struct *u)
 	int j;
 
 	i = -1;
+	printf("(W,H) := (%d,%d)\n", u->map_w, u->map_h);
 	while (++i < u->map_h)
 	{
 		j = -1;
+		printf("n1 (%d)\n", i);
 		while (++j < u->map_w)
+		{
+			printf("n2 (%d)\n", j);
+			printf("map_val: %d\n", u->map[i][j]);
 			if (u->map[i][j] == '.')
+			{
+				printf("n3\n");
 				return (0);
+			}
+		}
 	}
 	return (1);
 }

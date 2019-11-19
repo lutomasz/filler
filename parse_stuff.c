@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/09 14:44:01 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/19 15:02:29 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int		init_utils(t_struct *u, char *map)
 	{
 		printf("ERROR FD\n");
 		return (-1);
-	}	
+	}
 	// map = NULL;
 	// u->fd = 0;
+
 	u->x_sol = -111;
 	u->y_sol = -111;
 
