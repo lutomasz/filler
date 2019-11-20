@@ -56,15 +56,15 @@ int 	check_if_match(t_struct *u, int x_map, int y_map)
 			{
 
 				//printf("ok\n");
-				u->x_sol = x_place_start;
-				u->y_sol = y_place_start;
+				u->sol_x = x_place_start;
+				u->sol_y = y_place_start;
 				return (1);
-			}	
+			}
 		}
 		//printf("CNT = %d\n", cnt);
 	}
 	return (0);
-	
+
 
 	// while (++i < u->piece.total)
 	// {
@@ -74,9 +74,9 @@ int 	check_if_match(t_struct *u, int x_map, int y_map)
 
 void	print_solution(t_struct *u)
 {
-	ft_putnbr(u->y_sol);
+	ft_putnbr(u->sol_y);
 	ft_putchar(' ');
-	ft_putnbr(u->x_sol);
+	ft_putnbr(u->sol_y);
 	ft_putchar('\n');
 }
 
@@ -111,23 +111,13 @@ int		other_place(t_struct *u)
 	int y;
 
 	y = (u->my_c[0] == 'o') ? u->first_o.y : u->first_x.y;
-
 	while (y < u->map_h)
 	{
-		x = 0;
-		while (x < u->map_w)
-		{
+		x = -1;
+		while (++x < u->map_w)
 			if (is_me(u, u->map[y][x]))
-			{
 				if (check_if_match(u, x, y) == 1)
-				{
-					print_solution(u);
 					return (1);
-				}
-			}	
-			//printf("here\n");
-			x++;
-		}
 		y++;
 	}
 	return (0);

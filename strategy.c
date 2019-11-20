@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/20 13:56:11 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 14:20:56 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ void	place_piece(t_struct *u)
 	}
 	u->placed_one = 0;
 	ret = place_all_poss(u, solutions);
-	//printf("best_pos: %d\n", u->best_pos);
+	// //printf("best_pos: %d\n", u->best_pos);
 	if (ret == 0)
 	{
 		u->best_pos = 0;
@@ -335,23 +335,32 @@ void	place_piece(t_struct *u)
 		}
 		u->best_pos--;	// -----------------MAYBE REMOVE-----------------
 	}
-	u->i = -1;
+	// u->i = -1;
 	// while (++u->i < u->piece.total)
 	// {
 	// 	printf("%d ", solutions[u->i][0]);
 	// 	printf("%d\n", solutions[u->i][1]);
 	// }
-	printf("%d %d\n", u->sol_x, u->sol_y);
-	printf("%d\n", ret);
+	//printf("%d %d\n", u->sol_x, u->sol_y);
+	if (ret == 0)
+	{
+		if (!other_place(u))
+		{
+			ft_putnbr(0);
+			ft_putchar(' ');
+			ft_putnbr(0);
+			ft_putchar('\n');
+		}
+	}
 	if (ret != 0)
 	{
 		best_sol_i = find_best_sol(u, solutions);
 		u->sol_x = u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0];
 		u->sol_y = u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1];
 		//printf("%d %d\n", u->sol_x, u->sol_y);
-		if (u->sol_y > 0 && u->sol_x > 0)
-		 	u->h_map[u->sol_y][u->sol_x] = -1;
-		u->h_map[u->trimmed_pos[u->best_pos][1]][u->trimmed_pos[u->best_pos][0]] = -2;
+		// if (u->sol_y > 0 && u->sol_x > 0)
+		//  	u->h_map[u->sol_y][u->sol_x] = -1;
+		// u->h_map[u->trimmed_pos[u->best_pos][1]][u->trimmed_pos[u->best_pos][0]] = -2;
 	}
 	//printf("ERROR: %d %d\n", u->trimmed_pos[u->best_pos][0], u->trimmed_pos[u->best_pos][1]);
 }

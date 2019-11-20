@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/20 12:51:52 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 15:07:15 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int		set_my_pos(t_struct *u)
 	iter = 0;
 	found = 0;
 	i = (u->my_c[0] == 'o') ? u->first_o.y - 1 : u->first_x.y - 1;
+	printf("BEFORE\n");
+	printf("%d\n", u->piece.coord[0][0]);
 	while (++i < u->map_h)
 	{
 		j = -1;
@@ -61,6 +63,8 @@ int		set_my_pos(t_struct *u)
 		if (found == 0)
 			break ;
 	}
+	printf("AFTER\n");
+	printf("%d\n", u->piece.coord[0][0]);
 	return (iter);
 }
 
@@ -174,7 +178,7 @@ int		main(int argc, char **argv)
 	t_struct u;
 	int print;
 
-	print = 1;
+	print = 0;
 	// while (1)
 	// {
 		if (init_parse(&u, argv[1]) == -1)
