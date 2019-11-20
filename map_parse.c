@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_stuff.c                                        :+:      :+:    :+:   */
+/*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 13:57:26 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/06 13:57:35 by lutomasz         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:05:31 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int			**map_cpy_int(char **map, int width, int height)
 			{
 				free_double_int(h_map, i - 1);
 				return (0);
-			}	
+			}
 		}
 		set_tab_int2_to_zero(h_map, width, height);
 		return (h_map);
@@ -168,15 +168,15 @@ void		free_unset_tab(char **str, int cnt)
 	free(str);
 }
 
-char		**get_map(t_struct *u)
+int		get_map(t_struct *u)
 {
-	char	**tmp;
+	// char	**tmp;
 	int		i;
 	char	*line;
 
 	if (u->map_h != 0 && u->map_w != 0)
-		if (!(tmp = (char**)malloc(sizeof(char*) * u->map_h + 1)))
-			return (NULL);
+		if (!(u->map = (char**)malloc(sizeof(char*) * u->map_h + 1)))
+			return (0);
 	get_next_line(u->fd, &line);
 	//printf("here\n");
 	free(line);
@@ -184,20 +184,20 @@ char		**get_map(t_struct *u)
 	while (i < u->map_h)
 	{
 		get_next_line(u->fd, &line);
-		//printf("here\n");
-		if (!(tmp[i] = copy_line(line)))
+		if (!(u->map[i] = copy_line(line)))
 		{
 			free(line);
-			free_unset_tab(tmp, i - 1);
-			return (NULL);
-		}	
+			free_unset_tab(u->map, i - 1);
+			return (0);
+		}
 		free(line);
 		i++;
 	}
-	tmp[i] = 0;
-	analyse_tab(tmp, u);
-	u->h_map = map_cpy_int(tmp, u->map_w, u->map_h);
+	u->map[i] = 0;
+	//ft_print_tab2(u->map);
+	analyse_tab(u->map, u);
+	u->h_map = map_cpy_int(u->map, u->map_w, u->map_h);
 	if (u->h_map == 0)
-		free_str2(tmp);
-	return (tmp);
+		free_str2(u->map);
+	return (1);
 }

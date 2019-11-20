@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/19 17:29:42 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 12:04:45 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int init_parse(t_struct *u, char *av)
 		return (-1); //print error //read only once
 	}
 	//printf("here\n");
-	if (!(u->map = get_map(u)))
+	if (get_map(u) == 0)
 	{
 		printf("map_error\n");
 		return (-1);
@@ -191,8 +191,8 @@ int		main(int argc, char **argv)
 		// set_me_his(&u);
 		// //ft_print_tab2(u.map);
 		// set_players_pos(&u);
-		if (print)
-			ft_print_tab2(u.map);
+		//if (print)
+		ft_print_tab2(u.map);
 		printf("here\n");
 		//print_int2(u.h_map, u.map_w, u.map_h);
 		// ft_print_tab2(u.map);

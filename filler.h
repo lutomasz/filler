@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/18 14:15:34 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 12:03:18 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef struct 	s_struct
 	int				sol_x;
 	int				sol_y;
 	int				placed_one;
-	
+
 	t_piece 		piece;
 	t_shift			shift;
 	t_first_o 		first_o;
@@ -132,7 +132,7 @@ typedef struct 	s_struct
 
 int			init_utils(t_struct *u, char *map);
 int			ft_get_size_map(t_struct *utils);
-char		**get_map(t_struct *utils);
+int			get_map(t_struct *utils);
 int			get_piece(t_struct *utils);
 char		**make_heatmap(t_struct *u, int num, int xx, int yy);
 void		set_me_his(t_struct *u);
