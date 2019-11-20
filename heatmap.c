@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 13:25:51 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/20 14:27:06 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 16:34:47 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 		++ret;
 		++num;
 		//printf("ret = %d\n", ret);
-		if (ret == 50)
+		if (ret == u->map_h + u->map_w)
 			break ;
 	}
 	//printf("END\n");

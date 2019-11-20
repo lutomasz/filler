@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/20 15:07:15 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 16:35:12 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int		set_my_pos(t_struct *u)
 	iter = 0;
 	found = 0;
 	i = (u->my_c[0] == 'o') ? u->first_o.y - 1 : u->first_x.y - 1;
-	printf("BEFORE\n");
-	printf("%d\n", u->piece.coord[0][0]);
 	while (++i < u->map_h)
 	{
 		j = -1;
@@ -56,15 +54,14 @@ int		set_my_pos(t_struct *u)
 			if (is_me(u, u->map[i][j]) && ++found)
 			{
 				u->possible_pos[iter][0] = j;
-				u->possible_pos[iter++][1] = i;
-				u->possible_pos[iter - 1][2] = find_smallest_val(u, iter - 1);
+				u->possible_pos[iter][1] = i;
+				u->possible_pos[iter][2] = find_smallest_val(u, iter);
+				iter++;
 			}
 		}
 		if (found == 0)
 			break ;
 	}
-	printf("AFTER\n");
-	printf("%d\n", u->piece.coord[0][0]);
 	return (iter);
 }
 
@@ -146,7 +143,6 @@ int init_parse(t_struct *u, char *av)
 	if ((ft_get_size_map(u)) == -1)
 	{
 		printf("map_error\n");
-
 		return (-1); //print error //read only once
 	}
 	//printf("here\n");
@@ -179,13 +175,14 @@ int		main(int argc, char **argv)
 	int print;
 
 	print = 0;
-	// while (1)
-	// {
+	while (1)
+	{
 		if (init_parse(&u, argv[1]) == -1)
 		{
 			printf("error parse\n");
 			return (-1);
 		}
+		u.possible_pos = malloc_2d_int_arr(u.possible_pos, u.map_h * u.map_w, 3);
 		set_me_his(&u);
 			//ft_print_tab2(u.map);
 		set_players_pos(&u);
@@ -244,7 +241,7 @@ int		main(int argc, char **argv)
 		 	// 	ft_print_tab2(u.shape);
 			print_int2(u.h_map, u.map_w, u.map_h);
 		}
-	// }
+	}
 // =======
 // 		if (u.piece.total > 0)
 // 			ft_print_tab2(u.shape);;

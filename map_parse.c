@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 13:57:26 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/20 12:05:31 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 16:33:02 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,8 @@ int			ft_get_size_map(t_struct *u)
 {
 	char	*line;
 
-	//printf("DSDJSDLJSDKSLD\n");
 	while ((get_next_line(u->fd, &line) > 0))
 	{
-		//printf("here\n");
 		if (*line < 1)
 		{
 			usage();

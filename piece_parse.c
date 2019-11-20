@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:02:11 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/20 12:30:54 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 15:55:34 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 **	get coordonates of every star of the piece and put in into a int[][] array
 */
 
-int			**get_coordonates(t_struct *u)
+int			get_coordonates(t_struct *u)
 {
 	int i;
 	int x;
 	int y;
-	int **coord;
+	//int **coord;
 
-	if (!(coord = (int**)malloc(sizeof(int*) * u->piece.total)))
+	if (!(u->piece.coord = (int**)malloc(sizeof(int*) * u->piece.total)))
 		return (0);
 	i = 0;
 	y = -1;
@@ -34,18 +34,19 @@ int			**get_coordonates(t_struct *u)
 		{
 			if (u->tmp_shape[y][x] == '*')
 			{
-				if (!(coord[i] = (int*)malloc(sizeof(int) * (2))))
+				if (!(u->piece.coord[i] = (int*)malloc(sizeof(int) * (2))))
 				{
-					free_double_int(coord, i - 1);
+					free_double_int(u->piece.coord, i - 1);
 					return (0);
 				}
-				coord[i][0] = x;
-				coord[i][1] = y;
+				u->piece.coord[i][0] = x;
+				u->piece.coord[i][1] = y;
 				i++;
 			}
 		}
 	}
-	return (coord);
+	// print_int2(u->piece.coord, 2, u->piece.total);
+	return (1);
 }
 
 /*
@@ -169,7 +170,8 @@ int			get_piece(t_struct *u)
 	u->tmp_shape[i] = 0;
 	if (!(analyse_piece(u->tmp_shape, u)))
 		return (-1);
-	u->piece.coord = get_coordonates(u);
+	// u->piece.coord = get_coordonates(u);
+	get_coordonates(u);
 	if (u->piece.coord == 0)
 		return (-1);
 	return (1);
