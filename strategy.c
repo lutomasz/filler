@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/20 12:33:24 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 13:56:11 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,6 @@ int		place_all_poss(t_struct *u, int solutions[u->piece.total][2])
 		// ++u->curr_piece_fulcrum;
 		//place_all_poss(u, solutions);
 	}
-
 	return (u->placed_one);
 
 
@@ -342,6 +341,8 @@ void	place_piece(t_struct *u)
 	// 	printf("%d ", solutions[u->i][0]);
 	// 	printf("%d\n", solutions[u->i][1]);
 	// }
+	printf("%d %d\n", u->sol_x, u->sol_y);
+	printf("%d\n", ret);
 	if (ret != 0)
 	{
 		best_sol_i = find_best_sol(u, solutions);
