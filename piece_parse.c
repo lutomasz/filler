@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piece_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:02:11 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/06 14:02:12 by lutomasz         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:30:54 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,24 +94,24 @@ int			analyse_piece(char **piece, t_struct *u)
 	u->shift.right = u->piece.w - 1 - u->piece.last_y;
 	u->shift.up = u->piece.first_x;
 	u->shift.left = u->piece.first_y;
-	if (u->piece.total > 0)
-	{
-		i = 0;
-		if (!(u->shape = (char**)malloc(sizeof(char*) *
-			(u->piece.h - u->shift.up + 1 - u->shift.down))))
-			return (-1);
-		while (i < u->piece.h - u->shift.up)
-		{
-			if (!(u->shape[i] = ft_strsub(u->tmp_shape[i + u->shift.up],
-				u->shift.left, u->piece.w - u->shift.right)))
-			{
-				free_unset_tab(u->shape, i - 1);
-				return (-1);
-			}	
-			i++;
-		}
-		u->shape[i] = 0;
-	}
+	// if (u->piece.total > 0)
+	// {
+	// 	i = 0;
+	// 	if (!(u->shape = (char**)malloc(sizeof(char*) *
+	// 		(u->piece.h - u->shift.up + 1 - u->shift.down))))
+	// 		return (-1);
+	// 	while (i < u->piece.h - u->shift.up)
+	// 	{
+	// 		if (!(u->shape[i] = ft_strsub(u->tmp_shape[i + u->shift.up],
+	// 			u->shift.left, u->piece.w - u->shift.right)))
+	// 		{
+	// 			free_unset_tab(u->shape, i - 1);
+	// 			return (-1);
+	// 		}
+	// 		i++;
+	// 	}
+	// 	//u->shape[i] = 0;
+	// }
 	return (1);
 }
 
@@ -162,7 +162,7 @@ int			get_piece(t_struct *u)
 			free(line);
 			free_unset_tab(u->tmp_shape, i - 1);
 			return (0);
-		}	
+		}
 		i++;
 		free(line);
 	}
@@ -170,7 +170,7 @@ int			get_piece(t_struct *u)
 	if (!(analyse_piece(u->tmp_shape, u)))
 		return (-1);
 	u->piece.coord = get_coordonates(u);
-	if (u->piece.coord == 0)	
+	if (u->piece.coord == 0)
 		return (-1);
 	return (1);
 }

@@ -1,20 +1,20 @@
 Plateau 15 17:
-	01234567890123456
+    01234567890123456
 000 .................
 001 .................
-002 .............O...
-003 ............OO...
-004 ..........OOOXXXX
-005 ...........OOXXXX
-006 ..........OOOXXXX
-007 ...OOOOOO.OOOXXXX
-008 ..OO....O..OOXXXX
-009 ..O.....OOOOOOXXX
-010 ...........OOXXXX
-011 .......OOOOOOXXXX
-012 ..OOOOOOOOOXXXXXX
-013 .xOOOOOOXXXXXXXXX
-014 XxXXXXXXXXXXXXXXX
+002 .................
+003 .................
+004 .................
+005 .................
+006 .................
+007 ....OO.......XXX.
+008 ..OOOOOO.....XXXX
+009 ...OO..OO.O...XXX
+010 ...OO...OOOOOOXXX
+011 OOOOOOOOOOOOOOXXX
+012 ..OOO.O.O.XXXXXXX
+013 ..XXXxXXXXXXXXXXX
+014 .....xXXXXXXXXXXX
 Piece 2 2:
 **
-..
+**

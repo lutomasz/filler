@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/20 12:04:45 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/20 12:51:52 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	free_all(t_struct *u)
 	//free(u->trimmed_pos);
 	//free char**
 	free_str2(u->tmp_shape);
-	free_str2(u->shape);
+	//free_str2(u->shape);
 	free_str2(u->map);
 
 }
@@ -191,9 +191,8 @@ int		main(int argc, char **argv)
 		// set_me_his(&u);
 		// //ft_print_tab2(u.map);
 		// set_players_pos(&u);
-		//if (print)
-		ft_print_tab2(u.map);
-		printf("here\n");
+		if (print)
+			ft_print_tab2(u.map);
 		//print_int2(u.h_map, u.map_w, u.map_h);
 		// ft_print_tab2(u.map);
 		u.map = get_heatmap(&u);
@@ -202,19 +201,21 @@ int		main(int argc, char **argv)
 	//printf("ok\n");
 		u.num_me = set_my_pos(&u);
 		int i = -1;
-		while (++i < u.num_me)
-		{
-			printf("%d ", u.possible_pos[i][0]);
-			printf("%d ", u.possible_pos[i][1]);
-			printf("%d\n", u.possible_pos[i][2]);
-		}
+		// while (++i < u.num_me)
+		// {
+		// 	printf("%d ", u.possible_pos[i][0]);
+		// 	printf("%d ", u.possible_pos[i][1]);
+		// 	printf("%d\n", u.possible_pos[i][2]);
+		// }
+		//printf("dsad\n");
 		u.num_me = trim_pos(&u);
 		//
 		//	maybe piece does not touch min around best pos
 		//
-		if (print)
-			if (u.piece.total > 0)
-				ft_print_tab2(u.shape);;
+		// if (print)
+		// 	if (u.piece.total > 0)
+		// 		ft_print_tab2(u.shape);;
+		//printf("FUCK\n");
 		select_pos(&u);
 		// printf("ok\n");
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
@@ -235,8 +236,8 @@ int		main(int argc, char **argv)
 	// printf("%s\n", "SHAPE");
 		if (print)
 		{
-			if (u.piece.total > 0)
-		 		ft_print_tab2(u.shape);
+			// if (u.piece.total > 0)
+		 	// 	ft_print_tab2(u.shape);
 			print_int2(u.h_map, u.map_w, u.map_h);
 		}
 	// }
