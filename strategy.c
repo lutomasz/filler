@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/20 14:20:56 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/24 16:36:22 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,7 @@ int		find_best_sol(t_struct *u, int solutions[u->piece.total][2])
 	return (i);
 }
 
-void	place_piece(t_struct *u)
+int		place_piece(t_struct *u)
 {
 	int solutions[u->piece.total][2];	// 0-> min num && 1 -> cardinality
 	int best_sol_i;
@@ -350,6 +350,7 @@ void	place_piece(t_struct *u)
 			ft_putchar(' ');
 			ft_putnbr(0);
 			ft_putchar('\n');
+			return (0);
 		}
 	}
 	if (ret != 0)
@@ -362,5 +363,6 @@ void	place_piece(t_struct *u)
 		//  	u->h_map[u->sol_y][u->sol_x] = -1;
 		// u->h_map[u->trimmed_pos[u->best_pos][1]][u->trimmed_pos[u->best_pos][0]] = -2;
 	}
+	return (1);
 	//printf("ERROR: %d %d\n", u->trimmed_pos[u->best_pos][0], u->trimmed_pos[u->best_pos][1]);
 }
