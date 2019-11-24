@@ -18,7 +18,7 @@
 **	the fonction stops when "plateau" is found or end of file
 */
 
-int			read_map_data(char *line, t_struct *u)
+int			read_map_data(char *line, t_struct *u, int *i)
 {
 	if (ft_strncmp(line, "Plateau", 6) == 0 ||
 		ft_strncmp(line, "plateau", 6) == 0)
@@ -27,11 +27,13 @@ int			read_map_data(char *line, t_struct *u)
 	{
 		if (ft_strstr(line, "p1"))
 		{
-			u->player1 = 1;
+			*i = 1;
+			//u->player1 = 1;
 		}
 		if (ft_strstr(line, "p2"))
 		{
-			u->player1 = 0;
+			*i = 0;
+			//u->player1 = 0;
 		}
 		free(line);
 	}
@@ -90,7 +92,7 @@ void		get_width_height_map(char *line, t_struct *u)
 	u->map_w = ft_atoi(line + i);
 }
 
-int			ft_get_size_map(t_struct *u)
+int			ft_get_size_map(t_struct *u, int *i)
 {
 	char	*line;
 
@@ -101,7 +103,7 @@ int			ft_get_size_map(t_struct *u)
 			usage();
 			return (-1);
 		}
-		if (read_map_data(line, u) == 0)
+		if (read_map_data(line, u, i) == 0)
 			break ;
 	}
 	if (!(ft_strncmp(line, "Plateau", 6) == 0) &&
