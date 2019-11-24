@@ -133,14 +133,14 @@ void	free_all(t_struct *u)
 
 }
 
-int init_parse(t_struct *u, char *av)
+int init_parse(t_struct *u, char *av, int *i)
 {
 	if (init_utils(u, av) == -1)
 	{
 		printf("ERROR INIT\n");
 		return (-1);
 	}
-	if ((ft_get_size_map(u)) == -1)
+	if ((ft_get_size_map(u, i)) == -1)
 	{
 		printf("map_error\n");
 		return (-1); //print error //read only once
@@ -173,15 +173,18 @@ int		main(int argc, char **argv)
 {
 	t_struct u;
 	int print;
+	static int i;
 
+	i = 0;
 	print = 0;
 	while (1)
 	{
-		if (init_parse(&u, argv[1]) == -1)
+		if (init_parse(&u, argv[1], &i) == -1)
 		{
 			printf("error parse\n");
 			return (-1);
 		}
+		u.player1 = i;
 		u.possible_pos = malloc_2d_int_arr(u.possible_pos, u.map_h * u.map_w, 3);
 		set_me_his(&u);
 			//ft_print_tab2(u.map);

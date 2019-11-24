@@ -132,7 +132,7 @@ typedef struct 	s_struct
 }				t_struct;
 
 int			init_utils(t_struct *u, char *map);
-int			ft_get_size_map(t_struct *utils);
+int			ft_get_size_map(t_struct *utils, int *i);
 int			get_map(t_struct *utils);
 int			get_piece(t_struct *utils);
 char		**make_heatmap(t_struct *u, int num, int xx, int yy);
