@@ -1,6 +1,8 @@
 #include "filler.h"
 
-//il faut trouver un moyen d adapter ca en fonction des strategies
+/*
+** il faut trouver un moyen d adapter ca en fonction des strategies
+*/
 
 int		check_piece_values(t_struct *u, int x_place, int y_place)
 {
@@ -34,75 +36,77 @@ int		check_piece_values(t_struct *u, int x_place, int y_place)
 
 }
 
+int 	check_possibilities(t_struct *u, int x_map, int y_map)
+{
+	int x;
+	int y;
+	int cnt;
+
+	cnt = 0;
+	y = y_map - 1;
+
+	while (y <= (y_map + 1) && y < u->map_h)
+	{
+		x = x_map - 1;
+		while (x <= (x_map + 1))
+		{
+			if ((y >= 0 && x >= 0) && (y < u->map_h && x < u->map_w)
+					&& (u->map[y][x] == ',' || u->map[y][x] == '.'))
+			{
+				return (1);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (0);
+
+}
+
+/*
+**	y_place_start && x_place_start need -1 but it s directly added in the loop
+*/
+
 int 	check_if_match(t_struct *u, int x_map, int y_map)
 {
 	int x_place_start;
 	int y_place_start;
-	// int x_place_end;
-	// int y_place_end;
 
-	//ft_print_tab2(u->map);
-
-	y_place_start = y_map - (u->piece.h); // -1 but added in while
+	y_place_start = y_map - (u->piece.h);
 	while (++y_place_start < (y_map + u->piece.h))
 	{
-		x_place_start = x_map - (u->piece.w); // -1 but added in while
+		x_place_start = x_map - (u->piece.w);
 		while (++x_place_start < (x_map + u->piece.w))
 		{
-			//printf("here2\n");
-			// printf("x_place_start = %d\n", x_place_start);
-			// printf("y_place_start = %d\n", y_place_start);
-			if (check_piece_values(u, x_place_start, y_place_start) == 1)
-			{
-
-				//printf("ok\n");
-				u->sol_x = x_place_start;
-				u->sol_y = y_place_start;
-				return (1);
-			}
+				if (check_possibilities(u, x_map, y_map) == 1)
+				{
+					if (check_piece_values(u, x_place_start, y_place_start) == 1)
+					{
+						u->sol_x = x_place_start;
+						u->sol_y = y_place_start;
+						return (1);
+					}
+				}
 		}
-		//printf("CNT = %d\n", cnt);
 	}
 	return (0);
-
-
-	// while (++i < u->piece.total)
-	// {
-
-	// }
 }
 
-void	print_solution(t_struct *u)
+int		update_y(t_struct *u, int y)
 {
-	ft_putnbr(u->sol_y);
-	ft_putchar(' ');
-	ft_putnbr(u->sol_y);
-	ft_putchar('\n');
-}
+	int x;
 
-int		check_free_spaces(t_struct *u)
-{
-	int i;
-	int j;
-
-	i = -1;
-
-	while (++i < u->map_h / 2)
+	while (y < u->map_h)
 	{
-		j = -1;
-		//printf("n1 (%d)\n", i);
-		while (++j < u->map_w)
-		{
-		//	printf("n2 (%d)\n", j);
-			//printf("map_val: %d\n", u->map[i][j]);
-			if (u->map[i][j] == '.')
-			{
-			//	printf("n3\n");
-				return (0);
-			}
-		}
+		x = -1;
+		while (++x < u->map_w)
+			if (u->map[y][x] == '.')
+				return (y);
+		y++;
 	}
-	return (1);
+	if (y - u->piece.h >= 0)
+		return (y - u->piece.h);
+	return (0);
 }
 
 int		other_place(t_struct *u)
