@@ -14,13 +14,13 @@
 
 int		init_utils(t_struct *u, char *map)
 {
-	// if ((u->fd = open(map, O_RDONLY)) < 0)
-	// {
-	// 	printf("ERROR FD\n");
-	// 	return (-1);
-	// }
-	map = NULL;
-	u->fd = 0;
+	if ((u->fd = open(map, O_RDONLY)) < 0)
+	{
+		printf("ERROR FD\n");
+		return (-1);
+	}
+	// map = NULL;
+	// u->fd = 0;
 
 	u->x_sol = -111;
 	u->y_sol = -111;

@@ -177,7 +177,7 @@ int		main(int argc, char **argv)
 	int is_opp_enclosed;
 
 	i = 0;
-	print = 0;
+	print = 1;
 	is_opp_enclosed = 0;
 	while (1)
 	{
@@ -186,7 +186,7 @@ int		main(int argc, char **argv)
 			printf("error parse\n");
 			return (-1);
 		}
-		u.player1 = (print) ? 1 : i;
+		u.player1 = (print) ? 0 : i;
 		u.possible_pos = malloc_2d_int_arr(u.possible_pos, u.map_h * u.map_w, 3);
 		set_me_his(&u);
 		set_players_pos(&u);

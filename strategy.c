@@ -281,6 +281,7 @@ int		find_best_sol(t_struct *u, int solutions[u->piece.total][2])
 	int min;
 
 
+	printf("ok\n");
 	// int i = -1;
 	i = -1;
 	// printf("----------\n");
@@ -392,14 +393,13 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 		}
 	}
 	cheat = 0;
-	// printf("x: %d\n", u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0]);
-	// printf("y: %d\n", u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1]);
-	// printf("r: %d\n", ret);
+	printf("r: %d\n", ret);
 	if (ret == 0 || (u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0] <= 5 && u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1] <= 5))
 	{
 		cheat = 1;
 		if (!other_place(u))
 		{
+			printf("check\n");
 			ft_putnbr(0);
 			ft_putchar(' ');
 			ft_putnbr(0);
@@ -409,10 +409,13 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 	}
 	if (ret != 0 && !cheat)
 	{
+		printf("x: %d\n", u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0]);
+		printf("y: %d\n", u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1]);
 		best_sol_i = find_best_sol(u, solutions);
 		u->sol_x = u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0];
+		printf("ok\n");
 		u->sol_y = u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1];
-		//printf("%d %d\n", u->sol_x, u->sol_y);
+		printf("%d %d\n", u->sol_x, u->sol_y);
 		// if (u->sol_y > 0 && u->sol_x > 0)
 		//  	u->h_map[u->sol_y][u->sol_x] = -1;
 		// u->h_map[u->trimmed_pos[u->best_pos][1]][u->trimmed_pos[u->best_pos][0]] = -2;
