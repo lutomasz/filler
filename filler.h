@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/20 16:32:00 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/25 14:24:22 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int			place_all_poss(t_struct *u, int solutions[u->piece.total][2]);
 void		usage(void);
 void		analyse_tab(char **tab, t_struct *u);
 char		*copy_line(char *str);
-void		place_piece(t_struct *u);
+int			place_piece(t_struct *u, int *is_opp_enclosed);
 void		free_unset_tab(char **str, int cnt);
 void		free_str2(char **str);
 void		free_double_int(int **str, int elements);

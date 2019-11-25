@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/24 16:37:28 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/25 15:16:31 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,101 +174,46 @@ int		main(int argc, char **argv)
 	t_struct u;
 	int print;
 	static int i;
+	int is_opp_enclosed;
 
 	i = 0;
-	print = 0;
-	while (1)
-	{
+	print = 1;
+	is_opp_enclosed = 0;
+	// while (1)
+	// {
 		if (init_parse(&u, argv[1], &i) == -1)
 		{
 			printf("error parse\n");
 			return (-1);
 		}
-		u.player1 = i;
+		// u.player1 = (print) ? 1 : i;
+		u.player1 = 1;
 		u.possible_pos = malloc_2d_int_arr(u.possible_pos, u.map_h * u.map_w, 3);
 		set_me_his(&u);
-			//ft_print_tab2(u.map);
 		set_players_pos(&u);
-		//print_int2(u.h_map, u.map_w, u.map_h);
-		//u.player1 = 1;		// REMOVE
-		//printf("%d\n", u.player1);
-		// set_me_his(&u);
-		// //ft_print_tab2(u.map);
-		// set_players_pos(&u);
 		if (print)
 			ft_print_tab2(u.map);
-		//print_int2(u.h_map, u.map_w, u.map_h);
-		// ft_print_tab2(u.map);
 		u.map = get_heatmap(&u);
 		if (print)
-			ft_print_tab2(u.map);
-	//printf("ok\n");
+		{
+			printf("\n\n");
+			ft_print_tab2(u.tmp_shape);
+			printf("\n\n");
+		}
 		u.num_me = set_my_pos(&u);
-		//int i = -1;
-		// while (++i < u.num_me)
-		// {
-		// 	printf("%d ", u.possible_pos[i][0]);
-		// 	printf("%d ", u.possible_pos[i][1]);
-		// 	printf("%d\n", u.possible_pos[i][2]);
-		// }
-		//printf("dsad\n");
 		u.num_me = trim_pos(&u);
-		//
-		//	maybe piece does not touch min around best pos
-		//
-		// if (print)
-		// 	if (u.piece.total > 0)
-		// 		ft_print_tab2(u.shape);;
-		//printf("FUCK\n");
 		select_pos(&u);
-		// printf("ok\n");
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
 			return (-1);
-		// other_place(&u);
-		if (place_piece(&u))
+		if (place_piece(&u, &is_opp_enclosed))
 		{
 			ft_putnbr(u.sol_y);
 			ft_putchar(' ');
 			ft_putnbr(u.sol_x);
 			ft_putchar('\n');
 		}
-		// printf("%d %d\n", u.sol_y, u.sol_x);
-		//free_all(&u);
-	// printf("\n%s\n", "PIECE");
-
-	// ft_print_tab2(u.tmp_shape);
-	// printf("\n");
-
-	// printf("%s\n", "SHAPE");
-		if (print)
-		{
-			// if (u.piece.total > 0)
-		 	// 	ft_print_tab2(u.shape);
-			print_int2(u.h_map, u.map_w, u.map_h);
-		}
-	}
-// =======
-// 		if (u.piece.total > 0)
-// 			ft_print_tab2(u.shape);;
-// 		printf("ok\n");
-// 		select_pos(&u);
-// 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
-// 			return (-1);
-// 		place_piece(&u);
-// 	}
-// 	else
-// 	{
-// 		printf("wrong number of params\n");
-// 		return (0);
-// 	}
-// 	ft_print_tab2(u.tmp_shape);
-// 	printf("\n");
-// >>>>>>> 496a58a0099eb210a51994fcfabb0bd1a9d52a7a
-
-	//sleep(1);
-
+	// }
 	return (0);
-	//ft_print_tab2(u->map);
 }
 
 /*
