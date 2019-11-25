@@ -1,8 +1,1 @@
-seed = 8569
-X: error on input
-players/filler.lupozzi: Segfault at 43
-O: error on input
-players/filler.lupozzi: Segfault at 76
-players/filler.lupozzi won
-Score:
-76AGAINST43
+seed = 2965

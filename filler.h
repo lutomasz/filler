@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/25 14:24:22 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/25 17:25:19 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int			is_me(t_struct *u, char c);
 int			no_dots(t_struct *u);
 void		update_adj_nbrs(t_struct *u, int num, int x, int y);
 void		select_pos(t_struct *u);
-int			place_all_poss(t_struct *u, int solutions[u->piece.total][2]);
+int			place_all_poss(t_struct *u, int **solutions);
 void		usage(void);
 void		analyse_tab(char **tab, t_struct *u);
 char		*copy_line(char *str);

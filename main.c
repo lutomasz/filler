@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/25 16:06:37 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/25 18:06:04 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int		main(int argc, char **argv)
 	int is_opp_enclosed;
 
 	i = 0;
-	print = 1;
+	print = 0;
 	is_opp_enclosed = 0;
 	while (1)
 	{
