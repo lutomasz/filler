@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/25 15:21:38 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/25 16:06:28 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,6 @@ int		atleast_one_placed(t_struct *u)
 int		place_all_poss(t_struct *u, int solutions[u->piece.total][2])
 {
 	u->curr_piece_fulcrum = -1;
-	u->map[u->trimmed_pos[u->best_pos][1]][u->trimmed_pos[u->best_pos][0]] = '3';
 	while (++u->curr_piece_fulcrum < u->piece.total)
 	{
 		set_max_distances(u);
@@ -368,6 +367,7 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 	int solutions[u->piece.total][2];	// 0-> min num && 1 -> cardinality
 	int best_sol_i;
 	int ret;
+	int cheat;
 
 	u->i = -1;
 	while (++u->i < u->piece.total)
@@ -391,8 +391,13 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 			u->best_pos--;	// -----------------MAYBE REMOVE-----------------
 		}
 	}
-	if (ret == 0)
+	cheat = 0;
+	// printf("x: %d\n", u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0]);
+	// printf("y: %d\n", u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1]);
+	// printf("r: %d\n", ret);
+	if (ret == 0 || (u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0] <= 5 && u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1] <= 5))
 	{
+		cheat = 1;
 		if (!other_place(u))
 		{
 			ft_putnbr(0);
@@ -402,7 +407,7 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 			return (0);
 		}
 	}
-	if (ret != 0)
+	if (ret != 0 && !cheat)
 	{
 		best_sol_i = find_best_sol(u, solutions);
 		u->sol_x = u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0];
