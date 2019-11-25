@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/25 15:14:01 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/25 15:21:38 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,7 +378,6 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 	u->placed_one = 0;
 	if (is_not_enclosed(u, is_opp_enclosed))
 	{
-		printf("REEEEE\n");
 		ret = place_all_poss(u, solutions);
 		// //printf("best_pos: %d\n", u->best_pos);
 		if (ret == 0)
@@ -392,10 +391,8 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 			u->best_pos--;	// -----------------MAYBE REMOVE-----------------
 		}
 	}
-	printf("ret: %d\n", ret);
 	if (ret == 0)
 	{
-		printf("here\n");
 		if (!other_place(u))
 		{
 			ft_putnbr(0);
