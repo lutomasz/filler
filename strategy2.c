@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 20:26:51 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/28 20:27:30 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/28 20:56:03 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ int		tmp_place_all(t_struct *u, int **solutions)
 			if (u->h_map[u->y + (u->origin_y - u->piece.coord[u->i][1]) * -1]
 						[u->x + (u->origin_x - u->piece.coord[u->i][0]) * -1]
 						< solutions[u->curr_piece_fulcrum][0])
-			{
 				solutions[u->curr_piece_fulcrum][0] = u->h_map
 				[u->y + (u->origin_y - u->piece.coord[u->i][1]) * -1]
 				[u->x + (u->origin_x - u->piece.coord[u->i][0]) * -1];
-			}
 	if (solutions[u->curr_piece_fulcrum][0] == 0)
 		return (0);
 	u->i = -1;
@@ -75,18 +73,18 @@ int		place_all_poss(t_struct *u, int **solutions)
 	u->curr_piece_fulcrum = -1;
 	while (++u->curr_piece_fulcrum < u->piece.total)
 	{
-
 		set_max_distances(u);
-		while ((((u->trimmed_pos[u->best_pos][1] + u->piece.down >= u->map_h)
-				|| (u->trimmed_pos[u->best_pos][1] - u->piece.up < 0)
-				|| (u->trimmed_pos[u->best_pos][0] + u->piece.right >= u->map_w)
-				|| (u->trimmed_pos[u->best_pos][0] - u->piece.left < 0))
-				&& ++u->curr_piece_fulcrum))
-				{
-					if (u->curr_piece_fulcrum == u->piece.total)
-						return (0);
-					set_max_distances(u);
-				}
+		while ((((u->trimmed_pos[u->best_pos][1]
+			+ u->piece.down >= u->map_h)
+			|| (u->trimmed_pos[u->best_pos][1] - u->piece.up < 0)
+			|| (u->trimmed_pos[u->best_pos][0] + u->piece.right >= u->map_w)
+			|| (u->trimmed_pos[u->best_pos][0] - u->piece.left < 0))
+			&& ++u->curr_piece_fulcrum))
+		{
+			if (u->curr_piece_fulcrum == u->piece.total)
+				return (0);
+			set_max_distances(u);
+		}
 		tmp_place_all(u, solutions);
 	}
 	return (u->placed_one);
@@ -138,7 +136,6 @@ int		find_best_sol(t_struct *u, int **solutions)
 	int num_best;
 	int min;
 
-
 	i = -1;
 	min = INT_MAX;
 	while (++i < u->piece.total)
@@ -153,7 +150,7 @@ int		find_best_sol(t_struct *u, int **solutions)
 		trim_to_min_highest_occurance(u, solutions, min);
 	i = -1;
 	while (++i < u->piece.total)
-		if(solutions[i][0] == min)
+		if (solutions[i][0] == min)
 			break ;
 	return (i);
 }

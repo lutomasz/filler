@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/28 20:35:57 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/28 20:55:40 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 	u->placed_one = 0;
 	if (is_not_enclosed(u, is_opp_enclosed))
 	{
-		u->ret = place_all_poss(u, solutions);
-		if (u->ret == 0)
+		if ((u->ret = place_all_poss(u, solutions)) == 0)
 		{
 			u->best_pos = 0;
 			while (u->ret == 0 && u->best_pos < u->num_me)
