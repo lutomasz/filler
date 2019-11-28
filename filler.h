@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/28 20:14:16 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/28 20:37:17 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct 	s_struct
 	int				origin_x;
 	int				origin_y;
 	int				i;
+	int				j;
 	int				sol_x;
 	int				sol_y;
 	int				placed_one;
@@ -137,5 +138,9 @@ int			free_unset_tab(char **str, int cnt, int return_val);
 int			free_str2(char **str, int return_val);
 int			free_double_int(int **str, int elements);
 int			free_all(t_struct *u, int return_val);
+int			find_best_sol(t_struct *u, int **solutions);
+void		init_borders(t_struct *u, int s_x, int s_y);
+int			is_not_enclosed(t_struct *u, int *is_opp_enclosed);
+void		center_borders(t_struct *u, int s_x, int s_y);
 
 #endif
