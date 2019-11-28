@@ -22,11 +22,13 @@ int		find_smallest_val(t_struct *u, int iter)
 	i = (u->possible_pos[iter][1] - 1 >= 0) ? u->possible_pos[iter][1] - 1 : 0;
 	while (i <= u->possible_pos[iter][1] + 1 && i < u->map_h)
 	{
-		j = (u->possible_pos[iter][0] - 1 >= 0) ? u->possible_pos[iter][0] - 1 : 0;
+		j = (u->possible_pos[iter][0] - 1 >= 0)
+			? u->possible_pos[iter][0] - 1 : 0;
 		while (j <= u->possible_pos[iter][0] + 1 && j < u->map_w)
 		{
 			if (!is_me(u, u->map[i][j]))
-				min = (u->h_map[i][j] < min && u->h_map[i][j] != 0) ? u->h_map[i][j] : min;
+				min = (u->h_map[i][j] < min && u->h_map[i][j] != 0)
+				? u->h_map[i][j] : min;
 			++j;
 		}
 		i++;
@@ -43,7 +45,6 @@ int		set_my_pos(t_struct *u)
 	int iter;
 
 	iter = 0;
-	found = 0;
 	i = (u->my_c[0] == 'o') ? u->first_o.y - 1 : u->first_x.y - 1;
 	while (++i < u->map_h)
 	{
@@ -90,74 +91,16 @@ int		trim_pos(t_struct *u)
 	return (j);
 }
 
-void		free_str2(char **str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
-
-void		free_double_int(int **str, int elements)
-{
-	int i;
-
-	i = -1;
-	while (++i < elements && str[i])
-   		free(str[i]);
-	free(str);
-}
-
-void	free_all(t_struct *u)
-{
-	// free(u->h_map);
-	if (u->smallest_val != 0)
-		free(u->smallest_val);
-	//free int **
-	// free_tab((void**)u->h_map);
-	free_double_int(u->h_map, u->map_h);
-	//free_tab((void**)u->piece.coord);
-	free_double_int(u->piece.coord, u->piece.total);
-	//free_tab((void**)u->trimmed_pos);
-	free_double_int(u->trimmed_pos, u->num_of_trims);
-	//free(u->trimmed_pos);
-	//free char**
-	free_str2(u->tmp_shape);
-	//free_str2(u->shape);
-	free_str2(u->map);
-
-}
-
-int init_parse(t_struct *u, char *av, int *i)
+int		init_parse(t_struct *u, char *av, int *i)
 {
 	if (init_utils(u, av) == -1)
-	{
-		printf("ERROR INIT\n");
 		return (-1);
-	}
 	if ((ft_get_size_map(u, i)) == -1)
-	{
-		printf("map_error\n");
-		return (-1); //print error //read only once
-	}
-	//printf("here\n");
+		return (-1);
 	if (get_map(u) == 0)
-	{
-		printf("map_error\n");
 		return (-1);
-	}
-	//u->symbol = 'x';  // X = x + 32
 	if (!(get_piece(u)))
-	{
-		free_all(u);
-		printf("map_error\n");
-		return (-1);
-	}
+		return (free_all(u, -1));
 	return (1);
 }
 
@@ -165,34 +108,30 @@ int init_parse(t_struct *u, char *av, int *i)
 ** main with infinite loop
 */
 
-/*
-** main with infinite loop
-*/
-
 int		main(int argc, char **argv)
 {
-	t_struct u;
-	int print;
-	static int i;
-	int is_opp_enclosed;
+	t_struct	u;
+	int			print;
+	static int	i;
+	int			is_opp_enclosed;
 
 	i = 0;
-	print = 0;
+	print = 1;
 	is_opp_enclosed = 0;
 	while (1)
 	{
 		if (init_parse(&u, argv[1], &i) == -1)
 		{
-			printf("error parse\n");
 			return (-1);
 		}
 		u.player1 = (print) ? 0 : i;
-		u.possible_pos = malloc_2d_int_arr(u.possible_pos, u.map_h * u.map_w, 3);
+		if (!(u.possible_pos = malloc_2d_int_arr(u.possible_pos, u.map_h * u.map_w, 3)))
+			return (-1);
 		set_me_his(&u);
 		set_players_pos(&u);
 		if (print)
 			ft_print_tab2(u.map);
-		u.map = get_heatmap(&u);
+		get_heatmap(&u);
 		if (print)
 		{
 			printf("\n\n");
@@ -210,71 +149,13 @@ int		main(int argc, char **argv)
 			ft_putchar(' ');
 			ft_putnbr(u.sol_x);
 			ft_putchar('\n');
+			return (free_all(&u, 0));
 		}
 		else
 			break ;
 		if (print)
 			break ;
 	}
+	free_all(&u, 0);
 	return (0);
 }
-
-/*
-** old main for debugging
-*/
-
-// int		main(int argc, char **argv)
-// {
-// 	t_struct u;
-
-// 	if (argc == 2)
-// 	{
-// 		if (init_parse(&u, argv[1]) == -1)
-// 		{
-// 			printf("error parse\n");
-// 			return (-1);
-// 		}
-// 		//u.player1 = 1;		// REMOVE
-// 		set_me_his(&u);
-// 		set_players_pos(&u);
-// 		u.map = get_heatmap(&u);
-// 		u.num_me = set_my_pos(&u);
-// 		if (!(u.num_me = trim_pos(&u)))
-// 		{
-// 			free_all(&u);
-// 			return (0);
-// 		}
-// 		select_pos(&u);
-// 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
-// 		{
-// 			free_all(&u);
-// 			return (-1);
-// 		}
-// 		place_piece(&u);
-// 		//printf("ok\n");
-// 		free_all(&u);
-// 		// printf("%d", 0);
-// 		// printf(" ");
-// 		// printf("%d", 0);
-// 		// printf("\n");
-// 		//printf("player = %d\n", u.player1);
-// 		return (1);
-// 	}
-// 	else
-// 	{
-// 		printf("%d", 0);
-// 		printf(" ");
-// 		printf("%d", 0);
-// 		printf("\n");
-// 		//printf("wrong number of params\n");
-// 		return (0);
-// 	}
-// 	ft_print_tab2(u.tmp_shape);
-// 	printf("\n");
-// 	if (u.piece.total > 0)
-// 		ft_print_tab2(u.shape);;
-// 	print_int2(u.h_map, u.map_w, u.map_h);
-// 	free_all(&u);
-// 	return (0);
-// 	//ft_print_tab2(u->map);
-// }

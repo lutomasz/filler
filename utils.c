@@ -58,20 +58,13 @@ int		no_dots(t_struct *u)
 	int j;
 
 	i = -1;
-//	printf("(W,H) := (%d,%d)\n", u->map_w, u->map_h);
 	while (++i < u->map_h)
 	{
 		j = -1;
-		//printf("n1 (%d)\n", i);
 		while (++j < u->map_w)
 		{
-		//	printf("n2 (%d)\n", j);
-			//printf("map_val: %d\n", u->map[i][j]);
 			if (u->map[i][j] == '.')
-			{
-			//	printf("n3\n");
 				return (0);
-			}
 		}
 	}
 	return (1);

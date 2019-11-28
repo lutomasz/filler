@@ -14,14 +14,28 @@
 
 /*
 **	get coordonates of every star of the piece and put in into a int[][] array
+**	will be useful for placing.
 */
+
+void		set_tab_int2_to_zero(int **map, int width, int height)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (++i < height)
+	{
+		j = -1;
+		while (++j < width)
+			map[i][j] = 0;
+	}
+}
 
 int			get_coordonates(t_struct *u)
 {
 	int i;
 	int x;
 	int y;
-	//int **coord;
 
 	if (!(u->piece.coord = (int**)malloc(sizeof(int*) * u->piece.total)))
 		return (0);
@@ -35,17 +49,13 @@ int			get_coordonates(t_struct *u)
 			if (u->tmp_shape[y][x] == '*')
 			{
 				if (!(u->piece.coord[i] = (int*)malloc(sizeof(int) * (2))))
-				{
-					free_double_int(u->piece.coord, i - 1);
-					return (0);
-				}
+					return (free_double_int(u->piece.coord, i - 1));
 				u->piece.coord[i][0] = x;
 				u->piece.coord[i][1] = y;
 				i++;
 			}
 		}
 	}
-	// print_int2(u->piece.coord, 2, u->piece.total);
 	return (1);
 }
 
@@ -80,40 +90,6 @@ void		first_and_last_piece(char **piece, t_struct *u)
 			}
 		}
 	}
-}
-
-/*
-**	get the 'shape' of the piece and all the shifts to work with.
-*/
-
-int			analyse_piece(char **piece, t_struct *u)
-{
-	int i;
-
-	first_and_last_piece(piece, u);
-	u->shift.down = u->piece.h - 1 - u->piece.last_x;
-	u->shift.right = u->piece.w - 1 - u->piece.last_y;
-	u->shift.up = u->piece.first_x;
-	u->shift.left = u->piece.first_y;
-	// if (u->piece.total > 0)
-	// {
-	// 	i = 0;
-	// 	if (!(u->shape = (char**)malloc(sizeof(char*) *
-	// 		(u->piece.h - u->shift.up + 1 - u->shift.down))))
-	// 		return (-1);
-	// 	while (i < u->piece.h - u->shift.up)
-	// 	{
-	// 		if (!(u->shape[i] = ft_strsub(u->tmp_shape[i + u->shift.up],
-	// 			u->shift.left, u->piece.w - u->shift.right)))
-	// 		{
-	// 			free_unset_tab(u->shape, i - 1);
-	// 			return (-1);
-	// 		}
-	// 		i++;
-	// 	}
-	// 	//u->shape[i] = 0;
-	// }
-	return (1);
 }
 
 /*
@@ -157,20 +133,16 @@ int			get_piece(t_struct *u)
 	while (i < u->piece.h)
 	{
 		get_next_line(u->fd, &line);
-		//printf("here\n");
 		if (!(u->tmp_shape[i] = ft_strsub(line, 0, u->piece.w)))
 		{
 			free(line);
-			free_unset_tab(u->tmp_shape, i - 1);
-			return (0);
+			return (free_unset_tab(u->tmp_shape, i - 1, 0));
 		}
 		i++;
 		free(line);
 	}
 	u->tmp_shape[i] = 0;
-	if (!(analyse_piece(u->tmp_shape, u)))
-		return (-1);
-	// u->piece.coord = get_coordonates(u);
+	first_and_last_piece(u->tmp_shape, u);
 	get_coordonates(u);
 	if (u->piece.coord == 0)
 		return (-1);

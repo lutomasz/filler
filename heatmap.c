@@ -30,19 +30,15 @@ void	put_adj_nbrs(t_struct *u, int num, int x, int y)
 						&& !is_enemy(u, u->map[y + i][x + j])
 						&& (y + i >= 0 && x + j >= 0))
 				{
-					//printf("c = %c (%d, %d)\n", u->map[y + i][x + j], y + i, x + j);
 					u->map[y + i][x + j] = ',';
 					u->h_map[y + i][x + j] = num + 1;
 				}
-
 			}
 		}
-		// print_int2(u->h_map, u->map_w, u->map_h);
-		// ft_print_tab2(u->map);
 	}
 }
 
-char	**make_heatmap(t_struct *u, int num, int xx, int yy)
+void	make_heatmap(t_struct *u, int num, int xx, int yy)
 {
 	int x;
 	int y;
@@ -52,36 +48,24 @@ char	**make_heatmap(t_struct *u, int num, int xx, int yy)
 	y = (u->c == u->his_c[1]) ? u->first_en.y : u->last_played_en.y;
 	x = (xx >= 0) ? xx : x;
 	y = (xx >= 0) ? yy : y;
-	//printf("1\n");
 	update_adj_nbrs(u, 1, x, y);
-	//printf("2\n");
 	num = 1;
 	ret = 0;
-	//printf("(W,H) := (%d,%d)\n(x,y) := (%d,%d)\n(xx,yy) := (%d,%d)\n\n", u->map_w, u->map_h, x, y, xx, yy);
-	//printf("%d\n", no_dots(u));
-	while(!no_dots(u))
+	while (!no_dots(u))
 	{
-		//printf("3\n");
 		y = -1;
 		while (++y < u->map_h)
 		{
 			x = -1;
 			while (++x < u->map_w)
-			{
-			//	printf("4\n");
-				//printf("%d\n", u->h_map[y][x]);
 				if (u->h_map[y][x] == num)
 					put_adj_nbrs(u, num, x, y);
-			}
 		}
 		++ret;
 		++num;
-		//printf("ret = %d\n", ret);
 		if (ret == u->map_h + u->map_w)
 			break ;
 	}
-	//printf("END\n");
-	return (u->map);
 }
 
 void	update_adj_nbrs(t_struct *u, int num, int x, int y)
@@ -103,7 +87,7 @@ void	update_adj_nbrs(t_struct *u, int num, int x, int y)
 				if (x + j >= 0 && x + j < u->map_w)
 				{
 					if ((u->map[y + i][x + j] == '.' || u->h_map[y + i][x + j]
-							 > num) && !is_enemy(u, u->map[y + i][x + j]))
+						> num) && !is_enemy(u, u->map[y + i][x + j]))
 					{
 						u->map[y + i][x + j] = ',';
 						u->h_map[y + i][x + j] = num;
@@ -116,16 +100,20 @@ void	update_adj_nbrs(t_struct *u, int num, int x, int y)
 	}
 }
 
-char	**get_heatmap(t_struct *u)
+/*
+** 1)if = first round
+*/
+
+void	get_heatmap(t_struct *u)
 {
-	if (u->last_played_en.x < 0) // first round
+	if (u->last_played_en.x < 0)
 	{
 		u->c = u->his_c[1];
-		return(make_heatmap(u, 0, -1, -1));
+		make_heatmap(u, 0, -1, -1);
 	}
 	else
 	{
 		u->c = u->his_c[0];
-		return(make_heatmap(u, 0, -1, -1));
+		make_heatmap(u, 0, -1, -1);
 	}
 }

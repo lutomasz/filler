@@ -50,15 +50,6 @@ typedef struct s_last_played_o
 	int y;
 }				t_last_played_o;
 
-typedef struct s_shift
-{
-	int up;
-	int left;
-	int down;
-	int right;
-
-}				t_shift;
-
 typedef struct s_piece
 {
 	int h;
@@ -77,34 +68,24 @@ typedef struct s_piece
 
 typedef struct 	s_struct
 {
-	//gestion map;
 	int				map_w;
 	int				map_h;
 	int				fd;
 	char			**map;
-	char			symbol;
 	char			c;
 	char			my_c[2];
-	char			his_c[2]; //0 -> o 1 -> O
+	char			his_c[2];
 	int				best_pos;
-	//gestion situation
+
 	bool			first_x_on;
 	bool			first_o_on;
 	bool			last_played_x_on;
 	bool			last_played_o_on;
 
-	int 			x_sol;
-	int 			y_sol;
-
 	int 			player1 : 3;
-	char			*en;
-	char			*me;
-
-	char			**shape;
 	char			**tmp_shape;
 	int				**h_map;
 
-	//int				possible_pos[9000][3];
 	int				**possible_pos;
 	int				num_me;
 	int				min_dist_adj;
@@ -122,7 +103,6 @@ typedef struct 	s_struct
 	int				placed_one;
 
 	t_piece 		piece;
-	t_shift			shift;
 	t_first_o 		first_o;
 	t_first_x 		first_x;
 	t_last_played_x last_played_x;
@@ -132,12 +112,14 @@ typedef struct 	s_struct
 }				t_struct;
 
 int			init_utils(t_struct *u, char *map);
+void		init2(t_struct *u);
+void		set_tab_int2_to_zero(int **map, int width, int height);
 int			ft_get_size_map(t_struct *utils, int *i);
 int			get_map(t_struct *utils);
 int			get_piece(t_struct *utils);
-char		**make_heatmap(t_struct *u, int num, int xx, int yy);
 void		set_me_his(t_struct *u);
-char		**get_heatmap(t_struct *u);
+void		make_heatmap(t_struct *u, int num, int xx, int yy);
+void		get_heatmap(t_struct *u);
 void		set_players_pos(t_struct *u);
 int			is_enemy(t_struct *u, char c);
 int			is_me(t_struct *u, char c);
@@ -145,15 +127,13 @@ int			no_dots(t_struct *u);
 void		update_adj_nbrs(t_struct *u, int num, int x, int y);
 void		select_pos(t_struct *u);
 int			place_all_poss(t_struct *u, int **solutions);
-void		usage(void);
 void		analyse_tab(char **tab, t_struct *u);
 char		*copy_line(char *str);
-int			place_piece(t_struct *u, int *is_opp_enclosed);
-void		free_unset_tab(char **str, int cnt);
-void		free_str2(char **str);
-void		free_double_int(int **str, int elements);
 int			other_place(t_struct *u);
-
-
+int			place_piece(t_struct *u, int *is_opp_enclosed);
+int			free_unset_tab(char **str, int cnt, int return_val);
+int			free_str2(char **str, int return_val);
+int			free_double_int(int **str, int elements);
+int			free_all(t_struct *u, int return_val);
 
 #endif
