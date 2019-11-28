@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/25 18:06:09 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/28 19:49:24 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int			init_utils(t_struct *u, char *map)
 {
-	if ((u->fd = open(map, O_RDONLY)) < 0)
-	{
-		printf("ERROR FD\n");
-		return (-1);
-	}
-	// map = NULL;
-	// u->fd = 0;
+	// if ((u->fd = open(map, O_RDONLY)) < 0)
+	// {
+	// 	printf("ERROR FD\n");
+	// 	return (-1);
+	// }
+	map = NULL;
+	u->fd = 0;
 	u->map_w = 0;
 	u->map_h = 0;
 	u->first_x_on = 0;
