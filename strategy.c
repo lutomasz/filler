@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:02:43 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/25 18:40:28 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/28 20:21:12 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ int		tmp_place_all(t_struct *u, int **solutions)
 					== solutions[u->curr_piece_fulcrum][0])
 			solutions[u->curr_piece_fulcrum][1]++;
 	u->placed_one = 1;
-	// printf("sol: %d %d\n\n", solutions[u->curr_piece_fulcrum][0], solutions[u->curr_piece_fulcrum][1]);
 	return (1);
 }
 
@@ -177,10 +176,7 @@ int		place_all_poss(t_struct *u, int **solutions)
 						return (0);
 					set_max_distances(u);
 				}
-		//place_all_poss(u, solutions);
-		tmp_place_all(u, solutions);	//stock smallest value overlapping
-		// ++u->curr_piece_fulcrum;
-		// place_all_poss(u, solutions);
+		tmp_place_all(u, solutions);
 	}
 	return (u->placed_one);
 }
@@ -231,24 +227,17 @@ int		find_best_sol(t_struct *u, int **solutions)
 	int num_best;
 	int min;
 
-	// int i = -1;
-	i = -1;
-	// printf("----------\n");
-	// while (++i < u->piece.total)
-		// printf("%d %d\n", solutions[i][0], solutions[i][1]);
-		// printf("----------\n");
+
 	i = -1;
 	min = INT_MAX;
-	while (++i < u->piece.total)	// find min value
+	while (++i < u->piece.total)
 		if (solutions[i][0] < min && solutions[i][0] > 0)
 			min = solutions[i][0];
-	// printf("min: %d\n", min);
 	i = -1;
 	num_best = 0;
 	while (++i < u->piece.total)
-		if (solutions[i][0] == min)	// find how many solutions have min value
+		if (solutions[i][0] == min)
 			num_best++;
-	// printf("num sol: %d\n", num_best);
 	if (num_best > 1)
 		trim_to_min_highest_occurance(u, solutions, min);
 	i = -1;
@@ -312,13 +301,58 @@ int		is_not_enclosed(t_struct *u, int *is_opp_enclosed)
 	return (0);
 }
 
+int		place_piece3(t_struct *u, int *is_opp_enclosed, int cheat, int **sol)
+{
+	if (u->ret != 0 && !cheat)
+	{
+		u->bst_i = find_best_sol(u, sol);
+		if (u->bst_i == u->piece.total)
+		{
+			if (!other_place(u))
+			{
+				ft_putnbr(0);
+				ft_putchar(' ');
+				ft_putnbr(0);
+				ft_putchar('\n');
+				free_double_int(sol, u->piece.total);
+				return (0);
+			}
+			free_double_int(sol, u->piece.total);
+			return (1);
+		}
+		u->sol_x = u->trimmed_pos[u->best_pos][0] - u->piece.coord[u->bst_i][0];
+		u->sol_y = u->trimmed_pos[u->best_pos][1] - u->piece.coord[u->bst_i][1];
+	}
+	free_double_int(sol, u->piece.total);
+	return (1);
+}
+
+int		place_piece2(t_struct *u, int *is_opp_enclosed, int **sol)
+{
+	int cheat;
+
+	cheat = 0;
+	if (u->ret == 0 || (u->trimmed_pos[u->best_pos][0]
+		- u->piece.coord[u->bst_i][0] <= 0 && u->trimmed_pos[u->best_pos][1]
+		- u->piece.coord[u->bst_i][1] <= 0))
+	{
+		cheat = 1;
+		if (!other_place(u))
+		{
+			ft_putnbr(0);
+			ft_putchar(' ');
+			ft_putnbr(0);
+			ft_putchar('\n');
+			free_double_int(sol, u->piece.total);
+			return (0);
+		}
+	}
+	return (place_piece3(u, is_opp_enclosed, cheat, sol));
+}
+
 int		place_piece(t_struct *u, int *is_opp_enclosed)
 {
 	int **solutions;
-	int best_sol_i;
-	int ret;
-	int cheat;
-	// int solutions[u->piece.total][2];	// 0-> min num && 1 -> cardinality
 
 	if (!(solutions = malloc_2d_int_arr(solutions, u->piece.total, 2)))
 		return (0);
@@ -331,58 +365,86 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 	u->placed_one = 0;
 	if (is_not_enclosed(u, is_opp_enclosed))
 	{
-		ret = place_all_poss(u, solutions);
-		// //printf("best_pos: %d\n", u->best_pos);
-		if (ret == 0)
+		u->ret = place_all_poss(u, solutions);
+		if (u->ret == 0)
 		{
 			u->best_pos = 0;
-			while (ret == 0 && u->best_pos < u->num_me) // iterate over all the best positions you can place untill you place
+			while (u->ret == 0 && u->best_pos < u->num_me)
 			{
-				ret = place_all_poss(u, solutions);
+				u->ret = place_all_poss(u, solutions);
 				u->best_pos++;
 			}
-			u->best_pos--;// -----------------MAYBE REMOVE-----------------
+			u->best_pos--;
 		}
 	}
-	cheat = 0;
-	if (ret == 0 || (u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0] <= 0 && u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1] <= 0))
-	{
-		cheat = 1;
-		if (!other_place(u))
-		{
-			ft_putnbr(0);
-			ft_putchar(' ');
-			ft_putnbr(0);
-			ft_putchar('\n');
-			free_double_int(solutions, u->piece.total);
-			return (0);
-		}
-	}
-	if (ret != 0 && !cheat)
-	{
-		// printf("x: %d\n", u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0]);
-		// printf("y: %d\n", u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1]);
-		best_sol_i = find_best_sol(u, solutions);
-		// printf("best_sol_i: %d\n", best_sol_i);
-		if (best_sol_i == u->piece.total)
-		{
-			if (!other_place(u))
-			{
-				ft_putnbr(0);
-				ft_putchar(' ');
-				ft_putnbr(0);
-				ft_putchar('\n');
-				free_double_int(solutions, u->piece.total);
-				return (0);
-			}
-			free_double_int(solutions, u->piece.total);
-			return (1);
-		}
-		u->sol_x = u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0];
-		u->sol_y = u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1];
-		// u->map[u->sol_y][u->sol_x] = '3';
-		// ft_print_tab2(u->map);
-	}
-	free_double_int(solutions, u->piece.total);
-	return (1);
+	return (place_piece2(u, is_opp_enclosed, solutions));
 }
+
+
+// int		place_piece(t_struct *u, int *is_opp_enclosed)
+// {
+// 	int **solutions;
+// 	int best_sol_i;
+// 	int ret;
+// 	int cheat;
+//
+// 	if (!(solutions = malloc_2d_int_arr(solutions, u->piece.total, 2)))
+// 		return (0);
+// 	u->i = -1;
+// 	while (++u->i < u->piece.total)
+// 	{
+// 		solutions[u->i][0] = 0;
+// 		solutions[u->i][1] = 0;
+// 	}
+// 	u->placed_one = 0;
+// 	if (is_not_enclosed(u, is_opp_enclosed))
+// 	{
+// 		ret = place_all_poss(u, solutions);
+// 		if (ret == 0)
+// 		{
+// 			u->best_pos = 0;
+// 			while (ret == 0 && u->best_pos < u->num_me)
+// 			{
+// 				ret = place_all_poss(u, solutions);
+// 				u->best_pos++;
+// 			}
+// 			u->best_pos--;
+// 		}
+// 	}
+// 	cheat = 0;
+// 	if (ret == 0 || (u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0] <= 0 && u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1] <= 0))
+// 	{
+// 		cheat = 1;
+// 		if (!other_place(u))
+// 		{
+// 			ft_putnbr(0);
+// 			ft_putchar(' ');
+// 			ft_putnbr(0);
+// 			ft_putchar('\n');
+// 			free_double_int(solutions, u->piece.total);
+// 			return (0);
+// 		}
+// 	}
+// 	if (ret != 0 && !cheat)
+// 	{
+// 		best_sol_i = find_best_sol(u, solutions);
+// 		if (best_sol_i == u->piece.total)
+// 		{
+// 			if (!other_place(u))
+// 			{
+// 				ft_putnbr(0);
+// 				ft_putchar(' ');
+// 				ft_putnbr(0);
+// 				ft_putchar('\n');
+// 				free_double_int(solutions, u->piece.total);
+// 				return (0);
+// 			}
+// 			free_double_int(solutions, u->piece.total);
+// 			return (1);
+// 		}
+// 		u->sol_x = u->trimmed_pos[u->best_pos][0] - u->piece.coord[best_sol_i][0];
+// 		u->sol_y = u->trimmed_pos[u->best_pos][1] - u->piece.coord[best_sol_i][1];
+// 	}
+// 	free_double_int(solutions, u->piece.total);
+// 	return (1);
+// }

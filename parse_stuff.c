@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/28 19:49:24 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/28 20:21:45 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int			init_utils(t_struct *u, char *map)
 	u->tmp_shape = NULL;
 	u->piece.coord = NULL;
 	u->smallest_val = 0;
+	u->bst_i = 0;
+	u->ret = 0;
 	init2(u);
 	return (1);
 }
