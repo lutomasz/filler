@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strategy.3.c                                       :+:      :+:    :+:   */
+/*   strategy3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 20:28:23 by spozzi            #+#    #+#             */
-/*   Updated: 2019/11/28 20:28:32 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/12/01 17:46:18 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,13 @@ int		is_not_enclosed(t_struct *u, int *is_opp_enclosed)
 	}
 	*is_opp_enclosed = 1;
 	return (0);
+}
+
+void	print_sol(t_struct *u)
+{
+	ft_putnbr(u->sol_y);
+	ft_putchar(' ');
+	ft_putnbr(u->sol_x);
+	ft_putchar('\n');
+	free_all(u, 0);
 }

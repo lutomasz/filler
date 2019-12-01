@@ -1,32 +1,58 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/12/01 18:00:07 by spozzi            #+#    #+#              #
+#    Updated: 2019/12/01 18:00:08 by spozzi           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = filler.lupozzi
 
-SRC = main.c parse_stuff.c heatmap.c utils.c strategy.c strategy1.c strategy2.c strategy3.c map_parse.c piece_parse.c other_place.c manage_memory.c
+SRC_NAME = main.c parse_stuff.c heatmap.c utils.c strategy.c strategy1.c strategy2.c strategy3.c map_parse.c piece_parse.c other_place.c manage_memory.c
 
-OBJ = main.o parse_stuff.o heatmap.o utils.o strategy.o strategy1.o strategy2.o strategy3.o map_parse.o piece_parse.o other_place.o manage_memory.o
+SRC_PATH = src/
+SRC = $(addprefix $(SRC_PATH), $(SRC_NAME))
 
-HEADERS = filler.h
+FLAGS = -Wall -Wextra -Werror
 
-LIBRARIES =  -L libft -lft
+#OBJ = main.o parse_stuff.o heatmap.o utils.o strategy.o strategy1.o strategy2.o strategy3.o map_parse.o piece_parse.o other_place.o manage_memory.o
 
-#CFLAGS = -Wall -Wextra -Werror
+HEADERS = ./header
+HEAD = header/filler.h
 
-CC = gcc
+LIBFT_PATH = includes/libft/
+LIBFT = $(addprefix $(LIBFT_PATH), libft.a)
 
-all: $(NAME)
+OBJ_NAME = $(SRC_NAME:.c=.o)
+OBJ_PATH = obj/
+OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 
-$(NAME):$(OBJ)
-	@make -C libft/
-	@gcc $(CFLAGS) -o $(NAME) $(OBJ) $(LIBRARIES)
+all: $(LIBFT) $(NAME)
+
+$(LIBFT):
+	@make -C $(LIBFT_PATH)
+
+$(NAME): $(HEAD) $(OBJ)
+	@gcc $(FLAGS) -o $@ $(OBJ) -L $(LIBFT_PATH)
+	@echo "\n\033[1;32m---------->[FILLER IS READY]<----------- \033[0m\n"
+
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HEAD)
+	@mkdir -p obj
+	gcc $(FLAGS) -o $@ -c $< -I $(HEADERS)
 
 clean:
-	@make clean -C libft/
-	@/bin/rm -f $(OBJ)
-	@echo cleaning
+	@make clean -C $(LIBFT_PATH)
+	@rm -rf $(OBJ_PATH)
+	@echo "\n\033[1;31m---------->[.O REMOVED]<----------- \033[0m"
 
 fclean: clean
-	make fclean -C libft/
-	@/bin/rm -f $(NAME)
-	@echo fcleaning
+	@make fclean -C $(LIBFT_PATH)
+	@rm -f $(NAME)
+	@echo "\n\033[1;31m----------->[RTV1 REMOVED]<-------- \033[0m"
 
 re: fclean all
 

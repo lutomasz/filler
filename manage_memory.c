@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_memory.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 17:02:23 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/12/01 17:21:26 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/11/27 17:02:31 by lutomasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,22 @@ int		free_double_int(int **str, int elements)
 
 int		free_all(t_struct *u, int return_val)
 {
-	// free(u->h_map);
-	if (u->smallest_val != 0)
+	if (u->smallest_val)
 		free(u->smallest_val);
-	//free int **
-	// free_tab((void**)u->h_map);
-	
-	//free_tab((void**)u->piece.coord);
-	free_double_int(u->piece.coord, u->piece.total);
-	//free_tab((void**)u->trimmed_pos);
-	free_double_int(u->trimmed_pos, u->num_of_trims);
-	free_double_int(u->possible_pos, u->map_h * u->map_w);
-	//free(u->trimmed_pos);
-	free_str2(u->tmp_shape, 0);
-	//free_str2(u->shape);
-	free_str2(u->map, 0);
+	if (u->piece.coord)
+		free_double_int(u->piece.coord, u->piece.total);
+	if (u->trimmed_pos)
+		free_double_int(u->trimmed_pos, u->num_of_trims);
+	if (u->possible_pos)
+		free_double_int(u->possible_pos, u->map_h * u->map_w);
+	if (u->tmp_shape)
+		free_str2(u->tmp_shape, 0);
+	if (u->map)
+		free_str2(u->map, 0);
 	return (0);
 }
 
-int			free_unset_tab(char **str, int cnt, int return_val)
+int		free_unset_tab(char **str, int cnt, int return_val)
 {
 	int i;
 

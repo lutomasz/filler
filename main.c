@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/12/01 17:28:20 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/12/01 17:56:55 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,42 +108,45 @@ int		init_parse(t_struct *u, char *av, int *i)
 ** main with infinite loop
 */
 
+int		main2(t_struct *u, char **argv, int *is_opp_enclosed, int *i)
+{
+	if (init_parse(u, argv[1], i) == -1)
+		return (-1);
+	u->sam = (u->sam == 0) ? u->map_w : u->sam;
+	u->player1 = *i;
+	if (!(u->possible_pos = malloc_2d_int_arr(u->possible_pos, u->map_h * u->map_w, 3)))
+		return (-1);
+	set_me_his(u);
+	set_players_pos(u);
+	get_heatmap(u);
+	u->num_me = set_my_pos(u);
+	u->num_me = trim_pos(u);
+	select_pos(u);
+	if (!(u->smallest_val = (int*)(malloc(sizeof(int) * u->num_me)))) // use index of smallest value to decide which piece overlaps
+		return (-1);
+	u->sam -= 10;
+	u->sam = (u->sam < 1) ? 1 : u->sam;
+	if (place_piece(u, is_opp_enclosed))
+		print_sol(u);
+	else
+		return (0);
+	return (1);
+}
+
 int		main(int argc, char **argv)
 {
 	t_struct	u;
-	int			print;
 	static int	i;
 	int			is_opp_enclosed;
+	int 		ret;
 
+	ret = 1;
 	i = 0;
 	is_opp_enclosed = 0;
 	while (1)
 	{
-		if (init_parse(&u, argv[1], &i) == -1)
-			return (-1);
-		u.sam = (u.sam == 0) ? u.map_w : u.sam;
-		u.player1 = (print) ? 0 : i;
-		if (!(u.possible_pos = malloc_2d_int_arr(u.possible_pos, u.map_h * u.map_w, 3)))
-			return (-1);
-		set_me_his(&u);
-		set_players_pos(&u);
-		get_heatmap(&u);
-		u.num_me = set_my_pos(&u);
-		u.num_me = trim_pos(&u);
-		select_pos(&u);
-		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
-			return (-1);
-		u.sam -= 10;
-		u.sam = (u.sam < 1) ? 1 : u.sam;
-		if (place_piece(&u, &is_opp_enclosed))
-		{
-			ft_putnbr(u.sol_y);
-			ft_putchar(' ');
-			ft_putnbr(u.sol_x);
-			ft_putchar('\n');
-			free_all(&u, 0);
-		}
-		else
+		ret = main2(&u, argv, &is_opp_enclosed, &i);
+		if (ret != 1)
 			break ;
 	}
 	free_all(&u, 0);

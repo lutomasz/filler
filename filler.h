@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:06:29 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/12/01 16:15:27 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/12/01 17:58:57 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,6 @@ int			find_best_sol(t_struct *u, int **solutions);
 void		init_borders(t_struct *u, int s_x, int s_y);
 int			is_not_enclosed(t_struct *u, int *is_opp_enclosed);
 void		center_borders(t_struct *u, int s_x, int s_y);
+void		print_sol(t_struct *u);
 
 #endif
