@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   tab2_cpy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 19:07:17 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/10/16 19:07:24 by lutomasz         ###   ########.fr       */
+/*   Updated: 2019/12/01 18:40:40 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char **tab2_cpy(char **src)
+char	**tab2_cpy(char **src)
 {
-	int i;
-	int len;
-	char **tab;
+	int		i;
+	int		len;
+	char	**tab;
 
 	len = 0;
 	while (src[len])
