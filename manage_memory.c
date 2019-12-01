@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_memory.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 17:02:23 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/27 17:02:31 by lutomasz         ###   ########.fr       */
+/*   Updated: 2019/12/01 17:21:26 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		free_all(t_struct *u, int return_val)
 		free(u->smallest_val);
 	//free int **
 	// free_tab((void**)u->h_map);
-	free_double_int(u->h_map, u->map_h);
+	
 	//free_tab((void**)u->piece.coord);
 	free_double_int(u->piece.coord, u->piece.total);
 	//free_tab((void**)u->trimmed_pos);

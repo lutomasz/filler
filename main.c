@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/11/28 19:49:56 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/12/01 17:21:47 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,46 +116,37 @@ int		main(int argc, char **argv)
 	int			is_opp_enclosed;
 
 	i = 0;
-	print = 0;
 	is_opp_enclosed = 0;
 	while (1)
 	{
 		if (init_parse(&u, argv[1], &i) == -1)
-		{
 			return (-1);
-		}
+		u.sam = (u.sam == 0) ? u.map_w : u.sam;
 		u.player1 = (print) ? 0 : i;
 		if (!(u.possible_pos = malloc_2d_int_arr(u.possible_pos, u.map_h * u.map_w, 3)))
 			return (-1);
 		set_me_his(&u);
 		set_players_pos(&u);
-		if (print)
-			ft_print_tab2(u.map);
 		get_heatmap(&u);
-		if (print)
-		{
-			printf("\n\n");
-			ft_print_tab2(u.tmp_shape);
-			printf("\n\n");
-		}
 		u.num_me = set_my_pos(&u);
 		u.num_me = trim_pos(&u);
 		select_pos(&u);
 		if (!(u.smallest_val = (int*)(malloc(sizeof(int) * u.num_me)))) // use index of smallest value to decide which piece overlaps
 			return (-1);
+		u.sam -= 10;
+		u.sam = (u.sam < 1) ? 1 : u.sam;
 		if (place_piece(&u, &is_opp_enclosed))
 		{
 			ft_putnbr(u.sol_y);
 			ft_putchar(' ');
 			ft_putnbr(u.sol_x);
 			ft_putchar('\n');
-			//return (free_all(&u, 0));
+			free_all(&u, 0));
 		}
 		else
 			break ;
-		if (print)
-			break ;
 	}
-	// free_all(&u, 0);
+	free_all(&u, 0);
+	free_double_int(u->h_map, u->map_h);
 	return (0);
 }
