@@ -51,7 +51,7 @@ int		free_all(t_struct *u, int return_val)
 		free_str2(u->tmp_shape, 0);
 	if (u->map)
 		free_str2(u->map, 0);
-	return (0);
+	return (return_val);
 }
 
 int		free_unset_tab(char **str, int cnt, int return_val)

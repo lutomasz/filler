@@ -37,7 +37,7 @@ $(LIBFT):
 	@make -C $(LIBFT_PATH)
 
 $(NAME): $(HEAD) $(OBJ)
-	@gcc $(FLAGS) -o $@ $(OBJ) -L $(LIBFT_PATH)
+	@gcc $(FLAGS) -o $@ $(OBJ) -L $(LIBFT_PATH) -lft
 	@echo "\n\033[1;32m---------->[FILLER IS READY]<----------- \033[0m\n"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c $(HEAD)

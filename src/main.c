@@ -143,6 +143,7 @@ int		main(void)
 	ret = 1;
 	i = 0;
 	is_opp_enclosed = 0;
+	u.map_h = 0;
 	while (1)
 	{
 		ret = main2(&u, &is_opp_enclosed, &i);
@@ -150,6 +151,7 @@ int		main(void)
 			break ;
 	}
 	free_all(&u, 0);
-	free_double_int(u.h_map, u.map_h);
+	if (u.h_map != 0)
+		free_double_int(u.h_map, u.map_h);
 	return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "filler.h"
 
-int		place_piece3(t_struct *u, int *is_opp_enclosed, int cheat, int **sol)
+int		place_piece3(t_struct *u, int cheat, int **sol)
 {
 	if (u->ret != 0 && !cheat)
 	{
@@ -38,7 +38,7 @@ int		place_piece3(t_struct *u, int *is_opp_enclosed, int cheat, int **sol)
 	return (1);
 }
 
-int		place_piece2(t_struct *u, int *is_opp_enclosed, int **sol)
+int		place_piece2(t_struct *u, int **sol)
 {
 	int cheat;
 
@@ -58,13 +58,14 @@ int		place_piece2(t_struct *u, int *is_opp_enclosed, int **sol)
 			return (0);
 		}
 	}
-	return (place_piece3(u, is_opp_enclosed, cheat, sol));
+	return (place_piece3(u, cheat, sol));
 }
 
 int		place_piece(t_struct *u, int *is_opp_enclosed)
 {
 	int **solutions;
 
+	solutions = NULL;
 	if (!(solutions = malloc_2d_int_arr(solutions, u->piece.total, 2)))
 		return (0);
 	u->i = -1;
@@ -87,5 +88,5 @@ int		place_piece(t_struct *u, int *is_opp_enclosed)
 			u->best_pos--;
 		}
 	}
-	return (place_piece2(u, is_opp_enclosed, solutions));
+	return (place_piece2(u, solutions));
 }

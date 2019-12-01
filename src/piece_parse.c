@@ -126,6 +126,7 @@ int			get_piece(t_struct *u)
 	char	*line;
 	int		i;
 
+	line = NULL;
 	get_piece_data(line, u);
 	if (!(u->tmp_shape = (char**)malloc(sizeof(char*) * u->piece.h + 1)))
 		return (0);

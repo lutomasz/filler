@@ -27,8 +27,6 @@
 static int		check_piece_values(t_struct *u, int x_p, int y_p)
 {
 	int i;
-	int x;
-	int y;
 	int check;
 
 	i = -1;
