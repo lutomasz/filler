@@ -6,7 +6,7 @@
 /*   By: spozzi <spozzi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 13:25:51 by spozzi            #+#    #+#             */
-/*   Updated: 2019/12/01 16:57:25 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/12/01 17:38:47 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ void	make_heatmap(t_struct *u, int num, int xx, int yy)
 	}
 }
 
+void	for_norme(t_struct *u, int x, int y, int num)
+{
+	u->map[y][x] = ',';
+	u->h_map[y][x] = num;
+}
+
 void	update_adj_nbrs(t_struct *u, int num, int x, int y)
 {
 	int i;
@@ -87,10 +93,7 @@ void	update_adj_nbrs(t_struct *u, int num, int x, int y)
 				{
 					if ((u->map[y + i][x + j] == '.' || u->h_map[y + i][x + j]
 						> num) && !is_enemy(u, u->map[y + i][x + j]))
-					{
-						u->map[y + i][x + j] = ',';
-						u->h_map[y + i][x + j] = num;
-					}
+						for_norme(u, x + j, y + i, num);
 					if (is_enemy(u, u->map[y + i][x + j]))
 						make_heatmap(u, 1, x + j, y + i);
 				}

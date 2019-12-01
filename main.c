@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 20:04:39 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/12/01 17:21:47 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/12/01 17:28:20 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,12 @@ int		main(int argc, char **argv)
 			ft_putchar(' ');
 			ft_putnbr(u.sol_x);
 			ft_putchar('\n');
-			free_all(&u, 0));
+			free_all(&u, 0);
 		}
 		else
 			break ;
 	}
 	free_all(&u, 0);
-	free_double_int(u->h_map, u->map_h);
+	free_double_int(u.h_map, u.map_h);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lutomasz <lutomasz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/12 02:19:49 by lutomasz          #+#    #+#             */
-/*   Updated: 2019/12/01 17:07:08 by spozzi           ###   ########.fr       */
+/*   Updated: 2019/12/01 17:39:42 by spozzi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 int			init_utils(t_struct *u, char *map)
 {
-	// if ((u->fd = open(map, O_RDONLY)) < 0)
-	// {
-	// 	printf("ERROR FD\n");
-	// 	return (-1);
-	// }
 	map = NULL;
 	u->fd = 0;
 	u->map_w = 0;
@@ -54,7 +49,6 @@ void		init2(t_struct *u)
 	u->piece.last_y = -100;
 	u->piece.total = 0;
 	u->player1 = -1;
-	//u->h_map = 0;
 	u->min_dist_adj = INT_MAX;
 	u->curr_piece_fulcrum = 0;
 	u->sam = 0;
